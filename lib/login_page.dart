@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 enum FormMode { LOGIN, SIGNUP }
@@ -11,7 +12,8 @@ class LoginPage extends StatefulWidget {
 
 
 class _LoginPageState extends State<LoginPage> {
- 
+final _auth = FirebaseAuth.instance; 
+
 
 final _formKey = new GlobalKey<FormState>();
 
@@ -41,7 +43,12 @@ final _formKey = new GlobalKey<FormState>();
 
 
 
-
+@override
+  void initState() {
+    _errorMessage = "";
+    _isLoading = false;
+    super.initState();
+  }
 
 
   // Check if form is valid before perform login or signup
@@ -56,50 +63,75 @@ final _formKey = new GlobalKey<FormState>();
 
   // Perform login or signup
   void _validateAndSubmit() async {
-    // setState(() {
-    //   _errorMessage = "";
-    //   _isLoading = true;
-    // });
-    // if (_validateAndSave()) {
-    //   String userId = "";
-    //   try {
-    //     if (_formMode == FormMode.LOGIN) {
-    //       userId = await widget.auth.signIn(_email, _password);
-    //       print('Signed in: $userId');
-    //     } else {
-    //       userId = await widget.auth.signUp(_email, _password);
-    //       widget.auth.sendEmailVerification();
-    //       _showVerifyEmailSentDialog();
-    //       print('Signed up user: $userId');
-    //     }
-    //     setState(() {
-    //       _isLoading = false;
-    //     });
 
-    //     if (userId.length > 0 && userId != null && _formMode == FormMode.LOGIN) {
-    //       widget.onSignedIn();
-    //     }
+    
 
-    //   } catch (e) {
-    //     print('Error: $e');
-    //     setState(() {
-    //       _isLoading = false;
-    //       if (_isIos) {
-    //         _errorMessage = e.details;
-    //       } else
-    //         _errorMessage = e.message;
-    //     });
-    //   }
-    // }
+    setState(() {
+      _errorMessage = "";
+      _isLoading = true;
+    });
+    if (_validateAndSave()) {
+      
+      try {
+        if (_formMode == FormMode.LOGIN) {
+          final user = await _auth.signInWithEmailAndPassword(email: _email,password: _password);
+          print('Signed in: $user');
+          if(user != null)
+          {
+            //Navigate to homepage
+            // Navigator.pushNamed(context, routeName)
+          }
+        } else {
+          final user = await _auth.createUserWithEmailAndPassword(email: _email, password: _password);
+          
+          FirebaseUser _user = await _auth.currentUser();
+          _user.sendEmailVerification();
+          _showVerifyEmailSentDialog();
+          print('Signed up user: $user');
+        }
+        setState(() {
+          _isLoading = false;
+        });
+
+        // if (user != null && _formMode == FormMode.LOGIN) {
+        //   widget.onSignedIn();
+        // }
+
+      } catch (e) {
+        print('Error: $e');
+        setState(() {
+          _isLoading = false;
+          if (_isIos) {
+            _errorMessage = e.details;
+          } else
+            _errorMessage = e.message;
+        });
+      }
+    }
   }
 
-
-  @override
-  void initState() {
-    _errorMessage = "";
-    _isLoading = false;
-    super.initState();
+void _showVerifyEmailSentDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Verify your account"),
+          content: new Text("Link to verify account has been sent to your email"),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Dismiss"),
+              onPressed: () {
+                _changeFormToLogin();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
+  
 
   void _changeFormToSignUp() {
     _formKey.currentState.reset();
