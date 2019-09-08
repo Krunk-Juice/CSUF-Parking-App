@@ -29,7 +29,7 @@ final _formKey = new GlobalKey<FormState>();
     _isIos = Theme.of(context).platform == TargetPlatform.iOS;
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('Flutter login demo'),
+          title: Center(child: new Text('Login')),
         ),
         body: Stack(
           children: <Widget>[
@@ -38,7 +38,6 @@ final _formKey = new GlobalKey<FormState>();
           ],
         ));
   }
-
 
 
 
@@ -172,8 +171,8 @@ final _formKey = new GlobalKey<FormState>();
         padding: EdgeInsets.fromLTRB(0.0, 70.0, 0.0, 0.0),
         child: CircleAvatar(
           backgroundColor: Colors.transparent,
-          radius: 48.0,
-          child: Image.asset('assets/flutter-icon.png'),
+          radius: 80.0,
+          child: Image.asset('assets/images/undraw_Login_v483.png'),
         ),
       ),
     );
