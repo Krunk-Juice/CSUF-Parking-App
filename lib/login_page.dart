@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_parking_app/home_page.dart';
 
 
 enum FormMode { LOGIN, SIGNUP }
 
 class LoginPage extends StatefulWidget {
+
+  static const String id ="home_page";
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -79,7 +83,7 @@ final _formKey = new GlobalKey<FormState>();
           if(user != null)
           {
             //Navigate to homepage
-            // Navigator.pushNamed(context, routeName)
+            Navigator.pushNamed(context, LoginPage.id);
           }
         } else {
           final user = await _auth.createUserWithEmailAndPassword(email: _email, password: _password);
