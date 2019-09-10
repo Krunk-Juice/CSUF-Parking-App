@@ -13,7 +13,6 @@ class LoginPage extends StatefulWidget {
 }
 
 
-
 class _LoginPageState extends State<LoginPage> {
 final _auth = FirebaseAuth.instance; 
 
