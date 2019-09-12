@@ -26,11 +26,7 @@ Follow effective dart style
 
 ## Screenshots
 
-<img src="screenshots/Screenshot_1.png" width="200" height="400" />
-
-<img src="screenshots/Screenshot_2.png" width="200" height="400" />
-
-<img src="screenshots/Screenshot_3.png" width="200" height="400" />
+<img src="screenshots/Screenshot_1.png" width="200" height="400" /> <img src="screenshots/Screenshot_2.png" width="200" height="400" /> <img src="screenshots/Screenshot_3.png" width="200" height="400" />
 
 
 ## Code Example
