@@ -33,7 +33,7 @@ final _formKey = new GlobalKey<FormState>();
     _isIos = Theme.of(context).platform == TargetPlatform.iOS;
     return new Scaffold(
         appBar: new AppBar(
-          title: Center(child: new Text('Login')),
+          title: Center(child: new Text('Login',)),
         ),
         body: Stack(
           children: <Widget>[
