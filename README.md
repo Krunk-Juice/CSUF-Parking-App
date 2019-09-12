@@ -74,12 +74,11 @@ class MyApp extends StatelessWidget {
 
 ## Credits
 
-[Alex Ho](https://github.com/hho114): front-end, back-end,research, maintenance.
+[Alex Ho](https://github.com/hho114): front-end, back-end,research, maintenance, testing.
 
 [Christopher Ta](https://github.com/Krunk-Juice): front-end, plan, document, design.
 
-[Alex Ho](https://github.com/hho114): front-end, back-end,research, maintenance.
-
+[Marco Chavez](https://github.com/mchvz93): front-end, back-end, testing, research.
 
 
 ## License
