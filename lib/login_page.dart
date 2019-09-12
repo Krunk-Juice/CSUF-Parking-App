@@ -60,7 +60,14 @@ final _formKey = new GlobalKey<FormState>();
       form.save();
       return true;
     }
-    return false;
+    else
+    {
+      setState(() {
+          _isLoading = false;
+        });
+      return false;
+      }
+    
   }
 
   // Perform login or signup
@@ -183,6 +190,7 @@ void _showVerifyEmailSentDialog() {
 
   Widget _showErrorMessage() {
     if (_errorMessage.length > 0 && _errorMessage != null) {
+      
       return new Text(
         _errorMessage,
         style: TextStyle(
@@ -225,7 +233,7 @@ void _showVerifyEmailSentDialog() {
               Icons.mail,
               color: Colors.grey,
             )),
-        validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
+        validator: (value) => value.isEmpty ? 'Email can\'t be empty': null,
         onSaved: (value) => _email = value.trim(),
       ),
     );
