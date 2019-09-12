@@ -84,3 +84,5 @@ class MyApp extends StatelessWidget {
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
+<img src="parking.gif" width="400" height="200" />
