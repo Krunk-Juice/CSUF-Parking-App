@@ -23,6 +23,8 @@ class MapScreenState extends State<ProfilePage> with SingleTickerProviderStateMi
         child: ListView(
           children: <Widget>[
             Column(children: <Widget>[
+
+              /* Header and Image Section */
               Container(
                 height: 250,
                 color: Colors.white,
@@ -88,7 +90,7 @@ class MapScreenState extends State<ProfilePage> with SingleTickerProviderStateMi
                 ],
                 ),),
                 
-                /* Infomations */
+                /* Infomation Section */
                 Container (
                   color: Color(0xFFFFFFFF),
                   child: Padding(
@@ -164,7 +166,7 @@ class MapScreenState extends State<ProfilePage> with SingleTickerProviderStateMi
                           padding: EdgeInsets.only(
                             left: 25,
                             right: 25, 
-                            top: 25
+                            top: 2
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -226,7 +228,114 @@ class MapScreenState extends State<ProfilePage> with SingleTickerProviderStateMi
                           )
                         ),
 
-                        
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: 25, right: 25, top: 25
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Text(
+                                'Mobile',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold
+                                ),
+                              ),
+                            ],
+                          )
+                        ),
+
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: 25, right: 25, top: 2
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Flexible(
+                                child: TextField(
+                                  decoration: const InputDecoration(
+                                    hintText: "Enter Mobile Number"
+                                  ),
+                                  enabled: !_status,
+                                ),
+                              ),
+                            ],
+                          )
+                        ),
+
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: 25, right: 25, top: 25
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    'PIN Code',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold
+                                    ),
+                                  ),
+                                ),
+                                flex: 2,
+                              ),
+
+                              Expanded(
+                                child: Container(
+                                  child: Text(
+                                    'State',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold
+                                    ),
+                                  ),
+                                ),
+                                flex: 2,
+                              ),
+                            ],
+                          )
+                        ),
+
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: 25, right: 25, top: 2
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Flexible(
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 10),
+                                  child: TextField(
+                                    decoration: const InputDecoration(
+                                      hintText: "Enter PIN Code"),
+                                    enabled: !_status,
+                                  ),
+                                ),
+                                flex: 2,
+                              ),
+                              Flexible(
+                                child: TextField(
+                                  decoration: const InputDecoration(
+                                    hintText: "Enter State"
+                                  ),
+                                  enabled: !_status,
+                                ),
+                                flex: 2,
+                              ),
+                            ],
+                          ),
+
+                        ),
+
+                        !_status ? _getActionButtons() : Container(),
                       ],
                     )))
             ],)
@@ -234,6 +343,13 @@ class MapScreenState extends State<ProfilePage> with SingleTickerProviderStateMi
         )));
   }
 
+
+  @override
+  void dispose() {
+    // Clean up the controller when the Widget is disposed.
+    myFocusNode.dispose();
+    super.dispose();
+  }
 
 
   _getEditIcon() {
@@ -253,6 +369,69 @@ class MapScreenState extends State<ProfilePage> with SingleTickerProviderStateMi
           _status = false;
         });
       }
+    );
+  }
+
+
+
+  _getActionButtons() {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 25,
+        right: 25,
+        top: 45
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Container(
+                child: RaisedButton(
+                  child: Text("Save"),
+                  textColor: Colors.white,
+                  color: Colors.green,
+                  onPressed: () {
+                    setState(() {
+                      _status = true;
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    });
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                )
+              ),
+            ),
+            flex: 2,
+          ),
+
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Container(
+                child: RaisedButton(
+                  child: Text("Cancel"),
+                  textColor: Colors.white,
+                  color: Colors.red,
+                  onPressed: () {
+                    setState(() {
+                     _status = true;
+                     FocusScope.of(context).requestFocus(FocusNode()); 
+                    });
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                )
+              ),
+            ),
+            flex: 2,
+          ),
+        ],
+      ),
     );
   }
 }
