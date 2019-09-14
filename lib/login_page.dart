@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'home_page.dart';
 
+//TODO(chris): adding comments
+
+
+/// enum FromMode for clarify the Login and signup form
 enum FormMode { LOGIN, SIGNUP }
 
 class LoginPage extends StatefulWidget {
@@ -14,10 +18,10 @@ class LoginPage extends StatefulWidget {
 
 
 class _LoginPageState extends State<LoginPage> {
-final _auth = FirebaseAuth.instance; 
 
+final _auth = FirebaseAuth.instance; //initial constant for firebase
 
-final _formKey = new GlobalKey<FormState>();
+final _formKey = new GlobalKey<FormState>();//get a key that is unique across the entire app
 
   String _email;
   String _password;
@@ -52,28 +56,21 @@ final _formKey = new GlobalKey<FormState>();
     super.initState();
   }
 
-
-  // Check if form is valid before perform login or signup
+  /// Form validation
+  ///
+  /// Check if form is valid before perform login or signup, learn more about
+  /// https://medium.com/flutterpub/sample-form-part-1-flutter-35664d57b0e5
   bool _validateAndSave() {
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
       return true;
     }
-    else
-    {
-      setState(() {
-          _isLoading = false;
-        });
-      return false;
-      }
-    
+    return false;
   }
 
-  // Perform login or signup
+  /// Validate and submit the user to firebase base on what activity
   void _validateAndSubmit() async {
-
-    
 
     setState(() {
       _errorMessage = "";
@@ -81,31 +78,30 @@ final _formKey = new GlobalKey<FormState>();
     });
     if (_validateAndSave()) {
       
-      try {
+      try {//have to try and catch for error when you use firebase auth
         if (_formMode == FormMode.LOGIN) {
+          //sign in user with firebase
           final user = await _auth.signInWithEmailAndPassword(email: _email,password: _password);
           print('Signed in: $user');
-          if(user != null)
+          if(user != null) // if user not validate sign in with firebase it will be null
           {
-            //Navigate to homepage
+            //Navigate to homepage after sign in
             Navigator.pushNamed(context, HomePage.id);
           }
         } else {
+          //sign up user with firebase
           final user = await _auth.createUserWithEmailAndPassword(email: _email, password: _password);
           
-          FirebaseUser _user = await _auth.currentUser();
-          _user.sendEmailVerification();
-          _showVerifyEmailSentDialog();
-          print('Signed up user: $user');
+          FirebaseUser _user = await _auth.currentUser();//get current sign up user
+          _user.sendEmailVerification(); //send email verification
+          _showVerifyEmailSentDialog(); // show dialog let them know that user will receive email for verification
+          print('Signed up user: $user'); 
         }
+        ///turn off loading circ
         setState(() {
           _isLoading = false;
         });
-
-        // if (user != null && _formMode == FormMode.LOGIN) {
-        //   widget.onSignedIn();
-        // }
-
+        
       } catch (e) {
         print('Error: $e');
         setState(() {
@@ -119,6 +115,8 @@ final _formKey = new GlobalKey<FormState>();
     }
   }
 
+
+/// show dialog metion get email verification
 void _showVerifyEmailSentDialog() {
     showDialog(
       context: context,
@@ -141,7 +139,7 @@ void _showVerifyEmailSentDialog() {
     );
   }
   
-
+/// switch to signup form
   void _changeFormToSignUp() {
     _formKey.currentState.reset();
     _errorMessage = "";
@@ -149,7 +147,7 @@ void _showVerifyEmailSentDialog() {
       _formMode = FormMode.SIGNUP;
     });
   }
-
+/// switch to signin form
   void _changeFormToLogin() {
     _formKey.currentState.reset();
     _errorMessage = "";
@@ -159,7 +157,7 @@ void _showVerifyEmailSentDialog() {
   }
 
  
-
+///show loading circular
   Widget _showCircularProgress(){
     if (_isLoading) {
       return Center(child: CircularProgressIndicator());
@@ -168,7 +166,7 @@ void _showVerifyEmailSentDialog() {
   }
 
   
-
+///body of home page
   Widget _showBody(){
     return new Container(
         padding: EdgeInsets.all(16.0),
@@ -187,10 +185,10 @@ void _showVerifyEmailSentDialog() {
           ),
         ));
   }
-
+///show error message 
   Widget _showErrorMessage() {
-    if (_errorMessage.length > 0 && _errorMessage != null) {
-      
+    if (_errorMessage.length > 0 && _errorMessage != null) ///if there is error message then show it
+    {
       return new Text(
         _errorMessage,
         style: TextStyle(
@@ -206,6 +204,7 @@ void _showVerifyEmailSentDialog() {
     }
   }
 
+///show logo login 
   Widget _showLogo() {
     return new Hero(
       tag: 'hero',
@@ -220,6 +219,7 @@ void _showVerifyEmailSentDialog() {
     );
   }
 
+/// show email input feild
   Widget _showEmailInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
@@ -233,12 +233,14 @@ void _showVerifyEmailSentDialog() {
               Icons.mail,
               color: Colors.grey,
             )),
-        validator: (value) => value.isEmpty ? 'Email can\'t be empty': null,
+        validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
         onSaved: (value) => _email = value.trim(),
       ),
     );
   }
 
+
+///show password input feild
   Widget _showPasswordInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
@@ -258,6 +260,8 @@ void _showVerifyEmailSentDialog() {
     );
   }
 
+
+/// show second button which let user switch to signup or signin form
   Widget _showSecondaryButton() {
     return new FlatButton(
       child: _formMode == FormMode.LOGIN
@@ -272,6 +276,7 @@ void _showVerifyEmailSentDialog() {
     );
   }
 
+/// show primamry button which let user login or signup submit
   Widget _showPrimaryButton() {
     return new Padding(
         padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
