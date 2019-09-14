@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ProfileHeaderSection extends StatefulWidget {
   @override
@@ -56,6 +57,9 @@ class _ProfileHeaderSectionState extends State<ProfileHeaderSection> {
                       height: 140,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
+                        border: Border.all(
+                          width: 15,
+                          color: Colors.blue),
                         image: DecorationImage(
                           image: ExactAssetImage(
                               'assets/images/undraw_profile_pic_ic5t.png'),
@@ -91,11 +95,29 @@ class _ProfileHeaderSectionState extends State<ProfileHeaderSection> {
   }
 
   Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    var image;
+
+    if (await checkAndRequestCameraPermissions())
+      image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     setState(() {
       _image = image;
       print('Image Path $_image');
     });
+  }
+
+  /* Check if the application has permission to use camera. */
+  Future<bool> checkAndRequestCameraPermissions() async {
+    PermissionStatus permission =
+      await PermissionHandler().checkPermissionStatus(PermissionGroup.camera);
+    if (permission != PermissionStatus.granted) {
+      Map<PermissionGroup, PermissionStatus> permissions =
+        await PermissionHandler().requestPermissions([PermissionGroup.camera]);
+      return permissions[PermissionGroup.camera] == PermissionStatus.granted;
+    }
+    else {
+      return true;
+    }
   }
 }
