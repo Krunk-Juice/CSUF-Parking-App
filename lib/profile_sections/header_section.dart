@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileHeaderSection extends StatefulWidget {
   @override
@@ -7,11 +8,21 @@ class ProfileHeaderSection extends StatefulWidget {
 }
 
 class _ProfileHeaderSectionState extends State<ProfileHeaderSection> {
+
+
+   File _image;
+
   @override
   Widget build(BuildContext context) {
     return Container(
                 height: 250,
-                color: Colors.white,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                  colors: [Colors.lightBlue, Colors.cyan],
+                  begin: Alignment.topLeft,
+                  end: Alignment(-0.5, 0.6)
+                  ),
+                ),
                 child: Column(children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(left: 20, top: 20),
@@ -20,7 +31,7 @@ class _ProfileHeaderSectionState extends State<ProfileHeaderSection> {
                       children: <Widget>[
                         Icon(
                           Icons.arrow_back_ios,
-                          color: Colors.black,
+                          color: Colors.white,
                           size: 22,
                         ),
                         Padding(
@@ -30,7 +41,7 @@ class _ProfileHeaderSectionState extends State<ProfileHeaderSection> {
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                               fontFamily: 'sans-serif-light',
-                              color: Colors.black
+                              color: Colors.white
                             )),)
                       ],)
                   ),
@@ -59,19 +70,35 @@ class _ProfileHeaderSectionState extends State<ProfileHeaderSection> {
                           mainAxisAlignment:  MainAxisAlignment.center,
                           children: <Widget>[
                             /* Camera Icon */
-                            CircleAvatar(
-                              backgroundColor: Colors.red,
-                              radius: 25,
+                            RawMaterialButton(
+                              shape: CircleBorder(),
+                              fillColor: Colors.red,
+                              elevation: 2.0,
                               child: Icon(
                                 Icons.camera_alt,
                                 color: Colors.white,
                               ),
-                            )
+                              onPressed: ()=>getImage(),
+                            ),
+                           
                           ],
-                        )),
+                        ),
+                        
+                        ),
                     ]),
                   )
                 ],
                 ),);
   }
+
+
+Future getImage() async {
+      var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+      setState(() {
+        _image = image;
+          print('Image Path $_image');
+      });
+    }
+
 }
