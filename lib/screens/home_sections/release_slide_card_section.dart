@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'dart:math' as math;
 
-class SlidingCardsView extends StatefulWidget {
+class SpotHolderSlidingCardsView extends StatefulWidget {
   @override
-  _SlidingCardsViewState createState() => _SlidingCardsViewState();
+  _SpotHolderSlidingCardsViewState createState() => _SpotHolderSlidingCardsViewState();
 }
 
-class _SlidingCardsViewState extends State<SlidingCardsView> {
+class _SpotHolderSlidingCardsViewState extends State<SpotHolderSlidingCardsView> {
   PageController pageController;
   double pageOffset = 0;
 
@@ -48,7 +47,7 @@ class _SlidingCardsViewState extends State<SlidingCardsView> {
           SlidingCard(
             name: 'Eastside Parking Structure (EPS)',
             date: '',
-            assetName: 'undraw_Vehicle.png',
+            assetName: 'undraw_city_driver.png',
             offset: pageOffset - 2,
           ),
         ],
@@ -140,17 +139,8 @@ class CardContent extends StatelessWidget {
           Spacer(),
           Row(
             children: <Widget>[
-              SizedBox(width: 10),
-              Transform.translate(
-                offset: Offset(32 * offset, 0),
-                child: Text(
-                  '0 AVALBLE',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
+              
+              SizedBox(width: 16),
               Spacer(),
               Transform.translate(
                 offset: Offset(48 * offset, 0),
@@ -158,17 +148,27 @@ class CardContent extends StatelessWidget {
                   color: Color(0xFF162A49),
                   child: Transform.translate(
                     offset: Offset(24 * offset, 0),
-                    child: Text('Book'),
+                    child: Text('Release'),
                   ),
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(32),
                   ),
-                  onPressed: () {},//TODO: Implement Book function here, may navigate to spot holder page
+                  onPressed: () {},//TODO: Implement Release function here, may navigate to booker contact page
                 ),
               ),
               
-              SizedBox(width: 16),
+              // Transform.translate(
+              //   offset: Offset(32 * offset, 0),
+              //   child: Text(
+              //     '0 AVALBLE',
+              //     style: TextStyle(
+              //       fontWeight: FontWeight.bold,
+              //       fontSize: 20,
+              //     ),
+              //   ),
+              // ),
+              
             ],
           )
         ],

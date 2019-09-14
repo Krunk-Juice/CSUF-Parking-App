@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'dart:math' as math;
 
-class SpotHolderSlidingCardsView extends StatefulWidget {
+class SlidingCardsView extends StatefulWidget {
   @override
-  _SpotHolderSlidingCardsViewState createState() => _SpotHolderSlidingCardsViewState();
+  _SlidingCardsViewState createState() => _SlidingCardsViewState();
 }
 
-class _SpotHolderSlidingCardsViewState extends State<SpotHolderSlidingCardsView> {
+class _SlidingCardsViewState extends State<SlidingCardsView> {
   PageController pageController;
   double pageOffset = 0;
 
@@ -48,7 +47,7 @@ class _SpotHolderSlidingCardsViewState extends State<SpotHolderSlidingCardsView>
           SlidingCard(
             name: 'Eastside Parking Structure (EPS)',
             date: '',
-            assetName: 'undraw_city_driver.png',
+            assetName: 'undraw_Vehicle.png',
             offset: pageOffset - 2,
           ),
         ],
@@ -140,8 +139,17 @@ class CardContent extends StatelessWidget {
           Spacer(),
           Row(
             children: <Widget>[
-              
-              SizedBox(width: 16),
+              SizedBox(width: 10),
+              Transform.translate(
+                offset: Offset(32 * offset, 0),
+                child: Text(
+                  '0 AVALBLE',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
               Spacer(),
               Transform.translate(
                 offset: Offset(48 * offset, 0),
@@ -149,27 +157,17 @@ class CardContent extends StatelessWidget {
                   color: Color(0xFF162A49),
                   child: Transform.translate(
                     offset: Offset(24 * offset, 0),
-                    child: Text('Release'),
+                    child: Text('Book'),
                   ),
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(32),
                   ),
-                  onPressed: () {},//TODO: Implement Release function here, may navigate to booker contact page
+                  onPressed: () {},//TODO: Implement Book function here, may navigate to spot holder page
                 ),
               ),
               
-              // Transform.translate(
-              //   offset: Offset(32 * offset, 0),
-              //   child: Text(
-              //     '0 AVALBLE',
-              //     style: TextStyle(
-              //       fontWeight: FontWeight.bold,
-              //       fontSize: 20,
-              //     ),
-              //   ),
-              // ),
-              
+              SizedBox(width: 16),
             ],
           )
         ],
