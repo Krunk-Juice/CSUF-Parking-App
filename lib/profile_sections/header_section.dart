@@ -18,7 +18,7 @@ class _ProfileHeaderSectionState extends State<ProfileHeaderSection> {
         gradient: LinearGradient(
             colors: [Colors.lightBlue, Colors.cyan],
             begin: Alignment.topLeft,
-            end: Alignment(-0.5, 0.6)),
+            end: Alignment(-0.2, 0.7)),
       ),
       child: Column(
         children: <Widget>[
