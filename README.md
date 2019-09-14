@@ -26,11 +26,7 @@ Follow effective dart style
 
 ## Screenshots
 
-<img src="screenshots/Screenshot_1.png" width="200" height="400" />
-
-<img src="screenshots/Screenshot_2.png" width="200" height="400" />
-
-<img src="screenshots/Screenshot_3.png" width="200" height="400" />
+<img src="screenshots/Screenshot_1.png" width="200" height="400" /> <img src="screenshots/Screenshot_2.png" width="200" height="400" /> <img src="screenshots/Screenshot_3.png" width="200" height="400" />
 
 
 ## Code Example
@@ -84,3 +80,9 @@ class MyApp extends StatelessWidget {
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
+## Have Fun
+
+Hey yo!!! Want my spot?
+
+<img src="parking.gif" width="400" height="200" />
