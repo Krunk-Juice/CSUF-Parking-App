@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'page_sections/book_slide_card_section.dart';
-import 'page_sections/release_slide_card_section.dart';
-import 'page_sections/map_section.dart';
+import 'home_sections/book_slide_card_section.dart';
+import 'home_sections/release_slide_card_section.dart';
+import 'home_sections/map_section.dart';
 
 
 
