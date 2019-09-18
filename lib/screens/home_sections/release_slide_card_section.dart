@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:flutter_parking_app/screens/list_view_page.dart';
+
 class SpotHolderSlidingCardsView extends StatefulWidget {
+  static const String id ="sliding_view"; 
   @override
   _SpotHolderSlidingCardsViewState createState() => _SpotHolderSlidingCardsViewState();
 }
@@ -86,8 +89,8 @@ class SlidingCard extends StatelessWidget {
               child: Image.asset(
                 'assets/images/$assetName',
                 height: MediaQuery.of(context).size.height * 0.3,
-                // alignment: Alignment(-offset.abs(), 0),
-                // fit: BoxFit.none,
+                alignment: Alignment(-offset.abs(), 0),
+                fit: BoxFit.none,
               ),
             ),
             SizedBox(height: 8),
@@ -154,7 +157,7 @@ class CardContent extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(32),
                   ),
-                  onPressed: () {},//TODO: Implement Release function here, may navigate to booker contact page
+                  onPressed: () => Navigator.pushNamed(context, ListViewPage.id),//TODO: Implement Release function here, may navigate to booker contact page
                 ),
               ),
               
