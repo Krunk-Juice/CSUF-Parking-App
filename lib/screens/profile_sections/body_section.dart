@@ -84,6 +84,8 @@ class _ProfileBodyState extends State<ProfileBodySection> {
                         ))
                       ],
                     )),
+
+                /* Email ID */
                 Padding(
                     padding: EdgeInsets.only(left: 25, right: 25, top: 25),
                     child: Row(
@@ -102,6 +104,8 @@ class _ProfileBodyState extends State<ProfileBodySection> {
                         ),
                       ],
                     )),
+                    
+                /* HINT: Enter Email ID */
                 Padding(
                     padding: EdgeInsets.only(left: 25, right: 25, top: 2),
                     child: Row(
@@ -116,6 +120,44 @@ class _ProfileBodyState extends State<ProfileBodySection> {
                         ),
                       ],
                     )),
+
+                /* Password Section */
+                Padding(
+                    padding: EdgeInsets.only(left: 25, right: 25, top: 25),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              'Password',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )),
+
+                /* HINT: Change Your Password */
+                Padding(
+                    padding: EdgeInsets.only(left: 25, right: 25, top: 2),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Flexible(
+                            child: TextField(
+                          decoration: const InputDecoration(
+                            hintText: "Change Your Password",
+                          ),
+                          enabled: !_status,
+                          autofocus: !_status,
+                        ))
+                      ],
+                    )),
+
                 Padding(
                     padding: EdgeInsets.only(left: 25, right: 25, top: 25),
                     child: Row(
