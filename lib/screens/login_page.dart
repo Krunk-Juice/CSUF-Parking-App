@@ -21,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
 
 final _auth = FirebaseAuth.instance; //initial constant for firebase
 
+
 final _formKey = new GlobalKey<FormState>();//get a key that is unique across the entire app
 
   String _email;

@@ -3,7 +3,7 @@ import 'home_sections/book_slide_card_section.dart';
 import 'home_sections/release_slide_card_section.dart';
 import 'home_sections/map_section.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -12,7 +12,10 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+
 class _HomePageState extends State<HomePage> {
+  
+  
   
 
   static final List<String> chartDropdownItems = [ 'Last 7 days', 'Last month', 'Last year' ];
