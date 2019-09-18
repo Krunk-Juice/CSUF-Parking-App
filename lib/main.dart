@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_parking_app/screens/home_sections/release_slide_card_section.dart';
+import 'package:flutter_parking_app/screens/list_view_page.dart';
 import 'screens/login_page.dart';
 import 'screens/home_page.dart';
 import 'screens/profile_page.dart';
@@ -16,12 +18,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: 'navigation_drawer',
+      initialRoute: 'login_page',
       routes: {
         'login_page': (context)=>LoginPage(),
         'home_page': (context)=>HomePage(),
         'profile_page': (context)=>ProfilePage(),
         'navigation_drawer': (context)=>Navigationdrawer(),
+        'list_view': (context)=>ListViewPage(),
+        'sliding_view': (context)=>SpotHolderSlidingCardsView(),
+        
       },
     );
   }
