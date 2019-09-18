@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'screens/login_page.dart';
 import 'screens/home_page.dart';
 import 'screens/profile_page.dart';
+import 'screens/navigation_drawer.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,11 +16,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: 'login_page',
+      initialRoute: 'navigation_drawer',
       routes: {
         'login_page': (context)=>LoginPage(),
         'home_page': (context)=>HomePage(),
         'profile_page': (context)=>ProfilePage(),
+        'navigation_drawer': (context)=>Navigationdrawer(),
       },
     );
   }
