@@ -11,7 +11,7 @@ With this in mind, we propose creating a mobile application that aims to allevia
 
 ## Installation
 
-- [Get started with Flutter on Windows](https://medium.com/@psyanite/get-started-with-flutter-on-windows-3d3fbb8b221a)
+- [Get started with Flutter on Windows](https://medium.com/fnplus/setting-up-flutter-for-windows-ca2c5e643fdf)
 
 - [Get started with Flutter on Linux Ubuntu](https://link.medium.com/wnUcqyGaUZ)
 
@@ -66,6 +66,10 @@ class MyApp extends StatelessWidget {
 - [Cloud Firestore](https://pub.dev/packages/cloud_firestore)
 
 - [Google Map Flutter](https://pub.dev/packages/google_maps_flutter)
+
+- [Photo View](https://pub.dev/packages/photo_view)
+
+- [Image Picker](https://pub.dev/packages/image_picker)
 
 
 ## Credits

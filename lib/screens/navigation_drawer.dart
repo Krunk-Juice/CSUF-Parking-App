@@ -1,4 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_parking_app/screens/profile_page.dart';
+import 'package:flutter_parking_app/main.dart';
+
 
 class Navigationdrawer extends StatefulWidget {
   static const String id = "navigation_drawer";
@@ -10,13 +15,7 @@ class Navigationdrawer extends StatefulWidget {
 class _NavigationdrawerState extends State<Navigationdrawer> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text("CSUF Parking App"),
-        ),
-      ),
-      drawer: Drawer(
+    return Drawer(
           child: ListView(
         children: <Widget>[
           UserAccountsDrawerHeader(
@@ -29,24 +28,34 @@ class _NavigationdrawerState extends State<Navigationdrawer> {
               child: Text(
                 "A",
                 style: TextStyle(fontSize: 40.0),
-              ),
+              ),  
             ),
           ),
           ListTile(
             title: Text("Profile"),
             trailing: Icon(Icons.arrow_forward),
-            // onTap: ()=>Navigator.pushNamed(context, Profile.id),
-          ),
-          ListTile(
-            title: Text("Signout"),
-            trailing: Icon(Icons.arrow_forward),
+            onTap: ()=>Navigator.pushNamed(context, ProfilePage.id),
           ),
           ListTile(
             title: Text("Settings"),
             trailing: Icon(Icons.arrow_forward),
           ),
+          ListTile(
+            title: Text("SignOut"),
+            trailing: Icon(Icons.exit_to_app),
+            onTap: ()=> Navigator.of(context)
+        .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false),
+          ),
         ],
-      )),
-    );
+      ));
+  
   }
+
+
+
+
+
+
+
+
 }

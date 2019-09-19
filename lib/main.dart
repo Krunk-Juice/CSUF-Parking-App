@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/screens/home_sections/release_slide_card_section.dart';
-import 'package:flutter_parking_app/screens/list_view_page.dart';
+import 'package:flutter_parking_app/screens/home_sections/free_parking_page.dart';
+import 'package:flutter_parking_app/screens/home_sections/list_view_page.dart';
+import 'package:flutter_parking_app/screens/home_sections/parking_map_page.dart';
 import 'screens/login_page.dart';
 import 'screens/home_page.dart';
 import 'screens/profile_page.dart';
 import 'screens/navigation_drawer.dart';
+import 'dart:io';
 
 void main() => runApp(MyApp());
 
@@ -22,12 +24,14 @@ class MyApp extends StatelessWidget {
       routes: {
         'login_page': (context)=>LoginPage(),
         'home_page': (context)=>HomePage(),
-        'profile_page': (context)=>ProfilePage(),
+        'profile': (context)=>ProfilePage(),
         'navigation_drawer': (context)=>Navigationdrawer(),
         'list_view': (context)=>ListViewPage(),
-        'sliding_view': (context)=>SpotHolderSlidingCardsView(),
-        
+        'list_free_parking_location': (context)=>FreeParkingPage(),
+        'parking_map': (context)=>ParkingMapPage(),
       },
     );
   }
+
+  
 }

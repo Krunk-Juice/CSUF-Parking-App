@@ -5,7 +5,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
 
-class MapPage extends StatelessWidget {
+class FreeParkingPage extends StatefulWidget {
+    static const String id ="list_free_parking_location"; 
+
+  @override
+  _FreeParkingPageState createState() => _FreeParkingPageState();
+}
+
+class _FreeParkingPageState extends State<FreeParkingPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -22,27 +22,27 @@ class _ProfileHeaderSectionState extends State<ProfileHeaderSection> {
       ),
       child: Column(
         children: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(left: 20, top: 20),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.white,
-                    size: 22,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 25),
-                    child: Text('PROFILE',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            fontFamily: 'sans-serif-light',
-                            color: Colors.white)),
-                  )
-                ],
-              )),
+          // Padding(
+          //     padding: EdgeInsets.only(left: 20, top: 20),
+          //     child: Row(
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: <Widget>[
+          //         Icon(
+          //           Icons.arrow_back_ios,
+          //           color: Colors.white,
+          //           size: 22,
+          //         ),
+          //         Padding(
+          //           padding: EdgeInsets.only(left: 25),
+          //           child: Text('PROFILE',
+          //               style: TextStyle(
+          //                   fontWeight: FontWeight.bold,
+          //                   fontSize: 20,
+          //                   fontFamily: 'sans-serif-light',
+          //                   color: Colors.white)),
+          //         )
+          //       ],
+          //     )),
           Padding(
             padding: EdgeInsets.only(top: 20),
             child: Stack(fit: StackFit.loose, children: <Widget>[

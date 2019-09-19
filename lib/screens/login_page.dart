@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'home_page.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 //TODO(chris): adding comments
-
 
 /// enum FromMode for clarify the Login and signup form
 enum FormMode { LOGIN, SIGNUP }
 
 class LoginPage extends StatefulWidget {
-
-  static const String id ="login_page";
+  static const String id = "login_page";
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-
 class _LoginPageState extends State<LoginPage> {
+  final _auth = FirebaseAuth.instance; //initial constant for firebase
 
-final _auth = FirebaseAuth.instance; //initial constant for firebase
-
-
-final _formKey = new GlobalKey<FormState>();//get a key that is unique across the entire app
+  final _formKey = new GlobalKey<
+      FormState>(); //get a key that is unique across the entire app
 
   String _email;
   String _password;
@@ -33,24 +30,28 @@ final _formKey = new GlobalKey<FormState>();//get a key that is unique across th
   bool _isIos;
   bool _isLoading;
 
- @override
+  @override
   Widget build(BuildContext context) {
     _isIos = Theme.of(context).platform == TargetPlatform.iOS;
-    return new Scaffold(
-        appBar: new AppBar(
-          title: Center(child: new Text('Login',)),
-        ),
-        body: Stack(
-          children: <Widget>[
-            _showBody(),
-            _showCircularProgress(),
-          ],
-        ));
+    return SafeArea(
+      child: new Scaffold(
+          appBar: new AppBar(
+            title: Center(
+                child: new Text(
+              'Login',
+            )),
+          ),
+          body: ModalProgressHUD(
+            inAsyncCall: _isLoading,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _showBody(),
+            ),
+          )),
+    );
   }
 
-
-
-@override
+  @override
   void initState() {
     _errorMessage = "";
     _isLoading = false;
@@ -66,43 +67,50 @@ final _formKey = new GlobalKey<FormState>();//get a key that is unique across th
     if (form.validate()) {
       form.save();
       return true;
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      return false;
     }
-    return false;
   }
 
   /// Validate and submit the user to firebase base on what activity
   void _validateAndSubmit() async {
-
     setState(() {
       _errorMessage = "";
       _isLoading = true;
     });
     if (_validateAndSave()) {
-      
-      try {//have to try and catch for error when you use firebase auth
+      try {
+        //have to try and catch for error when you use firebase auth
         if (_formMode == FormMode.LOGIN) {
           //sign in user with firebase
-          final user = await _auth.signInWithEmailAndPassword(email: _email,password: _password);
+          final user = await _auth.signInWithEmailAndPassword(
+              email: _email, password: _password);
           print('Signed in: $user');
-          if(user != null) // if user not validate sign in with firebase it will be null
+          if (user !=
+              null) // if user not validate sign in with firebase it will be null
           {
             //Navigate to homepage after sign in
             Navigator.pushNamed(context, HomePage.id);
           }
         } else {
           //sign up user with firebase
-          final user = await _auth.createUserWithEmailAndPassword(email: _email, password: _password);
-          
-          FirebaseUser _user = await _auth.currentUser();//get current sign up user
+          final user = await _auth.createUserWithEmailAndPassword(
+              email: _email, password: _password);
+
+          FirebaseUser _user =
+              await _auth.currentUser(); //get current sign up user
           _user.sendEmailVerification(); //send email verification
           _showVerifyEmailSentDialog(); // show dialog let them know that user will receive email for verification
-          print('Signed up user: $user'); 
+          print('Signed up user: $user');
         }
+
         ///turn off loading circ
         setState(() {
           _isLoading = false;
         });
-        
       } catch (e) {
         print('Error: $e');
         setState(() {
@@ -116,16 +124,16 @@ final _formKey = new GlobalKey<FormState>();//get a key that is unique across th
     }
   }
 
-
-/// show dialog metion get email verification
-void _showVerifyEmailSentDialog() {
+  /// show dialog metion get email verification
+  void _showVerifyEmailSentDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
           title: new Text("Verify your account"),
-          content: new Text("Link to verify account has been sent to your email"),
+          content:
+              new Text("Link to verify account has been sent to your email"),
           actions: <Widget>[
             new FlatButton(
               child: new Text("Dismiss"),
@@ -139,8 +147,8 @@ void _showVerifyEmailSentDialog() {
       },
     );
   }
-  
-/// switch to signup form
+
+  /// switch to signup form
   void _changeFormToSignUp() {
     _formKey.currentState.reset();
     _errorMessage = "";
@@ -148,7 +156,8 @@ void _showVerifyEmailSentDialog() {
       _formMode = FormMode.SIGNUP;
     });
   }
-/// switch to signin form
+
+  /// switch to signin form
   void _changeFormToLogin() {
     _formKey.currentState.reset();
     _errorMessage = "";
@@ -157,18 +166,8 @@ void _showVerifyEmailSentDialog() {
     });
   }
 
- 
-///show loading circular
-  Widget _showCircularProgress(){
-    if (_isLoading) {
-      return Center(child: CircularProgressIndicator());
-    } return Container(height: 0.0, width: 0.0,);
-
-  }
-
-  
-///body of home page
-  Widget _showBody(){
+  ///body of home page
+  Widget _showBody() {
     return new Container(
         padding: EdgeInsets.all(16.0),
         child: new Form(
@@ -186,10 +185,16 @@ void _showVerifyEmailSentDialog() {
           ),
         ));
   }
-///show error message 
+
+  ///show error message
   Widget _showErrorMessage() {
-    if (_errorMessage.length > 0 && _errorMessage != null) ///if there is error message then show it
+    if (_errorMessage.length > 0 && _errorMessage != null)
+
+    ///if there is error message then show it
     {
+      setState(() {
+        _isLoading = false;
+      });
       return new Text(
         _errorMessage,
         style: TextStyle(
@@ -205,9 +210,10 @@ void _showVerifyEmailSentDialog() {
     }
   }
 
-///show logo login 
+  ///show logo image
+
   Widget _showLogo() {
-    return new Hero(
+    return Hero(
       tag: 'hero',
       child: Padding(
         padding: EdgeInsets.fromLTRB(0.0, 70.0, 0.0, 0.0),
@@ -220,7 +226,7 @@ void _showVerifyEmailSentDialog() {
     );
   }
 
-/// show email input feild
+  /// show email input feild
   Widget _showEmailInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
@@ -240,8 +246,7 @@ void _showVerifyEmailSentDialog() {
     );
   }
 
-
-///show password input feild
+  ///show password input feild
   Widget _showPasswordInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
@@ -261,8 +266,7 @@ void _showVerifyEmailSentDialog() {
     );
   }
 
-
-/// show second button which let user switch to signup or signin form
+  /// show second button which let user switch to signup or signin form
   Widget _showSecondaryButton() {
     return new FlatButton(
       child: _formMode == FormMode.LOGIN
@@ -277,7 +281,7 @@ void _showVerifyEmailSentDialog() {
     );
   }
 
-/// show primamry button which let user login or signup submit
+  /// show primamry button which let user login or signup submit
   Widget _showPrimaryButton() {
     return new Padding(
         padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
@@ -285,7 +289,8 @@ void _showVerifyEmailSentDialog() {
           height: 40.0,
           child: new RaisedButton(
             elevation: 5.0,
-            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(30.0)),
             color: Colors.blue,
             child: _formMode == FormMode.LOGIN
                 ? new Text('Login',
@@ -296,7 +301,4 @@ void _showVerifyEmailSentDialog() {
           ),
         ));
   }
-
-
-
 }
