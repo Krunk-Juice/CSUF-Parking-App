@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -15,7 +16,7 @@ class ProfileHeaderSection extends StatefulWidget {
 class _ProfileHeaderSectionState extends State<ProfileHeaderSection> {
   File avatarImageFile;
   SharedPreferences prefs;
-
+  
   String id = '';
   String photoUrl = '';
   bool isLoading= false;

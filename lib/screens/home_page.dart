@@ -1,10 +1,15 @@
+import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/screens/home_sections/free_parking_page.dart';
 import 'package:flutter_parking_app/screens/home_sections/list_view_page.dart';
 import 'package:flutter_parking_app/screens/home_sections/parking_map_page.dart';
 import 'package:flutter_parking_app/screens/navigation_drawer.dart';
-import 'package:flutter_parking_app/services/sign_in.dart';
+import 'package:flutter_parking_app/screens/profile_page.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
@@ -13,36 +18,72 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
- 
+  SharedPreferences prefs;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+  String id = '';
+  String nickname = '';
+  String photoUrl = '';
 
- Future<bool> _onWillPop() {
-    return showDialog(
-      context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text('Are you sure?'),
-        content: new Text('Do you want to exit an App'),
-        actions: <Widget>[
-          new FlatButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('No'),
-          ),
-          new FlatButton(
-            onPressed: (){
-              signOutGoogle(); 
-              Navigator.of(context).pop(true);
-              },
-            child: new Text('Yes'),
-          ),
-        ],
-      ),
-    ) ?? false;
+  @override
+  void initState() {
+    super.initState();
+    readLocal();
   }
+
+  void readLocal() async {
+    prefs = await SharedPreferences.getInstance();
+    id = prefs.getString('id') ?? '';
+    nickname = prefs.getString('nickname') ?? '';
+    photoUrl = prefs.getString('photoUrl') ?? '';
+
+    // Force refresh input
+    setState(() {});
+  }
+
+  Future<bool> _onWillPop() {
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you want to exit an App'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('No'),
+              ),
+              new FlatButton(
+                onPressed: () {
+                  // handleSignOut();
+                  // Navigator.of(context).pop(true);
+                  exit(0);
+                },
+                child: new Text('Yes'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
+
+  // Future<Null> handleSignOut()async{
+  //   setState(() {
+  //   });
+
+  //   await FirebaseAuth.instance.signOut();
+  //   await googleSignIn.disconnect();
+  //   await googleSignIn.signOut();
+  //   setState(() {
+
+  //   });
+
+  // }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
-          child: Scaffold(
-          drawer: Navigationdrawer(),
+      child: Scaffold(
+          endDrawer: Navigationdrawer(),
           appBar: AppBar(
             iconTheme: IconThemeData(color: Colors.green),
             elevation: 2.0,
@@ -52,22 +93,22 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.black,
                     fontWeight: FontWeight.w700,
                     fontSize: 30.0)),
-            actions: <Widget>[
-              Container(
-                margin: EdgeInsets.only(right: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text('CSUF Parking',
-                        style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14.0)),
-                  ],
-                ),
-              )
-            ],
+            // actions: <Widget>[
+            //   Container(
+            //     margin: EdgeInsets.only(right: 8.0),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       crossAxisAlignment: CrossAxisAlignment.center,
+            //       children: <Widget>[
+            //         Text('CSUF Parking',
+            //             style: TextStyle(
+            //                 color: Colors.blue,
+            //                 fontWeight: FontWeight.w700,
+            //                 fontSize: 14.0)),
+            //       ],
+            //     ),
+            //   )
+            // ],
           ),
           body: StaggeredGridView.count(
             crossAxisCount: 2,
@@ -86,26 +127,38 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text('Total cars',
+                            Text('Profile',
                                 style: TextStyle(color: Colors.blueAccent)),
-                            Text('500',
+                            Text(nickname,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 34.0))
+                                    fontSize: 30.0))
                           ],
                         ),
                         Material(
                             color: Colors.blue,
                             borderRadius: BorderRadius.circular(24.0),
-                            child: Center(
-                                child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Icon(Icons.timeline,
-                                  color: Colors.white, size: 30.0),
-                            )))
+                            child: ClipOval(
+                              child: CachedNetworkImage(
+                                imageUrl: photoUrl,
+                                width: 50.0,
+                                height: 50.0,
+                              ),
+                            )
+                            // Center(
+                            //     child: Padding(
+                            //   padding: const EdgeInsets.all(16.0),
+                            //   child:
+                            //   Icon(
+                            //    Icons.timeline,
+                            //       color: Colors.white, size: 30.0),
+
+                            // ))
+                            )
                       ]),
                 ),
+                onTap: () => Navigator.pushNamed(context, ProfilePage.id),
               ),
               _buildTile(
                 Padding(
@@ -252,6 +305,4 @@ class _HomePageState extends State<HomePage> {
                   },
             child: child));
   }
-
-  
 }

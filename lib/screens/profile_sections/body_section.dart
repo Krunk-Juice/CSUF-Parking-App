@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ProfileBodySection extends StatefulWidget {
   @override
@@ -8,7 +11,65 @@ class ProfileBodySection extends StatefulWidget {
 class _ProfileBodyState extends State<ProfileBodySection> {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
+  SharedPreferences prefs;
+  TextEditingController controllerNickname;
+  TextEditingController controllerEmail;
+  TextEditingController controllerPhone;
 
+  String id = '';
+  String phone = '';
+  String nickname ='';
+  String email ='';
+
+  @override
+  void initState() {
+    super.initState();
+    readLocal();
+  }
+  void readLocal() async {
+    prefs = await SharedPreferences.getInstance();
+    id = prefs.getString('id')??'';
+    nickname = prefs.getString('nickname') ?? '';
+    email = prefs.getString('email') ?? '';
+    phone = prefs.getString('phone') ?? '';
+
+    controllerNickname = new TextEditingController(text: nickname);
+    controllerEmail = new TextEditingController(text: email);
+    controllerPhone = new TextEditingController(text: phone);
+    // Force refresh input
+    setState(() {});
+  }
+void handleUpdateData() {
+    // focusNodeNickname.unfocus();
+    // focusNodeAboutMe.unfocus();
+
+    setState(() {
+      // isLoading = true;
+    });
+
+    Firestore.instance
+        .collection('users')
+        .document(id)
+        .updateData({'nickname': nickname, 'email': email, 'phone': phone}).then((data) async {
+      await prefs.setString('nickname', nickname);
+      await prefs.setString('email', email);
+      await prefs.setString('phone', phone);
+
+      
+
+      setState(() {
+        // isLoading = false;
+      });
+
+      Fluttertoast.showToast(msg: "Update success");
+    }).catchError((err) {
+      setState(() {
+        // isLoading = false;
+      });
+
+      Fluttertoast.showToast(msg: err.toString());
+    });
+  }
   @override
   Widget build(BuildContext context) {
     /* Information Section */
@@ -79,8 +140,13 @@ class _ProfileBodyState extends State<ProfileBodySection> {
                           decoration: const InputDecoration(
                             hintText: "Enter Your Name",
                           ),
+                          controller: controllerNickname,
                           enabled: !_status,
                           autofocus: !_status,
+                          onChanged: (value){
+                            nickname = value;
+
+                          },
                         ))
                       ],
                     )),
@@ -96,7 +162,7 @@ class _ProfileBodyState extends State<ProfileBodySection> {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Text(
-                              'Email ID',
+                              'Email',
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
@@ -114,49 +180,55 @@ class _ProfileBodyState extends State<ProfileBodySection> {
                         Flexible(
                           child: TextField(
                             decoration: const InputDecoration(
-                                hintText: "Enter Email ID"),
+                                hintText: "Enter Email "),
+                                controller: controllerEmail,
                             enabled: !_status,
+                            onChanged: (value){
+                              email = value;
+
+                            },
                           ),
                         ),
                       ],
                     )),
 
                 /* Password Section */
-                Padding(
-                    padding: EdgeInsets.only(left: 25, right: 25, top: 25),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text(
-                              'Password',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )),
+                // Padding(
+                //     padding: EdgeInsets.only(left: 25, right: 25, top: 25),
+                //     child: Row(
+                //       mainAxisSize: MainAxisSize.max,
+                //       children: <Widget>[
+                //         Column(
+                //           mainAxisAlignment: MainAxisAlignment.start,
+                //           mainAxisSize: MainAxisSize.min,
+                //           children: <Widget>[
+                //             Text(
+                //               'Password',
+                //               style: TextStyle(
+                //                   fontSize: 16, fontWeight: FontWeight.bold),
+                //             ),
+                //           ],
+                //         ),
+                //       ],
+                //     )),
 
                 /* HINT: Change Your Password */
-                Padding(
-                    padding: EdgeInsets.only(left: 25, right: 25, top: 2),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Flexible(
-                            child: TextField(
-                          decoration: const InputDecoration(
-                            hintText: "Change Your Password",
-                          ),
-                          enabled: !_status,
-                          autofocus: !_status,
-                        ))
-                      ],
-                    )),
+                // Padding(
+                //     padding: EdgeInsets.only(left: 25, right: 25, top: 2),
+                //     child: Row(
+                //       mainAxisSize: MainAxisSize.max,
+                //       children: <Widget>[
+                //         Flexible(
+                //             child: TextField(
+                //           decoration: const InputDecoration(
+                //             hintText: "Change Your Password",
+                //           ),
+                //           enabled: !_status,
+                //           autofocus: !_status,
+                          
+                //         ))
+                //       ],
+                //     )),
 
                 Padding(
                     padding: EdgeInsets.only(left: 25, right: 25, top: 25),
@@ -179,67 +251,74 @@ class _ProfileBodyState extends State<ProfileBodySection> {
                           child: TextField(
                             decoration: const InputDecoration(
                                 hintText: "Enter Mobile Number"),
+                                controller: controllerPhone,
                             enabled: !_status,
+                            onChanged: (value){
+                              phone = value;
+                            },
                           ),
                         ),
                       ],
                     )),
-                Padding(
-                    padding: EdgeInsets.only(left: 25, right: 25, top: 25),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            child: Text(
-                              'PIN Code',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          flex: 2,
-                        ),
-                        Expanded(
-                          child: Container(
-                            child: Text(
-                              'State',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          flex: 2,
-                        ),
-                      ],
-                    )),
-                Padding(
-                  padding: EdgeInsets.only(left: 25, right: 25, top: 2),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Flexible(
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 10),
-                          child: TextField(
-                            decoration: const InputDecoration(
-                                hintText: "Enter PIN Code"),
-                            enabled: !_status,
-                          ),
-                        ),
-                        flex: 2,
-                      ),
-                      Flexible(
-                        child: TextField(
-                          decoration:
-                              const InputDecoration(hintText: "Enter State"),
-                          enabled: !_status,
-                        ),
-                        flex: 2,
-                      ),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //     padding: EdgeInsets.only(left: 25, right: 25, top: 25),
+                //     child: Row(
+                //       mainAxisSize: MainAxisSize.max,
+                //       mainAxisAlignment: MainAxisAlignment.start,
+                //       children: <Widget>[
+                //         Expanded(
+                //           child: Container(
+                //             child: Text(
+                //               'PIN Code',
+                //               style: TextStyle(
+                //                   fontSize: 16, fontWeight: FontWeight.bold),
+                //             ),
+                //           ),
+                //           flex: 2,
+                //         ),
+                //         Expanded(
+                //           child: Container(
+                //             child: Text(
+                //               'State',
+                //               style: TextStyle(
+                //                   fontSize: 16, fontWeight: FontWeight.bold),
+                //             ),
+                //           ),
+                //           flex: 2,
+                //         ),
+                //       ],
+                //     )),
+                // Padding(
+                //   padding: EdgeInsets.only(left: 25, right: 25, top: 2),
+                //   child: Row(
+                //     mainAxisSize: MainAxisSize.max,
+                //     mainAxisAlignment: MainAxisAlignment.start,
+                //     children: <Widget>[
+                //       Flexible(
+                //         child: Padding(
+                //           padding: EdgeInsets.only(right: 10),
+                //           child: TextField(
+                //             decoration: const InputDecoration(
+                //                 hintText: "Enter PIN Code"),
+                //             enabled: !_status,
+                //             onChanged: (value){
+
+                //             },
+                //           ),
+                //         ),
+                //         flex: 2,
+                //       ),
+                //       Flexible(
+                //         child: TextField(
+                //           decoration:
+                //               const InputDecoration(hintText: "Enter State"),
+                //           enabled: !_status,
+                //         ),
+                //         flex: 2,
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 !_status ? _getActionButtons() : Container(),
               ],
             )));
@@ -289,6 +368,7 @@ class _ProfileBodyState extends State<ProfileBodySection> {
                   setState(() {
                     _status = true;
                     FocusScope.of(context).requestFocus(FocusNode());
+                    handleUpdateData();
                   });
                 },
                 shape: RoundedRectangleBorder(

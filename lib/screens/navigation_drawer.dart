@@ -4,8 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/screens/profile_page.dart';
 import 'package:flutter_parking_app/main.dart';
-import 'package:flutter_parking_app/services/sign_in.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 class Navigationdrawer extends StatefulWidget {
   static const String id = "navigation_drawer";
 
@@ -15,6 +16,8 @@ class Navigationdrawer extends StatefulWidget {
 
 class _NavigationdrawerState extends State<Navigationdrawer> {
 
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+
   SharedPreferences prefs;
   String nickname='';
   String photoUrl='';
@@ -23,6 +26,7 @@ class _NavigationdrawerState extends State<Navigationdrawer> {
  @override
   void initState() {
     super.initState();
+    
     readLocal();
   }
   void readLocal() async {
@@ -39,18 +43,19 @@ class _NavigationdrawerState extends State<Navigationdrawer> {
     return Drawer(
           child: ListView(
         children: <Widget>[
-          UserAccountsDrawerHeader(
-            accountName: Text(nickname),
-            accountEmail: Text(id),
-            currentAccountPicture: CircleAvatar(
-              backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
-                  ? Colors.blue
-                  : Colors.white,
-              child: CachedNetworkImage(
-                imageUrl: photoUrl,
-              ),  
-            ),
-          ),
+          // UserAccountsDrawerHeader(
+          //   accountName: Text(nickname),
+          //   accountEmail: Text(id),
+          //   currentAccountPicture: CircleAvatar(
+          //     backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
+          //         ? Colors.blue
+          //         : Colors.white,
+          //     child: CachedNetworkImage(
+          //       imageUrl: photoUrl,
+                
+          //     ),  
+          //   ),
+          // ),
           ListTile(
             title: Text("Profile"),
             trailing: Icon(Icons.arrow_forward),
@@ -64,7 +69,7 @@ class _NavigationdrawerState extends State<Navigationdrawer> {
             title: Text("SignOut"),
             trailing: Icon(Icons.exit_to_app),
             onTap: () {
-              signOutGoogle();
+              handleSignOut();
               Navigator.of(context)
         .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);},
           ),
@@ -73,6 +78,19 @@ class _NavigationdrawerState extends State<Navigationdrawer> {
   
   }
 
+
+Future<Null> handleSignOut()async{
+    setState(() {
+    });
+
+    await FirebaseAuth.instance.signOut();
+    await googleSignIn.disconnect();
+    await googleSignIn.signOut();
+    setState(() {
+      
+    });
+
+  }
 
 
 
