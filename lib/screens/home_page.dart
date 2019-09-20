@@ -5,7 +5,6 @@ import 'package:flutter_parking_app/screens/home_sections/parking_map_page.dart'
 import 'package:flutter_parking_app/screens/navigation_drawer.dart';
 import 'package:flutter_parking_app/services/sign_in.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'dart:io';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";

@@ -6,6 +6,7 @@ import 'package:flutter_parking_app/screens/home_page.dart';
 import 'package:flutter_parking_app/services/sign_in.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,13 +20,13 @@ class _GoogleLoginState extends State<GoogleLogin> {
   bool isLoggedIn;
 
   bool _isLoading;
-  // SharedPreferences prefs;
+  SharedPreferences prefs;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
   void initState() {
     _isLoading = false;
-
+    
     super.initState();
     isSignedIn();
   }
@@ -35,7 +36,7 @@ class _GoogleLoginState extends State<GoogleLogin> {
       _isLoading = true;
     });
 
-
+    prefs =  await SharedPreferences.getInstance();
     isLoggedIn = await googleSignIn.isSignedIn();
     if (isLoggedIn) {
       Navigator.pushNamed(context, HomePage.id);
