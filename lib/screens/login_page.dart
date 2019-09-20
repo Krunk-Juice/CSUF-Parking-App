@@ -104,6 +104,8 @@ class _LoginPageState extends State<LoginPage> {
               await _auth.currentUser(); //get current sign up user
           _user.sendEmailVerification(); //send email verification
           _showVerifyEmailSentDialog(); // show dialog let them know that user will receive email for verification
+          
+          
           print('Signed up user: $user');
         }
 

@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/screens/profile_page.dart';
 import 'package:flutter_parking_app/main.dart';
-
-
+import 'package:flutter_parking_app/services/sign_in.dart';
 class Navigationdrawer extends StatefulWidget {
   static const String id = "navigation_drawer";
 
@@ -43,8 +42,10 @@ class _NavigationdrawerState extends State<Navigationdrawer> {
           ListTile(
             title: Text("SignOut"),
             trailing: Icon(Icons.exit_to_app),
-            onTap: ()=> Navigator.of(context)
-        .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false),
+            onTap: () {
+              signOutGoogle();
+              Navigator.of(context)
+        .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyApp()), (Route<dynamic> route) => false);},
           ),
         ],
       ));

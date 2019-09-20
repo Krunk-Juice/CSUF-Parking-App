@@ -3,6 +3,7 @@ import 'package:flutter_parking_app/screens/home_sections/free_parking_page.dart
 import 'package:flutter_parking_app/screens/home_sections/list_view_page.dart';
 import 'package:flutter_parking_app/screens/home_sections/parking_map_page.dart';
 import 'package:flutter_parking_app/screens/navigation_drawer.dart';
+import 'package:flutter_parking_app/services/sign_in.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'dart:io';
 
@@ -27,7 +28,10 @@ class _HomePageState extends State<HomePage> {
             child: new Text('No'),
           ),
           new FlatButton(
-            onPressed: () => Navigator.of(context).pop(true),
+            onPressed: (){
+              signOutGoogle(); 
+              Navigator.of(context).pop(true);
+              },
             child: new Text('Yes'),
           ),
         ],

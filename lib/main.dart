@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_parking_app/screens/google_login.dart';
 import 'package:flutter_parking_app/screens/home_sections/free_parking_page.dart';
 import 'package:flutter_parking_app/screens/home_sections/list_view_page.dart';
 import 'package:flutter_parking_app/screens/home_sections/parking_map_page.dart';
@@ -6,7 +7,6 @@ import 'screens/login_page.dart';
 import 'screens/home_page.dart';
 import 'screens/profile_page.dart';
 import 'screens/navigation_drawer.dart';
-import 'dart:io';
 
 void main() => runApp(MyApp());
 
@@ -20,8 +20,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: 'login_page',
+      initialRoute: 'google_login',
       routes: {
+        'google_login': (context)=>GoogleLogin(),
         'login_page': (context)=>LoginPage(),
         'home_page': (context)=>HomePage(),
         'profile': (context)=>ProfilePage(),
