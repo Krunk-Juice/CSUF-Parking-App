@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/screens/home_sections/free_parking_page.dart';
+import 'free_parking_page.dart';
 import 'package:flutter_parking_app/screens/home_sections/list_view_page.dart';
 import 'package:flutter_parking_app/screens/home_sections/parking_map_page.dart';
 import 'package:flutter_parking_app/screens/navigation_drawer.dart';
