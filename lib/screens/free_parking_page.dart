@@ -10,33 +10,18 @@ import 'package:flutter_parking_app/services/api_key.dart';
 const _pinkHue = 350.0;
 final _placesApiClient = GoogleMapsPlaces(apiKey: googleMapsApiKey);
 
-class FreeParkingPage extends StatelessWidget {
 
+class FreeParkingPage extends StatefulWidget {
   static const String id = 'free_parking_locations';
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Free Parking',
-      home: const MapPage(title: 'FREE PARKING'),
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
-        scaffoldBackgroundColor: Colors.pink[50],
-      ),
-    );
-  }
-}
+  // const MapPage({@required this.title});
 
-class MapPage extends StatefulWidget {
-  const MapPage({@required this.title});
-
-  final String title;
+  // final String title;
 
   @override
-  _MapPageState createState() => _MapPageState();
+  _FreeParkingPageState createState() => _FreeParkingPageState();
 }
 
-class _MapPageState extends State<MapPage> {
+class _FreeParkingPageState extends State<FreeParkingPage> {
   Stream<QuerySnapshot> _freeParkingLocations;
   final Completer<GoogleMapController> _mapController = Completer();
 
@@ -52,10 +37,20 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(widget.title),
+        elevation: 0.0,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          color: Colors.black,
+          onPressed: () => Navigator.of(context).pop(),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+        ),
+        title: Text('Free Parking Locations',
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
       ),
       body: StreamBuilder<QuerySnapshot>(
+        
         stream: _freeParkingLocations,
         builder: (context, snapshot) {
           if (snapshot.hasError)
@@ -63,17 +58,19 @@ class _MapPageState extends State<MapPage> {
           if (!snapshot.hasData) return Center(child: Text('Loading...'));
 
           return Column(
+            
             children: [
               Flexible(
-                flex: 2,
+                
+                flex: 3,
                 child: StoreMap(
                   documents: snapshot.data.documents,
-                  initialPosition: const LatLng(37.7786, -122.4375),
+                  initialPosition: const LatLng(33.881356, -117.885364),
                   mapController: _mapController,
                 ),
               ),
               Flexible(
-                  flex: 3,
+                  flex: 2,
                   child: StoreList(
                     documents: snapshot.data.documents,
                     mapController: _mapController,
@@ -103,7 +100,7 @@ class StoreMap extends StatelessWidget {
     return GoogleMap(
       initialCameraPosition: CameraPosition(
         target: initialPosition,
-        zoom: 12,
+        zoom: 13,
       ),
       markers: documents
           .map((document) => Marker(
@@ -196,32 +193,46 @@ class _StoreListTileState extends State<StoreListTile> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(widget.document['name']),
-      subtitle: Text(widget.document['address']),
-      leading: Container(
-        child: _placePhotoUrl.isNotEmpty
-            ? CircleAvatar(
-                backgroundImage: NetworkImage(_placePhotoUrl),
-              )
-            : Container(),
-        width: 60,
-        height: 60,
-      ),
-      onTap: () async {
-        final controller = await widget.mapController.future;
-        await controller.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: LatLng(
-                widget.document['location'].latitude,
-                widget.document['location'].longitude,
+    return Card(
+      elevation: 14.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      
+      child: ListTile(
+        title: Text(widget.document['name'],style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
+        subtitle: Text(widget.document['address']),
+        leading: Container(
+          child: _placePhotoUrl.isNotEmpty
+              ? CircleAvatar(
+                  backgroundImage: NetworkImage(_placePhotoUrl),
+                )
+              : Material(
+                            color: Colors.greenAccent,
+                            borderRadius: BorderRadius.circular(24.0),
+                            child: Center(
+                                child: Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Icon(Icons.directions,
+                                  color: Colors.white, size: 30.0),
+                            ))),
+          width: 60,
+          height: 60,
+        ),
+        onTap: () async {
+          final controller = await widget.mapController.future;
+          await controller.animateCamera(
+            CameraUpdate.newCameraPosition(
+              CameraPosition(
+                target: LatLng(
+                  widget.document['location'].latitude,
+                  widget.document['location'].longitude,
+                ),
+                zoom: 15,
               ),
-              zoom: 16,
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

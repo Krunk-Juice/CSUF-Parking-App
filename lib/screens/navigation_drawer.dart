@@ -60,6 +60,7 @@ class _NavigationdrawerState extends State<Navigationdrawer> {
             title: Text("Profile"),
             trailing: Icon(Icons.arrow_forward),
             onTap: ()=>Navigator.pushNamed(context, ProfilePage.id),
+            
           ),
           ListTile(
             title: Text("Settings"),

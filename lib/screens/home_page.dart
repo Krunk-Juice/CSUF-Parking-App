@@ -259,7 +259,7 @@ class _HomePageState extends State<HomePage> {
                             Text('Free Parkings',
                                 style: TextStyle(
                                     color: Colors.purpleAccent, fontSize: 15)),
-                            Text('5 Locations',
+                            Text('4 Locations',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w700,
