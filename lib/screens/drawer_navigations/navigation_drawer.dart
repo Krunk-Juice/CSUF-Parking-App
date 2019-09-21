@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/screens/profile_page.dart';
+import 'package:flutter_parking_app/screens/drawer_navigations/profile_page.dart';
 import 'package:flutter_parking_app/main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';

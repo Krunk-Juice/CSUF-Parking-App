@@ -261,9 +261,21 @@ class CardContent extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(32),
                   ),
-                  onPressed: () {
-                    
-                    //update release status
+                  onPressed:()=> _handleRelease(context),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+
+
+  void _handleRelease(BuildContext context)
+  {
+//update release status
                     Firestore.instance
                         .collection('users')
                         .document(id)
@@ -283,16 +295,8 @@ class CardContent extends StatelessWidget {
                           'parking': nameParking,
                         })
                         .then((result) => {
-                              Navigator.pop(context),
+                              Navigator.of(context).pop(),
                             })
                         .catchError((err) => print(err));
-                  },
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
   }
 }

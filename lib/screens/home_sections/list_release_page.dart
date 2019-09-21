@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_parking_app/screens/home_sections/request_card.dart';
 import 'package:flutter_parking_app/screens/home_sections/slide_card_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-enum TypeParkingLot { NutWood, Eastside, StateCollege }
+SharedPreferences prefs;
 
 class ListReleasePage extends StatefulWidget {
   static const String id = "list_view";
@@ -15,23 +17,30 @@ class ListReleasePage extends StatefulWidget {
 }
 
 class _ListReleasePageState extends State<ListReleasePage> {
-  // TextEditingController taskTitleInputController;
-  // TextEditingController taskDescripInputController;
-  FirebaseUser currentUser;
+  
+  // FirebaseUser currentUser;
   bool isLoading = false;
-  TypeParkingLot typeParkingLot = TypeParkingLot.Eastside;
+  String currentUserId = '';
 
   @override
   initState() {
-    // taskTitleInputController = new TextEditingController();
-    // taskDescripInputController = new TextEditingController();
-    this.getCurrentUser();
+   
+    
     super.initState();
+    readLocal() ;
   }
 
-  void getCurrentUser() async {
-    currentUser = await FirebaseAuth.instance.currentUser();
+void readLocal() async {
+    prefs = await SharedPreferences.getInstance();
+    currentUserId = prefs.getString('id') ?? '';
+    
+    // Force refresh input
+    setState(() {});
   }
+  // void getCurrentUser() async {
+  //   prefs = await SharedPreferences.getInstance();
+  //   currentUser = await FirebaseAuth.instance.currentUser();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +97,6 @@ class _ListReleasePageState extends State<ListReleasePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        //TODO: dialog release
         onPressed: () => Navigator.pushNamed(context, SlideCardPage.id),
         label: Text('Release'),
         icon: Icon(Icons.add),
@@ -98,7 +106,7 @@ class _ListReleasePageState extends State<ListReleasePage> {
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document['id'] == currentUser.uid) {
+    if (document['id'] == currentUserId) {
       return Container();
     } else {
       return Container(
@@ -155,16 +163,10 @@ class _ListReleasePageState extends State<ListReleasePage> {
               ),
             ],
           ),
-          onPressed: () => null,
-          // {
-          //   Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //           builder: (context) => Chat(
-          //                 peerId: document.documentID,
-          //                 peerAvatar: document['photoUrl'],
-          //               )));
-          // },
+          onPressed: () => _handleRequestTap(context, document['nickname'],
+              document['id'], document['photoUrl']),
+          // Navigator.pushNamed(context, RequestPage.id),
+
           color: Colors.grey,
           padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
           shape:
@@ -175,5 +177,14 @@ class _ListReleasePageState extends State<ListReleasePage> {
     }
   }
 
-  
+  void _handleRequestTap(
+      BuildContext context, String name, String id, String photoUrl) {
+    if (id != currentUserId) {
+      prefs.setString('releaserId', id);
+      prefs.setString('releaserName', name);
+      prefs.setString('releaserPhotoUrL', photoUrl);
+
+      Navigator.pushNamed(context, RequestPage.id);
+    }
+  }
 }

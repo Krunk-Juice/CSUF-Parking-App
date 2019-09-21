@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'profile_sections/header_section.dart';
-import 'profile_sections/body_section.dart';
+import 'package:flutter_parking_app/screens/drawer_navigations/profile_sections/body_section.dart';
+import 'package:flutter_parking_app/screens/drawer_navigations/profile_sections/header_section.dart';
+
+
 
 class ProfilePage extends StatefulWidget {
         static const String id ="profile"; 
