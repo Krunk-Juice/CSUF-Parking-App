@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class ListViewPage extends StatefulWidget
 {
-  static const String id ="list_view"; 
 
   @override
   _ListViewPageState createState() => _ListViewPageState();

@@ -1,15 +1,14 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_parking_app/screens/home_sections/list_release_page.dart';
 import 'free_parking_page.dart';
-import 'package:flutter_parking_app/screens/home_sections/list_view_page.dart';
 import 'package:flutter_parking_app/screens/home_sections/parking_map_page.dart';
 import 'package:flutter_parking_app/screens/navigation_drawer.dart';
-import 'package:flutter_parking_app/screens/profile_page.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
@@ -23,11 +22,18 @@ class _HomePageState extends State<HomePage> {
   String id = '';
   String nickname = '';
   String photoUrl = '';
+  bool release = false;
+  bool book = false;
+  int count =0;
+
+  
 
   @override
   void initState() {
     super.initState();
     readLocal();
+    // count =0;
+    // countRelease();
   }
 
   void readLocal() async {
@@ -35,10 +41,26 @@ class _HomePageState extends State<HomePage> {
     id = prefs.getString('id') ?? '';
     nickname = prefs.getString('nickname') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
-
+    release = prefs.getBool('release')?? false;
+    book = prefs.getBool('book')?? false;
     // Force refresh input
     setState(() {});
   }
+
+// void countRelease()async{
+//     await for (var snapshot in Firestore.instance.collection('releases').snapshots()){
+//       for(var i in snapshot.documents)
+//       {
+//         print(i.data);
+//         setState(() {
+//           count++;
+//         });
+        
+        
+//       }
+//     }
+//   }
+
 
   Future<bool> _onWillPop() {
     return showDialog(
@@ -93,22 +115,7 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.black,
                     fontWeight: FontWeight.w700,
                     fontSize: 30.0)),
-            // actions: <Widget>[
-            //   Container(
-            //     margin: EdgeInsets.only(right: 8.0),
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //       crossAxisAlignment: CrossAxisAlignment.center,
-            //       children: <Widget>[
-            //         Text('CSUF Parking',
-            //             style: TextStyle(
-            //                 color: Colors.blue,
-            //                 fontWeight: FontWeight.w700,
-            //                 fontSize: 14.0)),
-            //       ],
-            //     ),
-            //   )
-            // ],
+            
           ),
           body: StaggeredGridView.count(
             crossAxisCount: 2,
@@ -127,9 +134,9 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text('Profile',
+                            Text('Status',
                                 style: TextStyle(color: Colors.blueAccent)),
-                            Text(nickname,
+                            Text(release?'Releasing':book?'Booking':'Relaxing',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w700,
@@ -146,19 +153,11 @@ class _HomePageState extends State<HomePage> {
                                 height: 50.0,
                               ),
                             )
-                            // Center(
-                            //     child: Padding(
-                            //   padding: const EdgeInsets.all(16.0),
-                            //   child:
-                            //   Icon(
-                            //    Icons.timeline,
-                            //       color: Colors.white, size: 30.0),
-
-                            // ))
+                            
                             )
                       ]),
                 ),
-                onTap: () => Navigator.pushNamed(context, ProfilePage.id),
+                onTap: () => Null,
               ),
               _buildTile(
                 Padding(
@@ -225,11 +224,13 @@ class _HomePageState extends State<HomePage> {
                             Text('Parking Structures',
                                 style: TextStyle(
                                     color: Colors.redAccent, fontSize: 15)),
-                            Text('0 Available',
+
+                                    
+                            Text('$count Available',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 34.0))
+                                    fontSize: 34.0)),
                           ],
                         ),
                         Material(
@@ -243,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                             )))
                       ]),
                 ),
-                onTap: () => Navigator.pushNamed(context, ListViewPage.id),
+                onTap: () => Navigator.pushNamed(context, ListReleasePage.id),
               ),
               _buildTile(
                 Padding(

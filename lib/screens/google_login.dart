@@ -88,7 +88,9 @@ class GoogleLoginState extends State<GoogleLogin> {
           'email': firebaseUser.email,
           'phone': firebaseUser.phoneNumber,
           'createdAt': DateTime.now().toString(),
-          'chattingWith': null
+          'chattingWith': null,
+          'release': false,
+          'book': false,
         });
 
         // Write data to local
@@ -99,6 +101,8 @@ class GoogleLoginState extends State<GoogleLogin> {
         await prefs.setString('phone', currentUser.phoneNumber);
         await prefs.setString('nickname', currentUser.displayName);
         await prefs.setString('photoUrl', currentUser.photoUrl);
+        await prefs.setBool('release', false);
+        await prefs.setBool('book', false);
       } else {
         // Write data to local
         await prefs.setString('id', documents[0]['id']);
@@ -106,6 +110,8 @@ class GoogleLoginState extends State<GoogleLogin> {
          await prefs.setString('phone', documents[0]['phone']);
         await prefs.setString('nickname', documents[0]['nickname']);
         await prefs.setString('photoUrl', documents[0]['photoUrl']);
+        await prefs.setBool('release', documents[0]['release']);
+        await prefs.setBool('book', documents[0]['book']);
       }
       Fluttertoast.showToast(msg: "Sign in success");
       this.setState(() {
