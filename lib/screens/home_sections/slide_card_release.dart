@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_parking_app/screens/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:math' as math;
+import 'dart:io';
 
 SharedPreferences prefs;
 String id = '';
-String nickname = '';
-String photoUrl = '';
+// String nickname = '';
+// String photoUrl = '';
+TimeOfDay leaveTime;
 
-class SlideCardPage extends StatelessWidget {
+class SlideCardPage extends StatefulWidget {
   static const String id = 'slide_card';
+
+  @override
+  _SlideCardPageState createState() => _SlideCardPageState();
+}
+
+class _SlideCardPageState extends State<SlideCardPage> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -118,8 +128,8 @@ class _SlideCardsState extends State<SlideCards> {
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
-    nickname = prefs.getString('nickname') ?? '';
-    photoUrl = prefs.getString('photoUrl') ?? '';
+    // nickname = prefs.getString('nickname') ?? '';
+    // photoUrl = prefs.getString('photoUrl') ?? '';
     // Force refresh input
     setState(() {});
   }
@@ -252,7 +262,7 @@ class CardContent extends StatelessWidget {
               Transform.translate(
                 offset: Offset(48 * offset, 0),
                 child: RaisedButton(
-                  color: Colors.pink,
+                  color: Colors.blueAccent,
                   child: Transform.translate(
                     offset: Offset(24 * offset, 0),
                     child: Text('Release'),
@@ -261,7 +271,7 @@ class CardContent extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(32),
                   ),
-                  onPressed:()=> _handleRelease(context),
+                  onPressed: () => _handleRelease(context),
                 ),
               ),
             ],
@@ -271,32 +281,33 @@ class CardContent extends StatelessWidget {
     );
   }
 
-
-
-  void _handleRelease(BuildContext context)
-  {
+  void _handleRelease(BuildContext context) {
 //update release status
-                    Firestore.instance
-                        .collection('users')
-                        .document(id)
-                        .updateData({'release': true}).then((data) async {
-                      await prefs.setBool('release', true);
+    Firestore.instance.collection('users').document(id).updateData(
+        {'status': 'Releasing', 'parkAt': nameParking}).then((data) async {
+      await prefs.setString('status', 'Releasing');
 
-                      Fluttertoast.showToast(msg: "Update success");
-                    }).catchError((err) => print(err));
+      Fluttertoast.showToast(msg: "Update success");
+      Navigator.pushNamed(context, HomePage.id);
+    }).catchError((err) => print(err));
 
-                    //add new release to list
-                    Firestore.instance
-                        .collection('releases')
-                        .document(id)
-                        .setData({
-                          'nickname': nickname,
-                          'photoUrl': photoUrl,
-                          'parking': nameParking,
-                        })
-                        .then((result) => {
-                              Navigator.of(context).pop(),
-                            })
-                        .catchError((err) => print(err));
+    // //add new release to list
+    // Firestore.instance
+    //     .collection('releases')
+    //     .document(id)
+    //     .setData({
+    //       'id':id,
+    //       // 'nickname': nickname,
+    //       // 'photoUrl': photoUrl,
+    //       'parking': nameParking,
+    //       'occupied': false,
+    //       'timeRelease':null,
+    //     })
+    //     .then((result) => {
+    //           Navigator.of(context).pop(),
+    //         })
+    //     .catchError((err) => print(err));
   }
+
+  //TODO:create time picker for time leaving
 }

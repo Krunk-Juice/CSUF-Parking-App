@@ -7,19 +7,20 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 SharedPreferences prefs;
 
-class ListReleasePage extends StatefulWidget {
-  static const String id = "list_release";
+class ListRequestPage extends StatefulWidget {
+  static const String id = "list_request";
 
   @override
-  _ListReleasePageState createState() => _ListReleasePageState();
+  _ListRequestPageState createState() => _ListRequestPageState();
 }
 
-class _ListReleasePageState extends State<ListReleasePage> {
+class _ListRequestPageState extends State<ListRequestPage> {
   // FirebaseUser currentUser;
   bool isLoading = false;
   String id = '';
-  String nickname = '';
-  String photoUrl = '';
+  
+  // String nickname = '';
+  
   Firestore _firestore = Firestore.instance;
 
   @override
@@ -31,8 +32,8 @@ class _ListReleasePageState extends State<ListReleasePage> {
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
-    nickname = prefs.getString('nickname') ?? '';
-    photoUrl = prefs.getString('photoUrl') ?? '';
+    // nickname = prefs.getString('nickname') ?? '';
+    
 
     // Force refresh input
     setState(() {});
@@ -49,7 +50,7 @@ class _ListReleasePageState extends State<ListReleasePage> {
           onPressed: () => Navigator.of(context).pop(),
           icon: Icon(Icons.arrow_back, color: Colors.black),
         ),
-        title: Text('List Releasing Spot',
+        title: Text('List Requests Your Spot',
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
       ),
       body: SafeArea(
@@ -58,35 +59,31 @@ class _ListReleasePageState extends State<ListReleasePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             StreamBuilder(
-              stream: _firestore.collection('users').snapshots(),
+              stream: _firestore.collection('requests').document(id).collection('listRequests').snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final doc = snapshot.data.documents;
-                  List<ReleaserCard> releaserWidgets = [];
+                  List<RequestCard> bookerWidgets = [];
                   for (var item in doc) {
-                    final releaserName = item.data['nickname'];
-                    final releaserPhotoUrl = item.data['photoUrl'];
-                    final releaserStatus = item.data['status'];
-                    final releaserId = item.data['id'];
-                    final releaserParking = item.data['parkAt'];
-                    final releaserLeavingTime = item.data['leaveAt'];
-
+                    final releaserId = item.data['releaserId'];
+                    final bookerId = item.data['bookerId'];
+                    final bookerName = item.data['bookerName'];
+                    final bookerPhotoUrl = item.data['bookerPhotoUrl'];
                     
-
-                    if (releaserId != id && releaserStatus == 'Releasing') {
-                      final releaserWidget = ReleaserCard(
-                        releaserName: releaserName,
-                        releaserId: releaserId,
-                        releaserPhotoUrl: releaserPhotoUrl,
-                        releaserParking: releaserParking,
-                        releaserLeavingTime: releaserLeavingTime,
+                    if (releaserId == id ) {
+                      final bookerWidget = RequestCard(
+                        bookerName: bookerName,
+                        bookerId: bookerId,
+                        bookerPhotoUrl: bookerPhotoUrl,
+                        
+                        
                       );
-                      releaserWidgets.add(releaserWidget);
+                      bookerWidgets.add(bookerWidget);
                     }
                   }
                   return Expanded(
                     child: ListView(
-                      children: releaserWidgets,
+                      children: bookerWidgets,
                     ),
                   );
                 }
@@ -99,20 +96,17 @@ class _ListReleasePageState extends State<ListReleasePage> {
   }
 }
 
-class ReleaserCard extends StatelessWidget {
-  final String releaserName;
-  final String releaserId;
-  final String releaserPhotoUrl;
-  final String releaserParking;
-  final String releaserLeavingTime;
+class RequestCard extends StatelessWidget {
+  final String bookerName;
+  final String bookerId;
+  final String bookerPhotoUrl;
+  
 
-  const ReleaserCard(
+  const RequestCard(
       {Key key,
-      @required this.releaserName,
-      @required this.releaserParking,
-      @required this.releaserLeavingTime,
-      @required this.releaserId,
-      @required this.releaserPhotoUrl})
+      @required this.bookerName,
+      @required this.bookerId,
+      @required this.bookerPhotoUrl})
       : super(key: key);
 
   @override
@@ -140,9 +134,9 @@ class ReleaserCard extends StatelessWidget {
                         child: InkWell(
                           onTap: () => {
                             //set prefs for releaser
-                            prefs.setString('releaserId', releaserId),
-                            prefs.setString('releaserName', releaserName),
-                            prefs.setString('releaserPhotoUrl', releaserPhotoUrl),
+                            prefs.setString('bookerId', bookerId),
+                            prefs.setString('bookerName', bookerName),
+                            prefs.setString('bookerPhotoUrl', bookerPhotoUrl),
                             Navigator.pushNamed(context, RequestPage.id),
                           },
                           // Navigator.push(
@@ -167,55 +161,55 @@ class ReleaserCard extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text(releaserName,
+                                    Text(bookerName,
                                         style: TextStyle(
                                             color: Colors.blueAccent)),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(
-                                            releaserParking != null
-                                                ? releaserParking
-                                                : 'Not Available',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 34.0)),
-                                        Icon(Icons.directions,
-                                            color: Colors.blue, size: 24.0),
-                                      ],
-                                    ),
+                                    // Row(
+                                    //   mainAxisAlignment:
+                                    //       MainAxisAlignment.start,
+                                    //   crossAxisAlignment:
+                                    //       CrossAxisAlignment.center,
+                                    //   children: <Widget>[
+                                    //     Text(
+                                    //         releaserParking != null
+                                    //             ? releaserParking
+                                    //             : 'Not Available',
+                                    //         style: TextStyle(
+                                    //             color: Colors.black,
+                                    //             fontWeight: FontWeight.w700,
+                                    //             fontSize: 34.0)),
+                                    //     Icon(Icons.directions,
+                                    //         color: Colors.blue, size: 24.0),
+                                    //   ],
+                                    // ),
                                   ],
                                 ),
 
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text('Release at', style: TextStyle()),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 4.0),
-                                      child: Material(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        color: Colors.green,
-                                        child: Padding(
-                                          padding: EdgeInsets.all(4.0),
-                                          child: Text(
-                                              releaserLeavingTime != null
-                                                  ? releaserLeavingTime
-                                                  : 'Not Available',
-                                              style: TextStyle(
-                                                  color: Colors.white)),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                // Row(
+                                //   mainAxisAlignment: MainAxisAlignment.start,
+                                //   crossAxisAlignment: CrossAxisAlignment.center,
+                                //   children: <Widget>[
+                                //     Text('Release at', style: TextStyle()),
+                                //     Padding(
+                                //       padding:
+                                //           EdgeInsets.symmetric(horizontal: 4.0),
+                                //       child: Material(
+                                //         borderRadius:
+                                //             BorderRadius.circular(8.0),
+                                //         color: Colors.green,
+                                //         child: Padding(
+                                //           padding: EdgeInsets.all(4.0),
+                                //           child: Text(
+                                //               releaserLeavingTime != null
+                                //                   ? releaserLeavingTime
+                                //                   : 'Not Available',
+                                //               style: TextStyle(
+                                //                   color: Colors.white)),
+                                //         ),
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
                               ],
                             ),
                           ),
@@ -235,10 +229,9 @@ class ReleaserCard extends StatelessWidget {
                             shape: CircleBorder(),
                             child: ClipOval(
                               child: CachedNetworkImage(
-                                imageUrl: releaserPhotoUrl,
+                                imageUrl: bookerPhotoUrl,
                                 fit: BoxFit.cover,
-                                // width: 50.0,
-                                // height: 50.0,
+                                
                               ),
                             ),
                           ),

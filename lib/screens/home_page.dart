@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/screens/drawer_navigations/navigation_drawer.dart';
 import 'package:flutter_parking_app/screens/home_sections/free_parking_page.dart';
 import 'package:flutter_parking_app/screens/home_sections/list_release_page.dart';
+import 'package:flutter_parking_app/screens/home_sections/list_request_page.dart';
 import 'package:flutter_parking_app/screens/home_sections/parking_map_page.dart';
+import 'package:flutter_parking_app/screens/home_sections/slide_card_release.dart';
+import 'package:flutter_parking_app/screens/home_sections/update_card.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget {
   static const String id = "home_page";
@@ -22,11 +24,9 @@ class _HomePageState extends State<HomePage> {
   String id = '';
   String nickname = '';
   String photoUrl = '';
-  bool release = false;
-  bool book = false;
-  int count =0;
+  String status = '';
 
-  
+  int count = 0;
 
   @override
   void initState() {
@@ -41,8 +41,7 @@ class _HomePageState extends State<HomePage> {
     id = prefs.getString('id') ?? '';
     nickname = prefs.getString('nickname') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
-    release = prefs.getBool('release')?? false;
-    book = prefs.getBool('book')?? false;
+    status = prefs.getString('status') ?? '';
     // Force refresh input
     setState(() {});
   }
@@ -55,12 +54,10 @@ class _HomePageState extends State<HomePage> {
 //         setState(() {
 //           count++;
 //         });
-        
-        
+
 //       }
 //     }
 //   }
-
 
   Future<bool> _onWillPop() {
     return showDialog(
@@ -76,7 +73,7 @@ class _HomePageState extends State<HomePage> {
               new FlatButton(
                 onPressed: () {
                   // handleSignOut();
-                  // Navigator.of(context).pop(true);
+                  // Navigator.pushNamedAndRemoveUntil(context, LoginPage.id, (Route <dynamic> route)=>false);
                   exit(0);
                 },
                 child: new Text('Yes'),
@@ -105,192 +102,203 @@ class _HomePageState extends State<HomePage> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-          endDrawer: Navigationdrawer(),
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: Colors.green),
-            elevation: 2.0,
-            backgroundColor: Colors.white,
-            title: Text('Dashboard',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 30.0)),
-            
-          ),
-          body: StaggeredGridView.count(
-            crossAxisCount: 2,
-            crossAxisSpacing: 12.0,
-            mainAxisSpacing: 12.0,
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            children: <Widget>[
-              _buildTile(
-                Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text('Status',
-                                style: TextStyle(color: Colors.blueAccent)),
-                            Text(release?'Releasing':book?'Booking':'Relaxing',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 30.0))
-                          ],
-                        ),
-                        Material(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(24.0),
+        endDrawer: Navigationdrawer(),
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.green),
+          elevation: 2.0,
+          backgroundColor: Colors.white,
+          title: Text('Dashboard',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 30.0)),
+        ),
+        body: StaggeredGridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12.0,
+          mainAxisSpacing: 12.0,
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          children: <Widget>[
+            _buildTile(
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('Status',
+                              style: TextStyle(color: Colors.blueAccent)),
+                          Text(
+                              status,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 30.0))
+                        ],
+                      ),
+                      Material(
+                            elevation: 15.0,
+                            shadowColor: Color(0x802196F3),
+                            shape: CircleBorder(),
                             child: ClipOval(
                               child: CachedNetworkImage(
                                 imageUrl: photoUrl,
-                                width: 50.0,
-                                height: 50.0,
+                                fit: BoxFit.cover,
+                                
                               ),
-                            )
-                            
-                            )
-                      ]),
-                ),
-                onTap: () => Null,
+                            ),
+                          ),
+                    ]),
               ),
-              _buildTile(
-                Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Material(
-                            color: Colors.teal,
-                            shape: CircleBorder(),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Icon(Icons.map,
-                                  color: Colors.white, size: 30.0),
-                            )),
-                        Padding(padding: EdgeInsets.only(bottom: 16.0)),
-                        Text('CSUF Map',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 24.0)),
-                        Text('Zones', style: TextStyle(color: Colors.teal)),
-                      ]),
-                ),
-                onTap: () => Navigator.pushNamed(context, ParkingMapPage.id),
+              onTap: () => Null,
+            ),
+            _buildTile(
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Material(
+                          color: Colors.teal,
+                          shape: CircleBorder(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Icon(Icons.map,
+                                color: Colors.white, size: 30.0),
+                          )),
+                      Padding(padding: EdgeInsets.only(bottom: 16.0)),
+                      Text('CSUF Map',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 24.0)),
+                      Text('Zoom In and Out Map', style: TextStyle(color: Colors.teal)),
+                    ]),
               ),
-              _buildTile(
-                Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Material(
-                            color: Colors.amber,
-                            shape: CircleBorder(),
-                            child: Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: Icon(Icons.notifications,
-                                  color: Colors.white, size: 30.0),
-                            )),
-                        Padding(padding: EdgeInsets.only(bottom: 16.0)),
-                        Text('Alerts',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 24.0)),
-                        Text('All ', style: TextStyle(color: Colors.black45)),
-                      ]),
-                ),
+              onTap: () => Navigator.pushNamed(context, ParkingMapPage.id),
+            ),
+            _buildTile(
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Material(
+                          color: Colors.amber,
+                          shape: CircleBorder(),
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Icon(Icons.notifications,
+                                color: Colors.white, size: 30.0),
+                          )),
+                      Padding(padding: EdgeInsets.only(bottom: 16.0)),
+                      Text('Requests',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 24.0)),
+                      Text('0', style: TextStyle(color: Colors.black45)),
+                    ]),
               ),
-              _buildTile(
-                Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text('Parking Structures',
-                                style: TextStyle(
-                                    color: Colors.redAccent, fontSize: 15)),
-
-                                    
-                            Text('$count Available',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 34.0)),
-                          ],
-                        ),
-                        Material(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(24.0),
-                            child: Center(
-                                child: Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: Icon(Icons.directions_car,
-                                  color: Colors.white, size: 30.0),
-                            )))
-                      ]),
-                ),
-                onTap: () => Navigator.pushNamed(context, ListReleasePage.id),
+              onTap: ()=> Navigator.pushNamed(context, ListRequestPage.id),
+            ),
+            _buildTile(
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('List Spot Holder Releasing',
+                              style: TextStyle(
+                                  color: Colors.pink, fontSize: 15)),
+                          Text('$count Available',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 34.0)),
+                        ],
+                      ),
+                      Material(
+                          color: Colors.pinkAccent,
+                          borderRadius: BorderRadius.circular(24.0),
+                          child: Center(
+                              child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Icon(Icons.directions_car,
+                                color: Colors.white, size: 30.0),
+                          )))
+                    ]),
               ),
-              _buildTile(
-                Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text('Free Parkings',
-                                style: TextStyle(
-                                    color: Colors.purpleAccent, fontSize: 15)),
-                            Text('4 Locations',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 34.0))
-                          ],
-                        ),
-                        Material(
-                            color: Colors.purple,
-                            borderRadius: BorderRadius.circular(24.0),
-                            child: Center(
-                                child: Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: Icon(Icons.explore,
-                                  color: Colors.white, size: 30.0),
-                            )))
-                      ]),
-                ),
-                onTap: () => Navigator.pushNamed(context, FreeParkingPage.id),
+              onTap: () => Navigator.pushNamed(context, ListReleasePage.id),
+            ),
+            _buildTile(
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('Free Parkings',
+                              style: TextStyle(
+                                  color: Colors.purpleAccent, fontSize: 15)),
+                          Text('4 Locations',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 34.0))
+                        ],
+                      ),
+                      Material(
+                          color: Colors.purple,
+                          borderRadius: BorderRadius.circular(24.0),
+                          child: Center(
+                              child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Icon(Icons.explore,
+                                color: Colors.white, size: 30.0),
+                          )))
+                    ]),
               ),
-            ],
-            staggeredTiles: [
-              StaggeredTile.extent(2, 110.0),
-              StaggeredTile.extent(1, 180.0),
-              StaggeredTile.extent(1, 180.0),
-              StaggeredTile.extent(2, 110.0),
-              StaggeredTile.extent(2, 110.0),
-            ],
-          )),
+              onTap: () => Navigator.pushNamed(context, FreeParkingPage.id),
+            ),
+          ],
+          staggeredTiles: [
+            StaggeredTile.extent(2, 110.0),
+            StaggeredTile.extent(1, 180.0),
+            StaggeredTile.extent(1, 180.0),
+            StaggeredTile.extent(2, 110.0),
+            StaggeredTile.extent(2, 110.0),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: (status=='Releasing'|| status=='Booking')
+              ? () => Navigator.pushNamed(context, UpdatePage.id)
+              : () => Navigator.pushNamed(context, SlideCardPage.id),
+          label: (status=='Releasing'|| status=='Booking') ? Text('Update') : Text('Release'),
+          icon: (status=='Releasing'|| status=='Booking') ? Icon(Icons.track_changes) : Icon(Icons.add),
+          backgroundColor:(status=='Releasing'||status=='Booking')? Colors.redAccent : Colors.blueAccent,
+          elevation: 14,
+        ),
+      ),
     );
   }
+
+
 
   Widget _buildTile(Widget child, {Function() onTap}) {
     return Material(

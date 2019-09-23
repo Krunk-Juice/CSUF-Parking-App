@@ -7,21 +7,21 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 SharedPreferences prefs;
 
-class RequestPage extends StatefulWidget {
-  static const String id = "request_card";
+class AcceptPage extends StatefulWidget {
+  static const String id = "accept_card";
   @override
-  _RequestPageState createState() => _RequestPageState();
+  _AcceptPageState createState() => _AcceptPageState();
 }
 
-class _RequestPageState extends State<RequestPage> {
+class _AcceptPageState extends State<AcceptPage> {
   String id = '';
   String nickname = '';
   String photoUrl = '';
   String status = '';
 
-  String releaserId = '';
-  String releaserName = '';
-  String releaserPhotoUrl = '';
+  String bookerId = '';
+  String bookerName = '';
+  String bookerPhotoUrl = '';
 
   @override
   void initState() {
@@ -33,13 +33,13 @@ class _RequestPageState extends State<RequestPage> {
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
-    nickname = prefs.getString('nickname') ?? '';
+     nickname = prefs.getString('nickname') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
     status = prefs.getString('status') ?? '';
 
-    releaserId = prefs.getString('releaserId') ?? '';
-    releaserName = prefs.getString('releaserName') ?? '';
-    releaserPhotoUrl = prefs.getString('releaserPhotoUrl') ?? '';
+    bookerId = prefs.getString('bookerId') ?? '';
+    bookerName = prefs.getString('bookerName') ?? '';
+    bookerPhotoUrl = prefs.getString('bookerPhotoUrl') ?? '';
 
     // Force refresh input
     setState(() {});
@@ -56,7 +56,7 @@ class _RequestPageState extends State<RequestPage> {
             onPressed: () => Navigator.of(context).pop(),
             icon: Icon(Icons.arrow_back, color: Colors.black),
           ),
-          title: Text('Request',
+          title: Text('Checking',
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
         ),
@@ -83,7 +83,7 @@ class _RequestPageState extends State<RequestPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text('Spot Holder',
+                                Text('Booker',
                                     style: TextStyle(
                                         fontSize: 30,
                                         fontWeight: FontWeight.normal,
@@ -102,14 +102,14 @@ class _RequestPageState extends State<RequestPage> {
                                     color: Colors.blue,
                                     borderRadius: BorderRadius.circular(24.0),
                                     child: ClipOval(
-                                      child: releaserPhotoUrl == null
+                                      child: bookerPhotoUrl == null
                                           ? Icon(
                                               Icons.account_circle,
                                               size: 90.0,
                                               color: Colors.grey,
                                             )
                                           : CachedNetworkImage(
-                                              imageUrl: releaserPhotoUrl,
+                                              imageUrl: bookerPhotoUrl,
                                               width: 50.0,
                                               height: 50.0,
                                             ),
@@ -124,7 +124,7 @@ class _RequestPageState extends State<RequestPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(releaserName,
+                                Text(bookerName,
                                     style: TextStyle(
                                         fontSize: 30,
                                         fontWeight: FontWeight.normal,
@@ -143,7 +143,7 @@ class _RequestPageState extends State<RequestPage> {
                   elevation: 15,
 
                   splashColor: Colors.blueAccent,
-                  child: Text('Request',
+                  child: Text('Accept',
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -151,7 +151,7 @@ class _RequestPageState extends State<RequestPage> {
 
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onPressed: () => (status == 'Releasing')
+                  onPressed: () => (status == 'Giving')
                       ? _handleError(context)
                       : _handleRequest(context),
                 ),
@@ -161,12 +161,12 @@ class _RequestPageState extends State<RequestPage> {
         )));
   }
 
-  Future  _handleError(BuildContext context) {
+  Future _handleError(BuildContext context) {
     return showDialog(
       context: context,
       builder: (context) => new AlertDialog(
         title: new Text('Check your status'),
-        content: new Text('Can not request while releasing'),
+        content: new Text('Can not accpect request while giving'),
         actions: <Widget>[
           new FlatButton(
             onPressed: () => Navigator.pushNamed(context, HomePage.id),
@@ -188,28 +188,39 @@ class _RequestPageState extends State<RequestPage> {
   void _handleRequest(BuildContext context) {
 //update release status
     Firestore.instance.collection('users').document(id).updateData({
-      'status': 'Booking',
+      'status': 'Giving',
     }).then((data) async {
-      await prefs.setString('status', 'Booking');
+      await prefs.setString('status', 'Giving');
 
       Fluttertoast.showToast(msg: "Update success");
     }).catchError((err) => print(err));
 
-
     Firestore.instance
         .collection('requests')
-        .document(releaserId)
-        .collection('listRequests')
         .document(id)
-        .setData({
-      'releaserId': releaserId,
-      'bookerId': id,
-      'bookerName': nickname,
-      'bookerPhotoUrl': photoUrl,
-      'accepted': false,
+        .collection('listRequests')
+        .document(bookerId)
+        .updateData({
+          'accepted': true,
+      
     }).then((data) async {
       Navigator.pushNamed(context, HomePage.id);
       Fluttertoast.showToast(msg: "Update success");
     }).catchError((err) => print(err));
+
+    // Firestore.instance
+    //     .collection('givings')
+    //     .document('releaserId')
+    //     .setData({
+    //   'releaserId': id,
+    //   'releaserName': nickname,
+    //   'releaserPhoto': photoUrl,
+    //   'bookerId': bookerId,
+    //   'bookerName': bookerName,
+    //   'bookerPhotoUrl': bookerPhotoUrl,
+    // }).then((data) async {
+    //   Navigator.pushNamed(context, HomePage.id);
+    //   Fluttertoast.showToast(msg: "Update success");
+    // }).catchError((err) => print(err));
   }
 }
