@@ -205,7 +205,8 @@ class _HomeState extends State<Home> {
                       Text('0', style: TextStyle(color: Colors.black45)),
                     ]),
               ),
-              onTap: ()=> Navigator.pushNamed(context, ListRequest.id),
+              onTap: ()=> null,
+              // Navigator.pushNamed(context, ListRequest.id),
             ),
             _buildTile(
               Padding(
