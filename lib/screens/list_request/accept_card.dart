@@ -191,22 +191,22 @@ class _AcceptCardState extends State<AcceptCard> {
       'status': 'Giving',
     }).then((data) async {
       await prefs.setString('status', 'Giving');
-
-      Fluttertoast.showToast(msg: "Update success");
-    }).catchError((err) => print(err));
-
-    Firestore.instance
-        .collection('requests')
-        .document(id)
-        .collection('listRequests')
-        .document(bookerId)
-        .updateData({
-          'accepted': true,
-      
-    }).then((data) async {
       Navigator.pushNamed(context, Home.id);
       Fluttertoast.showToast(msg: "Update success");
     }).catchError((err) => print(err));
+
+    // Firestore.instance
+    //     .collection('requests')
+    //     .document(id)
+    //     .collection('listRequests')
+    //     .document(bookerId)
+    //     .updateData({
+    //       'accepted': true,
+      
+    // }).then((data) async {
+      
+    //   Fluttertoast.showToast(msg: "Update success");
+    // }).catchError((err) => print(err));
 
     // Firestore.instance
     //     .collection('givings')

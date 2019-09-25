@@ -191,25 +191,25 @@ class _RequestCardState extends State<RequestCard> {
       'status': 'Booking',
     }).then((data) async {
       await prefs.setString('status', 'Booking');
-
+Navigator.pushNamed(context, Home.id);
       Fluttertoast.showToast(msg: "Update success");
     }).catchError((err) => print(err));
 
 
-    Firestore.instance
-        .collection('requests')
-        .document(releaserId)
-        .collection('listRequests')
-        .document(id)
-        .setData({
-      'releaserId': releaserId,
-      'bookerId': id,
-      'bookerName': nickname,
-      'bookerPhotoUrl': photoUrl,
-      'accepted': false,
-    }).then((data) async {
-      Navigator.pushNamed(context, Home.id);
-      Fluttertoast.showToast(msg: "Update success");
-    }).catchError((err) => print(err));
+    // Firestore.instance
+    //     .collection('requests')
+    //     .document(releaserId)
+    //     .collection('listRequests')
+    //     .document(id)
+    //     .setData({
+    //   'releaserId': releaserId,
+    //   'bookerId': id,
+    //   'bookerName': nickname,
+    //   'bookerPhotoUrl': photoUrl,
+    //   'accepted': false,
+    // }).then((data) async {
+    //   Navigator.pushNamed(context, Home.id);
+    //   Fluttertoast.showToast(msg: "Update success");
+    // }).catchError((err) => print(err));
   }
 }

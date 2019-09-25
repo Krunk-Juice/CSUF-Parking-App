@@ -189,20 +189,20 @@ class _UpdateStatusState extends State<UpdateStatus> {
       'status': 'Relaxing',
     }).then((data) async {
       await prefs.setString('status', 'Relaxing');
-
+      Navigator.pushNamed(context, Home.id);
       Fluttertoast.showToast(msg: "Update success");
       
     }).catchError((err) => print(err));
 
     //remove from list
 
-    Firestore.instance
-        .collection('requests')
-        .document(id)
-        .delete()
-        .then((result) => {
-              Navigator.pushNamed(context, Home.id),
-            })
-        .catchError((err) => print(err));
+    // Firestore.instance
+    //     .collection('requests')
+    //     .document(id)
+    //     .delete()
+    //     .then((result) => {
+    //           Navigator.pushNamed(context, Home.id),
+    //         })
+    //     .catchError((err) => print(err));
   }
 }
