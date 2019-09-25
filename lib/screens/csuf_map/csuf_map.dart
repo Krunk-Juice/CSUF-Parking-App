@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
 
-class ParkingMapPage extends StatelessWidget {
-      static const String id ="parking_map"; 
+class CsufMap extends StatelessWidget {
+      static const String id ="csuf_map"; 
 
   @override
   Widget build(BuildContext context) {

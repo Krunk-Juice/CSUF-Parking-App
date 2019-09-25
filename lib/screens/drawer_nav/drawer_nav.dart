@@ -2,22 +2,22 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/screens/drawer_navigations/profile_page.dart';
 import 'package:flutter_parking_app/main.dart';
+import 'package:flutter_parking_app/screens/profile/profile.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 
 
-class Navigationdrawer extends StatefulWidget {
-  static const String id = "navigation_drawer";
+class DrawerNav extends StatefulWidget {
+  static const String id = "drawer_navigation";
 
   @override
-  _NavigationdrawerState createState() => _NavigationdrawerState();
+  _DrawerNavState createState() => _DrawerNavState();
 }
 
-class _NavigationdrawerState extends State<Navigationdrawer> {
+class _DrawerNavState extends State<DrawerNav> {
   SharedPreferences prefs;
   
   final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -47,23 +47,26 @@ class _NavigationdrawerState extends State<Navigationdrawer> {
     return Drawer(
           child: ListView(
         children: <Widget>[
-          // UserAccountsDrawerHeader(
-          //   accountName: Text(nickname),
-          //   accountEmail: Text(id),
-          //   currentAccountPicture: CircleAvatar(
-          //     backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
-          //         ? Colors.blue
-          //         : Colors.white,
-          //     child: CachedNetworkImage(
-          //       imageUrl: photoUrl,
-                
-          //     ),  
-          //   ),
-          // ),
+          UserAccountsDrawerHeader(
+            accountName: Text(nickname),
+             accountEmail: Text(""),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
+                  ? Colors.blue
+                  : Colors.white,
+              child: ClipOval(
+                              child: CachedNetworkImage(
+                  imageUrl: photoUrl,
+                  fit: BoxFit.cover,
+                  
+                ),
+              ),  
+            ),
+          ),
           ListTile(
             title: Text("Profile"),
             trailing: Icon(Icons.arrow_forward),
-            onTap: ()=>Navigator.pushNamed(context, ProfilePage.id),
+            onTap: ()=>Navigator.pushNamed(context, Profile.id),
             
           ),
           ListTile(

@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_parking_app/screens/home_sections/request_card.dart';
+import 'package:flutter_parking_app/screens/list_release/request_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 SharedPreferences prefs;
 
-class ListRequestPage extends StatefulWidget {
-  static const String id = "list_request";
+class ListRelease extends StatefulWidget {
+  static const String id = "list_release";
 
   @override
-  _ListRequestPageState createState() => _ListRequestPageState();
+  _ListReleaseState createState() => _ListReleaseState();
 }
 
-class _ListRequestPageState extends State<ListRequestPage> {
+class _ListReleaseState extends State<ListRelease> {
   // FirebaseUser currentUser;
   bool isLoading = false;
   String id = '';
-  
-  // String nickname = '';
-  
+  String nickname = '';
+  String photoUrl = '';
   Firestore _firestore = Firestore.instance;
 
   @override
@@ -32,8 +30,8 @@ class _ListRequestPageState extends State<ListRequestPage> {
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
-    // nickname = prefs.getString('nickname') ?? '';
-    
+    nickname = prefs.getString('nickname') ?? '';
+    photoUrl = prefs.getString('photoUrl') ?? '';
 
     // Force refresh input
     setState(() {});
@@ -50,7 +48,7 @@ class _ListRequestPageState extends State<ListRequestPage> {
           onPressed: () => Navigator.of(context).pop(),
           icon: Icon(Icons.arrow_back, color: Colors.black),
         ),
-        title: Text('List Requests Your Spot',
+        title: Text('List Releasing Spot',
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
       ),
       body: SafeArea(
@@ -59,31 +57,35 @@ class _ListRequestPageState extends State<ListRequestPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             StreamBuilder(
-              stream: _firestore.collection('requests').document(id).collection('listRequests').snapshots(),
+              stream: _firestore.collection('users').snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final doc = snapshot.data.documents;
-                  List<RequestCard> bookerWidgets = [];
+                  List<ReleaseItem> releaserWidgets = [];
                   for (var item in doc) {
-                    final releaserId = item.data['releaserId'];
-                    final bookerId = item.data['bookerId'];
-                    final bookerName = item.data['bookerName'];
-                    final bookerPhotoUrl = item.data['bookerPhotoUrl'];
+                    final releaserName = item.data['nickname'];
+                    final releaserPhotoUrl = item.data['photoUrl'];
+                    final releaserStatus = item.data['status'];
+                    final releaserId = item.data['id'];
+                    final releaserParking = item.data['parkAt'];
+                    final releaserLeavingTime = item.data['leaveAt'];
+
                     
-                    if (releaserId == id ) {
-                      final bookerWidget = RequestCard(
-                        bookerName: bookerName,
-                        bookerId: bookerId,
-                        bookerPhotoUrl: bookerPhotoUrl,
-                        
-                        
+
+                    if (releaserId != id && releaserStatus == 'Releasing') {
+                      final releaserWidget = ReleaseItem(
+                        releaserName: releaserName,
+                        releaserId: releaserId,
+                        releaserPhotoUrl: releaserPhotoUrl,
+                        releaserParking: releaserParking,
+                        releaserLeavingTime: releaserLeavingTime,
                       );
-                      bookerWidgets.add(bookerWidget);
+                      releaserWidgets.add(releaserWidget);
                     }
                   }
                   return Expanded(
                     child: ListView(
-                      children: bookerWidgets,
+                      children: releaserWidgets,
                     ),
                   );
                 }
@@ -96,17 +98,20 @@ class _ListRequestPageState extends State<ListRequestPage> {
   }
 }
 
-class RequestCard extends StatelessWidget {
-  final String bookerName;
-  final String bookerId;
-  final String bookerPhotoUrl;
-  
+class ReleaseItem extends StatelessWidget {
+  final String releaserName;
+  final String releaserId;
+  final String releaserPhotoUrl;
+  final String releaserParking;
+  final String releaserLeavingTime;
 
-  const RequestCard(
+  const ReleaseItem(
       {Key key,
-      @required this.bookerName,
-      @required this.bookerId,
-      @required this.bookerPhotoUrl})
+      @required this.releaserName,
+      @required this.releaserParking,
+      @required this.releaserLeavingTime,
+      @required this.releaserId,
+      @required this.releaserPhotoUrl})
       : super(key: key);
 
   @override
@@ -134,10 +139,10 @@ class RequestCard extends StatelessWidget {
                         child: InkWell(
                           onTap: () => {
                             //set prefs for releaser
-                            prefs.setString('bookerId', bookerId),
-                            prefs.setString('bookerName', bookerName),
-                            prefs.setString('bookerPhotoUrl', bookerPhotoUrl),
-                            Navigator.pushNamed(context, RequestPage.id),
+                            prefs.setString('releaserId', releaserId),
+                            prefs.setString('releaserName', releaserName),
+                            prefs.setString('releaserPhotoUrl', releaserPhotoUrl),
+                            Navigator.pushNamed(context, RequestCard.id),
                           },
                           // Navigator.push(
                           //   context,
@@ -161,55 +166,55 @@ class RequestCard extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text(bookerName,
+                                    Text(releaserName,
                                         style: TextStyle(
                                             color: Colors.blueAccent)),
-                                    // Row(
-                                    //   mainAxisAlignment:
-                                    //       MainAxisAlignment.start,
-                                    //   crossAxisAlignment:
-                                    //       CrossAxisAlignment.center,
-                                    //   children: <Widget>[
-                                    //     Text(
-                                    //         releaserParking != null
-                                    //             ? releaserParking
-                                    //             : 'Not Available',
-                                    //         style: TextStyle(
-                                    //             color: Colors.black,
-                                    //             fontWeight: FontWeight.w700,
-                                    //             fontSize: 34.0)),
-                                    //     Icon(Icons.directions,
-                                    //         color: Colors.blue, size: 24.0),
-                                    //   ],
-                                    // ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                            releaserParking != null
+                                                ? releaserParking
+                                                : 'Not Available',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 34.0)),
+                                        Icon(Icons.directions,
+                                            color: Colors.blue, size: 24.0),
+                                      ],
+                                    ),
                                   ],
                                 ),
 
-                                // Row(
-                                //   mainAxisAlignment: MainAxisAlignment.start,
-                                //   crossAxisAlignment: CrossAxisAlignment.center,
-                                //   children: <Widget>[
-                                //     Text('Release at', style: TextStyle()),
-                                //     Padding(
-                                //       padding:
-                                //           EdgeInsets.symmetric(horizontal: 4.0),
-                                //       child: Material(
-                                //         borderRadius:
-                                //             BorderRadius.circular(8.0),
-                                //         color: Colors.green,
-                                //         child: Padding(
-                                //           padding: EdgeInsets.all(4.0),
-                                //           child: Text(
-                                //               releaserLeavingTime != null
-                                //                   ? releaserLeavingTime
-                                //                   : 'Not Available',
-                                //               style: TextStyle(
-                                //                   color: Colors.white)),
-                                //         ),
-                                //       ),
-                                //     ),
-                                //   ],
-                                // ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text('Release at', style: TextStyle()),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 4.0),
+                                      child: Material(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        color: Colors.green,
+                                        child: Padding(
+                                          padding: EdgeInsets.all(4.0),
+                                          child: Text(
+                                              releaserLeavingTime != null
+                                                  ? releaserLeavingTime
+                                                  : 'Not Available',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -229,9 +234,10 @@ class RequestCard extends StatelessWidget {
                             shape: CircleBorder(),
                             child: ClipOval(
                               child: CachedNetworkImage(
-                                imageUrl: bookerPhotoUrl,
+                                imageUrl: releaserPhotoUrl,
                                 fit: BoxFit.cover,
-                                
+                                // width: 50.0,
+                                // height: 50.0,
                               ),
                             ),
                           ),

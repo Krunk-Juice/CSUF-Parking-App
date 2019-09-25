@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/screens/home_page.dart';
+import 'package:flutter_parking_app/screens/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,21 +7,21 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 SharedPreferences prefs;
 
-class AcceptPage extends StatefulWidget {
-  static const String id = "accept_card";
+class RequestCard extends StatefulWidget {
+  static const String id = "request_card";
   @override
-  _AcceptPageState createState() => _AcceptPageState();
+  _RequestCardState createState() => _RequestCardState();
 }
 
-class _AcceptPageState extends State<AcceptPage> {
+class _RequestCardState extends State<RequestCard> {
   String id = '';
   String nickname = '';
   String photoUrl = '';
   String status = '';
 
-  String bookerId = '';
-  String bookerName = '';
-  String bookerPhotoUrl = '';
+  String releaserId = '';
+  String releaserName = '';
+  String releaserPhotoUrl = '';
 
   @override
   void initState() {
@@ -33,13 +33,13 @@ class _AcceptPageState extends State<AcceptPage> {
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
-     nickname = prefs.getString('nickname') ?? '';
+    nickname = prefs.getString('nickname') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
     status = prefs.getString('status') ?? '';
 
-    bookerId = prefs.getString('bookerId') ?? '';
-    bookerName = prefs.getString('bookerName') ?? '';
-    bookerPhotoUrl = prefs.getString('bookerPhotoUrl') ?? '';
+    releaserId = prefs.getString('releaserId') ?? '';
+    releaserName = prefs.getString('releaserName') ?? '';
+    releaserPhotoUrl = prefs.getString('releaserPhotoUrl') ?? '';
 
     // Force refresh input
     setState(() {});
@@ -56,7 +56,7 @@ class _AcceptPageState extends State<AcceptPage> {
             onPressed: () => Navigator.of(context).pop(),
             icon: Icon(Icons.arrow_back, color: Colors.black),
           ),
-          title: Text('Checking',
+          title: Text('Request',
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
         ),
@@ -83,7 +83,7 @@ class _AcceptPageState extends State<AcceptPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text('Booker',
+                                Text('Spot Holder',
                                     style: TextStyle(
                                         fontSize: 30,
                                         fontWeight: FontWeight.normal,
@@ -102,14 +102,14 @@ class _AcceptPageState extends State<AcceptPage> {
                                     color: Colors.blue,
                                     borderRadius: BorderRadius.circular(24.0),
                                     child: ClipOval(
-                                      child: bookerPhotoUrl == null
+                                      child: releaserPhotoUrl == null
                                           ? Icon(
                                               Icons.account_circle,
                                               size: 90.0,
                                               color: Colors.grey,
                                             )
                                           : CachedNetworkImage(
-                                              imageUrl: bookerPhotoUrl,
+                                              imageUrl: releaserPhotoUrl,
                                               width: 50.0,
                                               height: 50.0,
                                             ),
@@ -124,7 +124,7 @@ class _AcceptPageState extends State<AcceptPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(bookerName,
+                                Text(releaserName,
                                     style: TextStyle(
                                         fontSize: 30,
                                         fontWeight: FontWeight.normal,
@@ -143,7 +143,7 @@ class _AcceptPageState extends State<AcceptPage> {
                   elevation: 15,
 
                   splashColor: Colors.blueAccent,
-                  child: Text('Accept',
+                  child: Text('Request',
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -151,7 +151,7 @@ class _AcceptPageState extends State<AcceptPage> {
 
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onPressed: () => (status == 'Giving')
+                  onPressed: () => (status == 'Releasing')
                       ? _handleError(context)
                       : _handleRequest(context),
                 ),
@@ -161,15 +161,15 @@ class _AcceptPageState extends State<AcceptPage> {
         )));
   }
 
-  Future _handleError(BuildContext context) {
+  Future  _handleError(BuildContext context) {
     return showDialog(
       context: context,
       builder: (context) => new AlertDialog(
         title: new Text('Check your status'),
-        content: new Text('Can not accpect request while giving'),
+        content: new Text('Can not request while releasing'),
         actions: <Widget>[
           new FlatButton(
-            onPressed: () => Navigator.pushNamed(context, HomePage.id),
+            onPressed: () => Navigator.pushNamed(context, Home.id),
             child: new Text('OK'),
           ),
           // new FlatButton(
@@ -188,39 +188,28 @@ class _AcceptPageState extends State<AcceptPage> {
   void _handleRequest(BuildContext context) {
 //update release status
     Firestore.instance.collection('users').document(id).updateData({
-      'status': 'Giving',
+      'status': 'Booking',
     }).then((data) async {
-      await prefs.setString('status', 'Giving');
+      await prefs.setString('status', 'Booking');
 
       Fluttertoast.showToast(msg: "Update success");
     }).catchError((err) => print(err));
+
 
     Firestore.instance
         .collection('requests')
-        .document(id)
+        .document(releaserId)
         .collection('listRequests')
-        .document(bookerId)
-        .updateData({
-          'accepted': true,
-      
+        .document(id)
+        .setData({
+      'releaserId': releaserId,
+      'bookerId': id,
+      'bookerName': nickname,
+      'bookerPhotoUrl': photoUrl,
+      'accepted': false,
     }).then((data) async {
-      Navigator.pushNamed(context, HomePage.id);
+      Navigator.pushNamed(context, Home.id);
       Fluttertoast.showToast(msg: "Update success");
     }).catchError((err) => print(err));
-
-    // Firestore.instance
-    //     .collection('givings')
-    //     .document('releaserId')
-    //     .setData({
-    //   'releaserId': id,
-    //   'releaserName': nickname,
-    //   'releaserPhoto': photoUrl,
-    //   'bookerId': bookerId,
-    //   'bookerName': bookerName,
-    //   'bookerPhotoUrl': bookerPhotoUrl,
-    // }).then((data) async {
-    //   Navigator.pushNamed(context, HomePage.id);
-    //   Fluttertoast.showToast(msg: "Update success");
-    // }).catchError((err) => print(err));
   }
 }

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/screens/drawer_navigations/profile_sections/body_section.dart';
-import 'package:flutter_parking_app/screens/drawer_navigations/profile_sections/header_section.dart';
+import 'package:flutter_parking_app/screens/profile/profile_body.dart';
+import 'package:flutter_parking_app/screens/profile/profile_header.dart';
 
 
 
-class ProfilePage extends StatefulWidget {
+class Profile extends StatefulWidget {
         static const String id ="profile"; 
 
   @override
   MapScreenState createState() => MapScreenState();
 }
 
-class MapScreenState extends State<ProfilePage> with SingleTickerProviderStateMixin {
+class MapScreenState extends State<Profile> with SingleTickerProviderStateMixin {
   //bool _status = true;
   //final FocusNode myFocusNode = FocusNode();
 
@@ -44,8 +44,8 @@ class MapScreenState extends State<ProfilePage> with SingleTickerProviderStateMi
             Column(children: <Widget>[
 
               /* Header and Image Section */
-              ProfileHeaderSection(),
-              ProfileBodySection(),
+              ProfileHeader(),
+              ProfileBody(),
                 /* Infomation Section */
             ],)
           ],

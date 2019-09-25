@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_parking_app/screens/home_page.dart';
+import 'package:flutter_parking_app/screens/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:math' as math;
@@ -12,96 +12,99 @@ String id = '';
 // String photoUrl = '';
 TimeOfDay leaveTime;
 
-class SlideCardPage extends StatefulWidget {
-  static const String id = 'slide_card';
+class SlideCardRelease extends StatefulWidget {
+  static const String id = 'slide_card_release';
 
   @override
-  _SlideCardPageState createState() => _SlideCardPageState();
+  _SlideCardReleaseState createState() => _SlideCardReleaseState();
 }
 
-class _SlideCardPageState extends State<SlideCardPage> {
+class _SlideCardReleaseState extends State<SlideCardRelease> {
 
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-          color: Colors.black,
-          onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-        ),
-        // title: Text('Releasing',
-        //     style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
-      ),
-      body: Stack(
-        children: <Widget>[
-          SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(height: 20),
-                _buildTile(
-                  Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text('Where you park your car?',
-                                  style: TextStyle(
-                                      color: Colors.redAccent, fontSize: 15)),
-                              Text('Please choose one!',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 20)),
-                            ],
-                          ),
-                          Material(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(24.0),
-                              child: Center(
-                                  child: Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Icon(Icons.directions_car,
-                                    color: Colors.white, size: 30.0),
-                              )))
-                        ]),
-                  ),
-                  onTap: () => null,
-                ),
-                SizedBox(height: 100),
-                SlideCards(),
-                SizedBox(height: 10),
-              ],
-            ),
+    return SafeArea(
+          child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          elevation: 0.0,
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+            color: Colors.black,
+            onPressed: () => Navigator.of(context).pop(),
+            icon: Icon(Icons.arrow_back, color: Colors.black),
           ),
-        ],
+          // title: Text('Releasing',
+          //     style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
+        ),
+        body: Stack(
+          children: <Widget>[
+            SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(height: 10),
+                  _buildTile(
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text('Where you park your car?',
+                                    style: TextStyle(
+                                        color: Colors.redAccent, fontSize: 15)),
+                                Text('Please choose one!',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 20)),
+                              ],
+                            ),
+                            Material(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(24.0),
+                                child: Center(
+                                    child: Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Icon(Icons.directions_car,
+                                      color: Colors.white, size: 30.0),
+                                )))
+                          ]),
+                    ),
+                    onTap: () => null,
+                  ),
+                  SizedBox(height: 80),
+                  Flexible(child: SlideCards(),),
+                  SizedBox(height: 10),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildTile(Widget child, {Function() onTap}) {
-    return Material(
-        elevation: 14.0,
-        borderRadius: BorderRadius.circular(12.0),
-        shadowColor: Color(0x802196F3),
-        child: InkWell(
-            // Do onTap() if it isn't null, otherwise do print()
-            onTap: onTap != null
-                ? () => onTap()
-                : () {
-                    print('Not set yet');
-                  },
-            child: child));
+    return 
+           Material(
+          elevation: 14.0,
+          borderRadius: BorderRadius.circular(12.0),
+          shadowColor: Color(0x802196F3),
+          child: InkWell(
+              // Do onTap() if it isn't null, otherwise do print()
+              onTap: onTap != null
+                  ? () => onTap()
+                  : () {
+                      print('Not set yet');
+                    },
+              child: child));
   }
 }
 
@@ -288,7 +291,7 @@ class CardContent extends StatelessWidget {
       await prefs.setString('status', 'Releasing');
 
       Fluttertoast.showToast(msg: "Update success");
-      Navigator.pushNamed(context, HomePage.id);
+      Navigator.pushNamed(context, Home.id);
     }).catchError((err) => print(err));
 
     // //add new release to list

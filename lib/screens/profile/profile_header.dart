@@ -8,12 +8,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class ProfileHeaderSection extends StatefulWidget {
+class ProfileHeader extends StatefulWidget {
   @override
-  _ProfileHeaderSectionState createState() => _ProfileHeaderSectionState();
+  _ProfileHeaderState createState() => _ProfileHeaderState();
 }
 
-class _ProfileHeaderSectionState extends State<ProfileHeaderSection> {
+class _ProfileHeaderState extends State<ProfileHeader> {
   File avatarImageFile;
   SharedPreferences prefs;
   
@@ -112,23 +112,28 @@ Future getImage() async {
                       (avatarImageFile == null)
                           ? (photoUrl != ''
                               ? Material(
-                                  child: CachedNetworkImage(
-                                    placeholder: (context, url) => Container(
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2.0,
-                                            valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                                  child: ClipOval(
+                                                                      child: CachedNetworkImage(
+                                      placeholder: (context, url) => Container(
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2.0,
+                                              valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                                            ),
+                                            // width: 90.0,
+                                            // height: 90.0,
+                                            padding: EdgeInsets.all(20.0),
                                           ),
-                                          width: 90.0,
-                                          height: 90.0,
-                                          padding: EdgeInsets.all(20.0),
-                                        ),
-                                    imageUrl: photoUrl,
-                                    width: 90.0,
-                                    height: 90.0,
-                                    fit: BoxFit.cover,
+                                          
+                                      imageUrl: photoUrl,
+                                      // width: 90.0,
+                                      // height: 90.0,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                  borderRadius: BorderRadius.all(Radius.circular(45.0)),
+                                  shape: CircleBorder(),
                                   clipBehavior: Clip.hardEdge,
+                                  elevation: 15.0,
+                                  shadowColor: Colors.grey,
                                 )
                               : Icon(
                                   Icons.account_circle,
@@ -167,12 +172,5 @@ Future getImage() async {
     );
   }
 
-  // Future getImage() async {
-  //   var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-  //   setState(() {
-  //     _image = image;
-  //     print('Image Path $_image');
-  //   });
-  // }
+  
 }

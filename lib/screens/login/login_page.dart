@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'home_page.dart';
+import 'package:flutter_parking_app/screens/home/home.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 //TODO(chris): adding comments
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
               null) // if user not validate sign in with firebase it will be null
           {
             //Navigate to homepage after sign in
-            Navigator.pushNamed(context, HomePage.id);
+            Navigator.pushNamed(context, Home.id);
           }
         } else {
           //sign up user with firebase

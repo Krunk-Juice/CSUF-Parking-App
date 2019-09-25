@@ -11,17 +11,17 @@ const _pinkHue = 350.0;
 final _placesApiClient = GoogleMapsPlaces(apiKey: googleMapsApiKey);
 
 
-class FreeParkingPage extends StatefulWidget {
-  static const String id = 'free_parking_locations';
+class FreeParkingMap extends StatefulWidget {
+  static const String id = 'free_parking_map';
   // const MapPage({@required this.title});
 
   // final String title;
 
   @override
-  _FreeParkingPageState createState() => _FreeParkingPageState();
+  _FreeParkingMapState createState() => _FreeParkingMapState();
 }
 
-class _FreeParkingPageState extends State<FreeParkingPage> {
+class _FreeParkingMapState extends State<FreeParkingMap> {
   Stream<QuerySnapshot> _freeParkingLocations;
   final Completer<GoogleMapController> _mapController = Completer();
 

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/screens/home_page.dart';
-
-import 'package:flutter_parking_app/screens/home_sections/list_release_page.dart';
+import 'package:flutter_parking_app/screens/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,21 +7,21 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 SharedPreferences prefs;
 
-class UpdatePage extends StatefulWidget {
-  static const String id = "update_card";
+class AcceptCard extends StatefulWidget {
+  static const String id = "accept_card";
   @override
-  _UpdatePageState createState() => _UpdatePageState();
+  _AcceptCardState createState() => _AcceptCardState();
 }
 
-class _UpdatePageState extends State<UpdatePage> {
+class _AcceptCardState extends State<AcceptCard> {
   String id = '';
   String nickname = '';
   String photoUrl = '';
   String status = '';
 
-  String releaserId = '';
-  String releaserName = '';
-  String releaserPhotoUrl = '';
+  String bookerId = '';
+  String bookerName = '';
+  String bookerPhotoUrl = '';
 
   @override
   void initState() {
@@ -35,13 +33,13 @@ class _UpdatePageState extends State<UpdatePage> {
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
-    nickname = prefs.getString('nickname') ?? '';
+     nickname = prefs.getString('nickname') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
     status = prefs.getString('status') ?? '';
 
-    releaserId = prefs.getString('releaserId') ?? '';
-    releaserName = prefs.getString('releaserName') ?? '';
-    releaserPhotoUrl = prefs.getString('releaserPhotoUrl') ?? '';
+    bookerId = prefs.getString('bookerId') ?? '';
+    bookerName = prefs.getString('bookerName') ?? '';
+    bookerPhotoUrl = prefs.getString('bookerPhotoUrl') ?? '';
 
     // Force refresh input
     setState(() {});
@@ -58,7 +56,7 @@ class _UpdatePageState extends State<UpdatePage> {
             onPressed: () => Navigator.of(context).pop(),
             icon: Icon(Icons.arrow_back, color: Colors.black),
           ),
-          title: Text('Update',
+          title: Text('Checking',
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
         ),
@@ -85,7 +83,7 @@ class _UpdatePageState extends State<UpdatePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(status,
+                                Text('Booker',
                                     style: TextStyle(
                                         fontSize: 30,
                                         fontWeight: FontWeight.normal,
@@ -104,14 +102,14 @@ class _UpdatePageState extends State<UpdatePage> {
                                     color: Colors.blue,
                                     borderRadius: BorderRadius.circular(24.0),
                                     child: ClipOval(
-                                      child: photoUrl == null
+                                      child: bookerPhotoUrl == null
                                           ? Icon(
                                               Icons.account_circle,
                                               size: 90.0,
                                               color: Colors.grey,
                                             )
                                           : CachedNetworkImage(
-                                              imageUrl: photoUrl,
+                                              imageUrl: bookerPhotoUrl,
                                               width: 50.0,
                                               height: 50.0,
                                             ),
@@ -126,7 +124,7 @@ class _UpdatePageState extends State<UpdatePage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(nickname,
+                                Text(bookerName,
                                     style: TextStyle(
                                         fontSize: 30,
                                         fontWeight: FontWeight.normal,
@@ -145,7 +143,7 @@ class _UpdatePageState extends State<UpdatePage> {
                   elevation: 15,
 
                   splashColor: Colors.blueAccent,
-                  child: Text('Cancel',
+                  child: Text('Accept',
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -153,9 +151,9 @@ class _UpdatePageState extends State<UpdatePage> {
 
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onPressed: () => (status == 'Releasing')
-                      ? _handleCancelReleasing(context)
-                      : _handleCancelBooking(context),
+                  onPressed: () => (status == 'Giving')
+                      ? _handleError(context)
+                      : _handleRequest(context),
                 ),
               ],
             )
@@ -163,48 +161,66 @@ class _UpdatePageState extends State<UpdatePage> {
         )));
   }
 
-  void _handleCancelBooking(BuildContext context) {
-//update release status
-    Firestore.instance.collection('users').document(id).updateData({
-      'status': 'Relaxing',
-    }).then((data) async {
-      await prefs.setString('status', 'Relaxing');
-      Navigator.pushNamed(context, HomePage.id);
-      Fluttertoast.showToast(msg: "Update success");
-    }).catchError((err) => print(err));
+  Future _handleError(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Check your status'),
+        content: new Text('Can not accpect request while giving'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.pushNamed(context, Home.id),
+            child: new Text('OK'),
+          ),
+          // new FlatButton(
+          //   onPressed: () {
+          //     // handleSignOut();
+          //     // Navigator.pushNamedAndRemoveUntil(context, LoginPage.id, (Route <dynamic> route)=>false);
 
-    //remove from request list
-
-    // Firestore.instance
-    //     .collection('requests')
-    //     .document(id)
-    //     .delete()
-    //     .then((result) => {
-    //           Navigator.pushNamed(context, HomePage.id),
-    //         })
-    //     .catchError((err) => print(err));
+          //   },
+          //   child: new Text('Yes'),
+          // ),
+        ],
+      ),
+    );
   }
 
-  void _handleCancelReleasing(BuildContext context) {
+  void _handleRequest(BuildContext context) {
 //update release status
     Firestore.instance.collection('users').document(id).updateData({
-      'status': 'Relaxing',
+      'status': 'Giving',
     }).then((data) async {
-      await prefs.setString('status', 'Relaxing');
+      await prefs.setString('status', 'Giving');
 
       Fluttertoast.showToast(msg: "Update success");
-      
     }).catchError((err) => print(err));
-
-    //remove from list
 
     Firestore.instance
         .collection('requests')
         .document(id)
-        .delete()
-        .then((result) => {
-              Navigator.pushNamed(context, HomePage.id),
-            })
-        .catchError((err) => print(err));
+        .collection('listRequests')
+        .document(bookerId)
+        .updateData({
+          'accepted': true,
+      
+    }).then((data) async {
+      Navigator.pushNamed(context, Home.id);
+      Fluttertoast.showToast(msg: "Update success");
+    }).catchError((err) => print(err));
+
+    // Firestore.instance
+    //     .collection('givings')
+    //     .document('releaserId')
+    //     .setData({
+    //   'releaserId': id,
+    //   'releaserName': nickname,
+    //   'releaserPhoto': photoUrl,
+    //   'bookerId': bookerId,
+    //   'bookerName': bookerName,
+    //   'bookerPhotoUrl': bookerPhotoUrl,
+    // }).then((data) async {
+    //   Navigator.pushNamed(context, HomePage.id);
+    //   Fluttertoast.showToast(msg: "Update success");
+    // }).catchError((err) => print(err));
   }
 }

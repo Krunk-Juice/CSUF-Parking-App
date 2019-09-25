@@ -3,12 +3,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class ProfileBodySection extends StatefulWidget {
+class ProfileBody extends StatefulWidget {
   @override
   _ProfileBodyState createState() => _ProfileBodyState();
 }
 
-class _ProfileBodyState extends State<ProfileBodySection> {
+class _ProfileBodyState extends State<ProfileBody> {
   bool _status = true;
   final FocusNode myFocusNode = FocusNode();
   SharedPreferences prefs;

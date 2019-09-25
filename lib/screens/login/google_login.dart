@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/screens/home_page.dart';
+import 'package:flutter_parking_app/screens/home/home.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -43,7 +43,7 @@ class GoogleLoginState extends State<GoogleLogin> {
       //   context,
       //   MaterialPageRoute(builder: (context) => MainScreen(currentUserId: prefs.getString('id'))),
       // );
-      Navigator.pushNamed(context, HomePage.id);
+      Navigator.pushNamed(context, Home.id);
     }
 
     this.setState(() {
@@ -119,7 +119,7 @@ class GoogleLoginState extends State<GoogleLogin> {
       this.setState(() {
         isLoading = false;
       });
-      Navigator.pushNamed(context, HomePage.id);
+      Navigator.pushNamed(context, Home.id);
       // Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen(currentUserId: firebaseUser.uid)));
     } else {
       Fluttertoast.showToast(msg: "Sign in fail");

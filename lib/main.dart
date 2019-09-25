@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/screens/drawer_navigations/navigation_drawer.dart';
-import 'package:flutter_parking_app/screens/drawer_navigations/profile_page.dart';
-import 'package:flutter_parking_app/screens/google_login.dart';
-import 'package:flutter_parking_app/screens/home_sections/accept_card.dart';
-import 'package:flutter_parking_app/screens/home_sections/free_parking_page.dart';
-import 'package:flutter_parking_app/screens/home_sections/list_release_page.dart';
-import 'package:flutter_parking_app/screens/home_sections/list_request_page.dart';
-import 'package:flutter_parking_app/screens/home_sections/parking_map_page.dart';
-import 'package:flutter_parking_app/screens/home_sections/request_card.dart';
-import 'package:flutter_parking_app/screens/home_sections/slide_card_release.dart';
-import 'package:flutter_parking_app/screens/home_sections/update_card.dart';
-import 'screens/login_page.dart';
-import 'screens/home_page.dart';
-
+import 'package:flutter_parking_app/screens/csuf_map/csuf_map.dart';
+import 'package:flutter_parking_app/screens/drawer_nav/drawer_nav.dart';
+import 'package:flutter_parking_app/screens/free_parking_map/free_parking_map.dart';
+import 'package:flutter_parking_app/screens/home/home.dart';
+import 'package:flutter_parking_app/screens/home/slide_card_release.dart';
+import 'package:flutter_parking_app/screens/home/update_status.dart';
+import 'package:flutter_parking_app/screens/list_release/list_release.dart';
+import 'package:flutter_parking_app/screens/list_release/request_card.dart';
+import 'package:flutter_parking_app/screens/list_request/accept_card.dart';
+import 'package:flutter_parking_app/screens/list_request/list_request.dart';
+import 'package:flutter_parking_app/screens/login/google_login.dart';
+import 'package:flutter_parking_app/screens/profile/profile.dart';
 
 void main() => runApp(MyApp());
 
@@ -28,22 +26,20 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: 'google_login',
       routes: {
-        'google_login': (context)=>GoogleLogin(),
-        'login_page': (context)=>LoginPage(),
-        'home_page': (context)=>HomePage(),
-        'profile': (context)=>ProfilePage(),
-        'navigation_drawer': (context)=>Navigationdrawer(),
-        'list_release': (context)=>ListReleasePage(),
-        'free_parking_locations': (context)=>FreeParkingPage(),
-        'parking_map': (context)=>ParkingMapPage(),
-        'slide_card': (context)=>SlideCardPage(),
-        'request_card': (context)=>RequestPage(),
-         'update_card': (context)=>UpdatePage(),
-         'accept_card': (context)=>AcceptPage(),
-         'list_request': (context)=>ListRequestPage(),
+        'google_login': (context) => GoogleLogin(),
+        // 'login_page': (context)=>LoginPage(),
+        'home': (context) => Home(),
+        'profile': (context) => Profile(),
+        'drawer_navigation': (context) => DrawerNav(),
+        'csuf_map': (context) => CsufMap(),
+        'free_parking_map': (context) => FreeParkingMap(),
+        'slide_card_release': (context) => SlideCardRelease(),
+        'update_status': (context) => UpdateStatus(),
+        'list_release': (context) => ListRelease(),
+        'request_card': (context) => RequestCard(),
+        'accept_card': (context) => AcceptCard(),
+        'list_request': (context) => ListRequest(),
       },
     );
   }
-
-  
 }

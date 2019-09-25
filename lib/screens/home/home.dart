@@ -1,24 +1,23 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/screens/drawer_navigations/navigation_drawer.dart';
-import 'package:flutter_parking_app/screens/home_sections/free_parking_page.dart';
-import 'package:flutter_parking_app/screens/home_sections/list_release_page.dart';
-import 'package:flutter_parking_app/screens/home_sections/list_request_page.dart';
-import 'package:flutter_parking_app/screens/home_sections/parking_map_page.dart';
-import 'package:flutter_parking_app/screens/home_sections/slide_card_release.dart';
-import 'package:flutter_parking_app/screens/home_sections/update_card.dart';
+import 'package:flutter_parking_app/screens/csuf_map/csuf_map.dart';
+import 'package:flutter_parking_app/screens/drawer_nav/drawer_nav.dart';
+import 'package:flutter_parking_app/screens/free_parking_map/free_parking_map.dart';
+import 'package:flutter_parking_app/screens/home/slide_card_release.dart';
+import 'package:flutter_parking_app/screens/home/update_status.dart';
+import 'package:flutter_parking_app/screens/list_request/list_request.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class HomePage extends StatefulWidget {
-  static const String id = "home_page";
+class Home extends StatefulWidget {
+  static const String id = "home";
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeState createState() => _HomeState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeState extends State<Home> {
   SharedPreferences prefs;
   final GoogleSignIn googleSignIn = GoogleSignIn();
   String id = '';
@@ -102,7 +101,7 @@ class _HomePageState extends State<HomePage> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        endDrawer: Navigationdrawer(),
+        endDrawer: DrawerNav(),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.green),
           elevation: 2.0,
@@ -180,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                       Text('Zoom In and Out Map', style: TextStyle(color: Colors.teal)),
                     ]),
               ),
-              onTap: () => Navigator.pushNamed(context, ParkingMapPage.id),
+              onTap: () => Navigator.pushNamed(context, CsufMap.id),
             ),
             _buildTile(
               Padding(
@@ -206,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                       Text('0', style: TextStyle(color: Colors.black45)),
                     ]),
               ),
-              onTap: ()=> Navigator.pushNamed(context, ListRequestPage.id),
+              onTap: ()=> Navigator.pushNamed(context, ListRequest.id),
             ),
             _buildTile(
               Padding(
@@ -240,7 +239,7 @@ class _HomePageState extends State<HomePage> {
                           )))
                     ]),
               ),
-              onTap: () => Navigator.pushNamed(context, ListReleasePage.id),
+              onTap: () => Navigator.pushNamed(context, ListRequest.id),
             ),
             _buildTile(
               Padding(
@@ -274,7 +273,7 @@ class _HomePageState extends State<HomePage> {
                           )))
                     ]),
               ),
-              onTap: () => Navigator.pushNamed(context, FreeParkingPage.id),
+              onTap: () => Navigator.pushNamed(context, FreeParkingMap.id),
             ),
           ],
           staggeredTiles: [
@@ -287,8 +286,8 @@ class _HomePageState extends State<HomePage> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: (status=='Releasing'|| status=='Booking')
-              ? () => Navigator.pushNamed(context, UpdatePage.id)
-              : () => Navigator.pushNamed(context, SlideCardPage.id),
+              ? () => Navigator.pushNamed(context, UpdateStatus.id)
+              : () => Navigator.pushNamed(context, SlideCardRelease.id),
           label: (status=='Releasing'|| status=='Booking') ? Text('Update') : Text('Release'),
           icon: (status=='Releasing'|| status=='Booking') ? Icon(Icons.track_changes) : Icon(Icons.add),
           backgroundColor:(status=='Releasing'||status=='Booking')? Colors.redAccent : Colors.blueAccent,
