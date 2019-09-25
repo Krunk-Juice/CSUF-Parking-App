@@ -59,6 +59,7 @@ class _UpdateStatusState extends State<UpdateStatus> {
           title: Text('Update',
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
+                  centerTitle: true,
         ),
         body: Container(
             //color: Colors.blueGrey,

@@ -48,6 +48,7 @@ class _FreeParkingMapState extends State<FreeParkingMap> {
         ),
         title: Text('Free Parking Locations',
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
+            centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
         

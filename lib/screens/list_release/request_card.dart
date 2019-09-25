@@ -59,6 +59,7 @@ class _RequestCardState extends State<RequestCard> {
           title: Text('Request',
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
+                  centerTitle: true,
         ),
         body: Container(
             //color: Colors.blueGrey,
@@ -153,7 +154,9 @@ class _RequestCardState extends State<RequestCard> {
                       borderRadius: BorderRadius.circular(20)),
                   onPressed: () => (status == 'Releasing')
                       ? _handleError(context)
-                      : _handleRequest(context),
+                      : null,
+                      //TODO: edit request database before modify this handler
+                      // _handleRequest(context),
                 ),
               ],
             )

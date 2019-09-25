@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/screens/csuf_map/csuf_map.dart';
-import 'package:flutter_parking_app/screens/drawer_nav/drawer_nav.dart';
+import 'package:flutter_parking_app/screens/drawer/drawer_navigation.dart';
 import 'package:flutter_parking_app/screens/free_parking_map/free_parking_map.dart';
 import 'package:flutter_parking_app/screens/home/home.dart';
 import 'package:flutter_parking_app/screens/home/slide_card_release.dart';
@@ -10,6 +10,7 @@ import 'package:flutter_parking_app/screens/list_release/request_card.dart';
 import 'package:flutter_parking_app/screens/list_request/accept_card.dart';
 import 'package:flutter_parking_app/screens/list_request/list_request.dart';
 import 'package:flutter_parking_app/screens/login/google_login.dart';
+import 'package:flutter_parking_app/screens/parking_status/parking_status.dart';
 import 'package:flutter_parking_app/screens/profile/profile.dart';
 
 void main() => runApp(MyApp());
@@ -30,7 +31,8 @@ class MyApp extends StatelessWidget {
         // 'login_page': (context)=>LoginPage(),
         'home': (context) => Home(),
         'profile': (context) => Profile(),
-        'drawer_navigation': (context) => DrawerNav(),
+        'drawer_navigation': (context) => DrawerNavigation(),
+        'parking_status':(context) => ParkingStatus(),
         'csuf_map': (context) => CsufMap(),
         'free_parking_map': (context) => FreeParkingMap(),
         'slide_card_release': (context) => SlideCardRelease(),

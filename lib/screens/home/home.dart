@@ -2,11 +2,13 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/screens/csuf_map/csuf_map.dart';
-import 'package:flutter_parking_app/screens/drawer_nav/drawer_nav.dart';
+import 'package:flutter_parking_app/screens/drawer/drawer_navigation.dart';
 import 'package:flutter_parking_app/screens/free_parking_map/free_parking_map.dart';
 import 'package:flutter_parking_app/screens/home/slide_card_release.dart';
 import 'package:flutter_parking_app/screens/home/update_status.dart';
+import 'package:flutter_parking_app/screens/list_release/list_release.dart';
 import 'package:flutter_parking_app/screens/list_request/list_request.dart';
+import 'package:flutter_parking_app/screens/parking_status/parking_status.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -44,19 +46,6 @@ class _HomeState extends State<Home> {
     // Force refresh input
     setState(() {});
   }
-
-// void countRelease()async{
-//     await for (var snapshot in Firestore.instance.collection('releases').snapshots()){
-//       for(var i in snapshot.documents)
-//       {
-//         print(i.data);
-//         setState(() {
-//           count++;
-//         });
-
-//       }
-//     }
-//   }
 
   Future<bool> _onWillPop() {
     return showDialog(
@@ -101,7 +90,7 @@ class _HomeState extends State<Home> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        endDrawer: DrawerNav(),
+        endDrawer: DrawerNavigation(),
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.green),
           elevation: 2.0,
@@ -111,6 +100,7 @@ class _HomeState extends State<Home> {
                   color: Colors.black,
                   fontWeight: FontWeight.w700,
                   fontSize: 30.0)),
+          centerTitle: true,
         ),
         body: StaggeredGridView.count(
           crossAxisCount: 2,
@@ -131,26 +121,31 @@ class _HomeState extends State<Home> {
                         children: <Widget>[
                           Text('Status',
                               style: TextStyle(color: Colors.blueAccent)),
-                          Text(
-                              status,
+                              
+                          Text(status,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 30.0))
                         ],
                       ),
-                      Material(
-                            elevation: 15.0,
-                            shadowColor: Color(0x802196F3),
-                            shape: CircleBorder(),
-                            child: ClipOval(
-                              child: CachedNetworkImage(
-                                imageUrl: photoUrl,
-                                fit: BoxFit.cover,
-                                
-                              ),
-                            ),
-                          ),
+                      (photoUrl == null)
+                          ? Material(
+                              color: Colors.blueAccent,
+                              shape: CircleBorder(),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Icon(Icons.account_circle,
+                                    color: Colors.white, size: 30.0),
+                              ))
+                          : Material(
+                              shape: CircleBorder(),
+                              elevation: 14,
+                              shadowColor: Colors.black,
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage(photoUrl),
+                                radius: 30,
+                              )),
                     ]),
               ),
               onTap: () => Null,
@@ -176,7 +171,8 @@ class _HomeState extends State<Home> {
                               color: Colors.black,
                               fontWeight: FontWeight.w700,
                               fontSize: 24.0)),
-                      Text('Zoom In and Out Map', style: TextStyle(color: Colors.teal)),
+                      Text('Zoom In and Out Map',
+                          style: TextStyle(color: Colors.teal)),
                     ]),
               ),
               onTap: () => Navigator.pushNamed(context, CsufMap.id),
@@ -193,19 +189,19 @@ class _HomeState extends State<Home> {
                           shape: CircleBorder(),
                           child: Padding(
                             padding: EdgeInsets.all(16.0),
-                            child: Icon(Icons.notifications,
+                            child: Icon(Icons.hearing,
                                 color: Colors.white, size: 30.0),
                           )),
                       Padding(padding: EdgeInsets.only(bottom: 16.0)),
-                      Text('Requests',
+                      Text('Parking Status',
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w700,
-                              fontSize: 24.0)),
-                      Text('0', style: TextStyle(color: Colors.black45)),
+                              fontSize: 20.0)),
+                      
                     ]),
               ),
-              onTap: ()=> null,
+              onTap: () => Navigator.pushNamed(context, ParkingStatus.id),
               // Navigator.pushNamed(context, ListRequest.id),
             ),
             _buildTile(
@@ -219,9 +215,9 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('List Spot Holder Releasing',
-                              style: TextStyle(
-                                  color: Colors.pink, fontSize: 15)),
+                          Text('List Releasing',
+                              style:
+                                  TextStyle(color: Colors.pink, fontSize: 15)),
                           Text('$count Available',
                               style: TextStyle(
                                   color: Colors.black,
@@ -240,7 +236,7 @@ class _HomeState extends State<Home> {
                           )))
                     ]),
               ),
-              onTap: () => Navigator.pushNamed(context, ListRequest.id),
+              onTap: () => Navigator.pushNamed(context, ListRelease.id),
             ),
             _buildTile(
               Padding(
@@ -286,19 +282,23 @@ class _HomeState extends State<Home> {
           ],
         ),
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: (status=='Releasing'|| status=='Booking')
+          onPressed: (status == 'Releasing' || status == 'Booking')
               ? () => Navigator.pushNamed(context, UpdateStatus.id)
               : () => Navigator.pushNamed(context, SlideCardRelease.id),
-          label: (status=='Releasing'|| status=='Booking') ? Text('Update') : Text('Release'),
-          icon: (status=='Releasing'|| status=='Booking') ? Icon(Icons.track_changes) : Icon(Icons.add),
-          backgroundColor:(status=='Releasing'||status=='Booking')? Colors.redAccent : Colors.blueAccent,
+          label: (status == 'Releasing' || status == 'Booking')
+              ? Text('Update')
+              : Text('Release'),
+          icon: (status == 'Releasing' || status == 'Booking')
+              ? Icon(Icons.track_changes)
+              : Icon(Icons.add),
+          backgroundColor: (status == 'Releasing' || status == 'Booking')
+              ? Colors.redAccent
+              : Colors.blueAccent,
           elevation: 14,
         ),
       ),
     );
   }
-
-
 
   Widget _buildTile(Widget child, {Function() onTap}) {
     return Material(

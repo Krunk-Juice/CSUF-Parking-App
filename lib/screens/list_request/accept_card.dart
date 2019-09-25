@@ -59,6 +59,7 @@ class _AcceptCardState extends State<AcceptCard> {
           title: Text('Checking',
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
+                  centerTitle: true,
         ),
         body: Container(
             //color: Colors.blueGrey,

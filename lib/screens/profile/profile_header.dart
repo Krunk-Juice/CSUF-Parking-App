@@ -16,16 +16,17 @@ class ProfileHeader extends StatefulWidget {
 class _ProfileHeaderState extends State<ProfileHeader> {
   File avatarImageFile;
   SharedPreferences prefs;
-  
+
   String id = '';
   String photoUrl = '';
-  bool isLoading= false;
-  
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
     readLocal();
   }
+
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
@@ -35,7 +36,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
     setState(() {});
   }
 
-Future getImage() async {
+  Future getImage() async {
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
@@ -47,7 +48,7 @@ Future getImage() async {
     uploadFile();
   }
 
-   Future uploadFile() async {
+  Future uploadFile() async {
     String fileName = id;
     StorageReference reference = FirebaseStorage.instance.ref().child(fileName);
     StorageUploadTask uploadTask = reference.putFile(avatarImageFile);
@@ -103,74 +104,61 @@ Future getImage() async {
             end: Alignment(-0.2, 0.7)),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Container(
-                child: Center(
-                  child: Stack(
-                    fit: StackFit.loose,
-                    children: <Widget>[
-                      (avatarImageFile == null)
-                          ? (photoUrl != ''
-                              ? Material(
-                                  child: ClipOval(
-                                                                      child: CachedNetworkImage(
-                                      placeholder: (context, url) => Container(
-                                            child: CircularProgressIndicator(
-                                              strokeWidth: 2.0,
-                                              valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-                                            ),
-                                            // width: 90.0,
-                                            // height: 90.0,
-                                            padding: EdgeInsets.all(20.0),
-                                          ),
-                                          
-                                      imageUrl: photoUrl,
-                                      // width: 90.0,
-                                      // height: 90.0,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  shape: CircleBorder(),
-                                  clipBehavior: Clip.hardEdge,
-                                  elevation: 15.0,
-                                  shadowColor: Colors.grey,
-                                )
-                              : Icon(
-                                  Icons.account_circle,
-                                  size: 90.0,
-                                  color: Colors.grey,
-                                ))
+            child: Center(
+              child: Stack(
+                alignment: Alignment.bottomRight,
+                fit: StackFit.loose,
+                children: <Widget>[
+                  (avatarImageFile == null)
+                      ? (photoUrl == null)
+                          ? Material(
+                              color: Colors.green,
+                              shape: CircleBorder(),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Icon(Icons.account_circle,
+                                    color: Colors.white, size: 30.0),
+                              ))
                           : Material(
-                              child: Image.file(
-                                avatarImageFile,
-                                width: 90.0,
-                                height: 90.0,
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.all(Radius.circular(45.0)),
-                              clipBehavior: Clip.hardEdge,
-                            ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.camera_alt,
-                          color: Colors.orange.withOpacity(0.5),
+                              shape: CircleBorder(),
+                              elevation: 20,
+                              shadowColor: Colors.black,
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage(photoUrl),
+                                radius: 60,
+                              ))
+                      : Material(
+                          child: Image.file(
+                            avatarImageFile,
+                            width: 90.0,
+                            height: 90.0,
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(45.0)),
+                          clipBehavior: Clip.hardEdge,
                         ),
-                        onPressed: getImage,
-                        padding: EdgeInsets.all(30.0),
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.grey,
-                        iconSize: 30.0,
-                      ),
-                    ],
-                  ),
-                ),
-                width: double.infinity,
-                margin: EdgeInsets.all(20.0),
+                ],
               ),
+            ),
+            width: double.infinity,
+            
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.camera_alt,
+              color: Colors.orange,
+            ),
+            onPressed: getImage,
+            // padding: EdgeInsets.all(30.0),
+            splashColor: Colors.transparent,
+            highlightColor: Colors.grey,
+            iconSize: 30.0,
+          ),
         ],
       ),
     );
   }
-
-  
 }

@@ -48,8 +48,9 @@ class _ListReleaseState extends State<ListRelease> {
           onPressed: () => Navigator.of(context).pop(),
           icon: Icon(Icons.arrow_back, color: Colors.black),
         ),
-        title: Text('List Releasing Spot',
+        title: Text('List Spot Holder Releasing Spot',
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
+            centerTitle: true,
       ),
       body: SafeArea(
         child: Column(
@@ -70,8 +71,6 @@ class _ListReleaseState extends State<ListRelease> {
                     final releaserParking = item.data['parkAt'];
                     final releaserLeavingTime = item.data['leaveAt'];
 
-                    
-
                     if (releaserId != id && releaserStatus == 'Releasing') {
                       final releaserWidget = ReleaseItem(
                         releaserName: releaserName,
@@ -88,6 +87,11 @@ class _ListReleaseState extends State<ListRelease> {
                       children: releaserWidgets,
                     ),
                   );
+                } else {
+                  return Center(
+                      child: Container(
+                          alignment: FractionalOffset.center,
+                          child: Image.asset('assets/images/loading.gif')));
                 }
               },
             ),
@@ -141,20 +145,10 @@ class ReleaseItem extends StatelessWidget {
                             //set prefs for releaser
                             prefs.setString('releaserId', releaserId),
                             prefs.setString('releaserName', releaserName),
-                            prefs.setString('releaserPhotoUrl', releaserPhotoUrl),
+                            prefs.setString(
+                                'releaserPhotoUrl', releaserPhotoUrl),
                             Navigator.pushNamed(context, RequestCard.id),
                           },
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => RequestPage(
-                          //       releaserId: releaserId,
-                          //       releaserName: releaserName,
-                          //       releaserPhotoUrl: releaserPhotoUrl,
-                          //     ),
-                          //   ),
-                          // ),
-                          // RequestPage(releaserId: releaserId,releaserName: releaserName,releaserPhotoUrl: releaserPhotoUrl,),
                           child: Padding(
                             padding: EdgeInsets.all(24.0),
                             child: Column(
@@ -228,19 +222,24 @@ class ReleaseItem extends StatelessWidget {
                         padding: EdgeInsets.only(right: 16.0),
                         child: SizedBox.fromSize(
                           size: Size.fromRadius(54.0),
-                          child: Material(
-                            elevation: 20.0,
-                            shadowColor: Color(0x802196F3),
-                            shape: CircleBorder(),
-                            child: ClipOval(
-                              child: CachedNetworkImage(
-                                imageUrl: releaserPhotoUrl,
-                                fit: BoxFit.cover,
-                                // width: 50.0,
-                                // height: 50.0,
-                              ),
-                            ),
-                          ),
+                          child: (releaserPhotoUrl == null)
+                              ? Material(
+                                  color: Colors.blueAccent,
+                                  shape: CircleBorder(),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Icon(Icons.account_circle,
+                                        color: Colors.white, size: 30.0),
+                                  ))
+                              : Material(
+                                  shape: CircleBorder(),
+                                  elevation: 14,
+                                  shadowColor: Colors.black,
+                                  child: CircleAvatar(
+                                    backgroundImage:
+                                        NetworkImage(releaserPhotoUrl),
+                                    radius: 30,
+                                  )),
                         ),
                       ),
                     ),

@@ -20,7 +20,7 @@ class CsufMap extends StatelessWidget {
           icon: Icon(Icons.arrow_back, color: Colors.black),
         ),
         title: Text('Parking Lots & Structures Map', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
-        
+        centerTitle: true,
       ),
       body: Container(
         child: PhotoView(

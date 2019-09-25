@@ -51,6 +51,7 @@ class _ListRequestState extends State<ListRequest> {
         ),
         title: Text('List Requests Your Spot',
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
+            centerTitle: true,
       ),
       body: SafeArea(
         child: Column(

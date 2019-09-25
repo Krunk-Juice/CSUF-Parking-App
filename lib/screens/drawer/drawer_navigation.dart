@@ -10,14 +10,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 
 
-class DrawerNav extends StatefulWidget {
+class DrawerNavigation extends StatefulWidget {
   static const String id = "drawer_navigation";
 
   @override
-  _DrawerNavState createState() => _DrawerNavState();
+  _DrawerNavigationState createState() => _DrawerNavigationState();
 }
 
-class _DrawerNavState extends State<DrawerNav> {
+class _DrawerNavigationState extends State<DrawerNavigation> {
   SharedPreferences prefs;
   
   final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -50,18 +50,20 @@ class _DrawerNavState extends State<DrawerNav> {
           UserAccountsDrawerHeader(
             accountName: Text(nickname),
              accountEmail: Text(""),
-            currentAccountPicture: CircleAvatar(
-              backgroundColor: Theme.of(context).platform == TargetPlatform.iOS
-                  ? Colors.blue
-                  : Colors.white,
-              child: ClipOval(
-                              child: CachedNetworkImage(
-                  imageUrl: photoUrl,
-                  fit: BoxFit.cover,
-                  
-                ),
-              ),  
-            ),
+            currentAccountPicture: (photoUrl== null)
+                       ?Material(
+                          color: Colors.blueAccent,
+                          shape: CircleBorder(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Icon(Icons.account_circle,
+                                color: Colors.white, size: 30.0),
+                          ))
+                      :Material(
+                        shape: CircleBorder(),
+                        elevation: 14,
+                        shadowColor: Colors.black,
+                        child: CircleAvatar(backgroundImage: NetworkImage(photoUrl),radius: 30,)),
           ),
           ListTile(
             title: Text("Profile"),

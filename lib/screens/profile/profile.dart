@@ -35,7 +35,7 @@ class MapScreenState extends State<Profile> with SingleTickerProviderStateMixin 
           icon: Icon(Icons.arrow_back, color: Colors.black),
         ),
         title: Text('Profile', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
-        
+        centerTitle: true,
       ),
       body: Container(
         color: Colors.blueGrey,
