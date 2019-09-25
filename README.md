@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
 
 - [Image Picker](https://pub.dev/packages/image_picker)
 
-- [Share Preferences](https://pub.dev/packages/shared_preferences)
+- [Share Preferences](https://pub.dev/packagesshared_preferences)
 
 - [Google SignIn](https://pub.dev/packages/google_sign_in)
 
@@ -98,4 +98,8 @@ class MyApp extends StatelessWidget {
 
 Hey yo!!! Want my spot?
 
-<img src="gif/parking.gif" width="400" height="200" />
+<img src="gif/parking.gif" width="300em" />
+
+I am late again !!!!!!!
+
+<img src="gif/late.gif" width="300em" />
