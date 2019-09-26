@@ -12,6 +12,7 @@ import 'package:flutter_parking_app/screens/list_request/list_request.dart';
 import 'package:flutter_parking_app/screens/login/google_login.dart';
 import 'package:flutter_parking_app/screens/parking_status/parking_status.dart';
 import 'package:flutter_parking_app/screens/profile/profile.dart';
+import 'package:flutter_parking_app/screens/register/register.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: 'google_login',
+      initialRoute: 'register',
       routes: {
         'google_login': (context) => GoogleLogin(),
         // 'login_page': (context)=>LoginPage(),
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         'request_card': (context) => RequestCard(),
         'accept_card': (context) => AcceptCard(),
         'list_request': (context) => ListRequest(),
+        'register': (context) => Register(),
       },
     );
   }
