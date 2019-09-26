@@ -99,15 +99,16 @@ void handleUpdateData() {
                             ),
                           ],
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            _status ? _getEditIcon() : new Container(),
-                          ],
-                        )
+                        // Column(
+                        //   mainAxisAlignment: MainAxisAlignment.end,
+                        //   mainAxisSize: MainAxisSize.min,
+                        //   children: <Widget>[
+                        //     _status ? _getEditIcon() : new Container(),
+                        //   ],
+                        // )
                       ],
-                    )),
+                    )
+                  ),
 
                 /* Name Section */
                 Padding(
@@ -120,7 +121,7 @@ void handleUpdateData() {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Text(
-                              'Name',
+                              'User Name',
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
@@ -138,11 +139,11 @@ void handleUpdateData() {
                         Flexible(
                             child: TextField(
                           decoration: const InputDecoration(
-                            hintText: "Enter Your Name",
+                            hintText: "Enter Your User Name",
                           ),
                           controller: controllerNickname,
-                          enabled: !_status,
-                          autofocus: !_status,
+                          // enabled: !_status,
+                          // autofocus: !_status,
                           onChanged: (value){
                             nickname = value;
 
@@ -182,7 +183,7 @@ void handleUpdateData() {
                             decoration: const InputDecoration(
                                 hintText: "Enter Email "),
                                 controller: controllerEmail,
-                            enabled: !_status,
+                            // enabled: !_status,
                             onChanged: (value){
                               email = value;
 
@@ -193,42 +194,42 @@ void handleUpdateData() {
                     )),
 
                 /* Password Section */
-                // Padding(
-                //     padding: EdgeInsets.only(left: 25, right: 25, top: 25),
-                //     child: Row(
-                //       mainAxisSize: MainAxisSize.max,
-                //       children: <Widget>[
-                //         Column(
-                //           mainAxisAlignment: MainAxisAlignment.start,
-                //           mainAxisSize: MainAxisSize.min,
-                //           children: <Widget>[
-                //             Text(
-                //               'Password',
-                //               style: TextStyle(
-                //                   fontSize: 16, fontWeight: FontWeight.bold),
-                //             ),
-                //           ],
-                //         ),
-                //       ],
-                //     )),
+                Padding(
+                    padding: EdgeInsets.only(left: 25, right: 25, top: 25),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              'Password',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )),
 
                 /* HINT: Change Your Password */
-                // Padding(
-                //     padding: EdgeInsets.only(left: 25, right: 25, top: 2),
-                //     child: Row(
-                //       mainAxisSize: MainAxisSize.max,
-                //       children: <Widget>[
-                //         Flexible(
-                //             child: TextField(
-                //           decoration: const InputDecoration(
-                //             hintText: "Change Your Password",
-                //           ),
-                //           enabled: !_status,
-                //           autofocus: !_status,
+                Padding(
+                    padding: EdgeInsets.only(left: 25, right: 25, top: 2),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Flexible(
+                            child: TextField(
+                          decoration: const InputDecoration(
+                            hintText: "Change Your Password",
+                          ),
+                          // enabled: !_status,
+                          // autofocus: !_status,
                           
-                //         ))
-                //       ],
-                //     )),
+                        ))
+                      ],
+                    )),
 
                 Padding(
                     padding: EdgeInsets.only(left: 25, right: 25, top: 25),
@@ -252,7 +253,7 @@ void handleUpdateData() {
                             decoration: const InputDecoration(
                                 hintText: "Enter Mobile Number"),
                                 controller: controllerPhone,
-                            enabled: !_status,
+                            // enabled: !_status,
                             onChanged: (value){
                               phone = value;
                             },
