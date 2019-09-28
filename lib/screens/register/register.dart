@@ -12,13 +12,14 @@ class Register extends StatefulWidget {
 
 bool isCSUFemail(String value) {
   bool special = false;
-  bool complete = true;
-  String pattern = "csu.fullerton.edu";
+  bool complete = false;
+  String pattern = "@csu.fullerton.edu";
   for (int i = 0; i < value.length; i++) {
     if (special == false && value[i] == '@')
       special = true;
-    if (special) {
-      for (int j = 0; j < pattern.length; j++) {
+    if (special && (value.length - i == pattern.length)) {
+      complete = true;
+      for (int j = 0; j < pattern.length && i < value.length; j++, i++) {
         if (value[i] != pattern[j])
           complete = false;
       }
@@ -90,10 +91,15 @@ class MapScreenState extends State<Register>
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
           centerTitle: true,
         ),
-        body: Container(
+        body: 
+        
+        
+        
+        Container(
             color: Color(0xFFFFFFFF),
             child: 
             ListView(
+              // shrinkWrap: true,
               children: <Widget>[
                 Column(
                   children: <Widget>[

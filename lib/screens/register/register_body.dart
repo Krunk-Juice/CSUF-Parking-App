@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/screens/register/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,8 +21,9 @@ class _RegisterBodyState extends State<RegisterBody> {
 
   String id = '';
   String phone = '';
-  String nickname ='';
-  String email ='';
+  String nickname = '';
+  String email = '';
+  String password = '';
 
   @override
   void initState() {
@@ -77,12 +77,8 @@ void handleUpdateData() {
   @override
   Widget build(BuildContext context) {
 
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-
     /* Information Section */
     return Container(
-        color: Color(0xFFFFFFFF),
         child: Padding(
             padding: EdgeInsets.only(bottom: 25),
             child: Column(
@@ -154,12 +150,14 @@ void handleUpdateData() {
                               if (value.length > 10) {
                                 return "User name should be at most 10 characters.";
                               }
+                              else
+                                return null;
                             },
                             // enabled: !_status,
                             // autofocus: !_status,
                             onChanged: (value){
                             nickname = value;
-                          },
+                            },
                         ))
                       ],
                     )),
@@ -199,7 +197,6 @@ void handleUpdateData() {
                             // enabled: !_status,
                             onChanged: (value){
                               email = value;
-
                             },
                           ),
                         ),
@@ -282,7 +279,7 @@ void handleUpdateData() {
                   decoration: BoxDecoration(
                     color: Colors.white,
                   ),
-                  //child: 
+                  // height: 10,
                 ),
                 // Padding(
                 //     padding: EdgeInsets.only(left: 25, right: 25, top: 25),
@@ -344,9 +341,12 @@ void handleUpdateData() {
                 //   ),
                 // ),
                 // !_status ? _getActionButtons() : Container(),
+
                 _getActionButtons(),
               ],
-            )));
+            )
+          )
+        );
   }
 
   @override
@@ -389,6 +389,7 @@ void handleUpdateData() {
                 child: Text("Save"),
                 textColor: Colors.white,
                 color: Colors.green,
+                elevation: 10,
                 onPressed: () {
                   setState(() {
                     _status = true;
@@ -410,6 +411,7 @@ void handleUpdateData() {
                 child: Text("Cancel"),
                 textColor: Colors.white,
                 color: Colors.red,
+                elevation: 10,
                 onPressed: () {
                   setState(() {
                     _status = true;
