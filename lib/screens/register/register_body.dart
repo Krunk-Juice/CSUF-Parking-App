@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_parking_app/screens/register/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -15,6 +18,7 @@ class _RegisterBodyState extends State<RegisterBody> {
   TextEditingController controllerNickname;
   TextEditingController controllerEmail;
   TextEditingController controllerPhone;
+  TextEditingController controllerPassword;
 
   String id = '';
   String phone = '';
@@ -72,6 +76,10 @@ void handleUpdateData() {
   }
   @override
   Widget build(BuildContext context) {
+
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     /* Information Section */
     return Container(
         color: Color(0xFFFFFFFF),
@@ -137,16 +145,20 @@ void handleUpdateData() {
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Flexible(
-                            child: TextField(
-                          decoration: const InputDecoration(
+                          child: TextFormField(
+                            decoration: const InputDecoration(
                             hintText: "Enter Your User Name",
-                          ),
-                          controller: controllerNickname,
-                          // enabled: !_status,
-                          // autofocus: !_status,
-                          onChanged: (value){
+                            ),
+                            controller: controllerNickname,
+                            validator: (value) {
+                              if (value.length > 10) {
+                                return "User name should be at most 10 characters.";
+                              }
+                            },
+                            // enabled: !_status,
+                            // autofocus: !_status,
+                            onChanged: (value){
                             nickname = value;
-
                           },
                         ))
                       ],
@@ -179,10 +191,11 @@ void handleUpdateData() {
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Flexible(
-                          child: TextField(
+                          child: TextFormField(
                             decoration: const InputDecoration(
                                 hintText: "Enter Email "),
-                                controller: controllerEmail,
+                            controller: controllerEmail,
+                            validator: emailValidator,
                             // enabled: !_status,
                             onChanged: (value){
                               email = value;
@@ -220,10 +233,12 @@ void handleUpdateData() {
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Flexible(
-                            child: TextField(
-                          decoration: const InputDecoration(
+                            child: TextFormField(
+                            decoration: const InputDecoration(
                             hintText: "Change Your Password",
                           ),
+                          controller: controllerPassword,
+                          validator: pwdValidator,
                           // enabled: !_status,
                           // autofocus: !_status,
                           
@@ -249,10 +264,11 @@ void handleUpdateData() {
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Flexible(
-                          child: TextField(
+                          child: TextFormField(
                             decoration: const InputDecoration(
                                 hintText: "Enter Mobile Number"),
                                 controller: controllerPhone,
+                                validator: phoneValidator,
                             // enabled: !_status,
                             onChanged: (value){
                               phone = value;
@@ -261,6 +277,13 @@ void handleUpdateData() {
                         ),
                       ],
                     )),
+
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                  ),
+                  //child: 
+                ),
                 // Padding(
                 //     padding: EdgeInsets.only(left: 25, right: 25, top: 25),
                 //     child: Row(
@@ -320,7 +343,8 @@ void handleUpdateData() {
                 //     ],
                 //   ),
                 // ),
-                !_status ? _getActionButtons() : Container(),
+                // !_status ? _getActionButtons() : Container(),
+                _getActionButtons(),
               ],
             )));
   }

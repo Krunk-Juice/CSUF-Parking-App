@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/screens/register/register_body.dart';
 import 'package:flutter_parking_app/screens/register/register_header.dart';
+import 'package:quiver/strings.dart';
 
 class Register extends StatefulWidget {
   static const String id = "Register";
@@ -9,12 +10,48 @@ class Register extends StatefulWidget {
   MapScreenState createState() => MapScreenState();
 }
 
+bool isCSUFemail(String value) {
+  bool special = false;
+  bool complete = true;
+  String pattern = "csu.fullerton.edu";
+  for (int i = 0; i < value.length; i++) {
+    if (special == false && value[i] == '@')
+      special = true;
+    if (special) {
+      for (int j = 0; j < pattern.length; j++) {
+        if (value[i] != pattern[j])
+          complete = false;
+      }
+    }
+  }
+  return complete;
+}
+
+String phoneValidator(String value) {
+  bool complete = true;
+  for (int i = 0; i < value.length; i++) {
+    int d = int.parse(value[i]);
+    if (!isDigit(d)) 
+      complete = false;
+  }
+  if(complete && value.length != 10)
+    return "Phone number must have 10 digits";
+  else if (!complete && value.length == 10)
+    return "Invalid character for phone number";
+  else if (!complete && value.length != 10)
+    return "Invalid character for phone number and phone number must have 10 digits";
+  else
+    return null;
+}
+
 String emailValidator(String value) {
   Pattern pattern =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
   RegExp regex = new RegExp(pattern);
   if (!regex.hasMatch(value))
     return 'Email format is invalid';
+  else if (!isCSUFemail(value))
+    return 'Email must be a Cal State Fullerton email';
   else
     return null;
 }
@@ -54,18 +91,20 @@ class MapScreenState extends State<Register>
           centerTitle: true,
         ),
         body: Container(
-            color: Colors.blueGrey,
-            child: ListView(
+            color: Color(0xFFFFFFFF),
+            child: 
+            ListView(
               children: <Widget>[
                 Column(
                   children: <Widget>[
                     /* Header and Image Section */
-                    RegisterHeader(),
+                    // RegisterHeader(),
                     RegisterBody(),
                     /* Infomation Section */
                   ],
                 )
               ],
-            )));
+            )
+            ));
   }
 }
