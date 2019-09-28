@@ -136,7 +136,7 @@ void handleUpdateData() {
 
                 /* HINT: Enter your name */
                 Padding(
-                    padding: EdgeInsets.only(left: 25, right: 25, top: 2),
+                    padding: EdgeInsets.only(left: 25, right: 25, top: 10),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
@@ -184,7 +184,7 @@ void handleUpdateData() {
                     
                 /* HINT: Enter Email ID */
                 Padding(
-                    padding: EdgeInsets.only(left: 25, right: 25, top: 2),
+                    padding: EdgeInsets.only(left: 25, right: 25, top: 10),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
@@ -223,16 +223,35 @@ void handleUpdateData() {
                       ],
                     )),
 
-                /* HINT: Change Your Password */
+                /* HINT: Enter Your Password */
                 Padding(
-                    padding: EdgeInsets.only(left: 25, right: 25, top: 2),
+                    padding: EdgeInsets.only(left: 25, right: 25, top: 10),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Flexible(
                             child: TextFormField(
                             decoration: const InputDecoration(
-                            hintText: "Change Your Password",
+                            hintText: "Enter Your Password",
+                          ),
+                          controller: controllerPassword,
+                          validator: pwdValidator,
+                          // enabled: !_status,
+                          // autofocus: !_status,
+                          
+                        ))
+                      ],
+                    )),
+                /* HINT: Confirm Your Password */
+                Padding(
+                    padding: EdgeInsets.only(left: 25, right: 25, top: 10),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Flexible(
+                            child: TextFormField(
+                            decoration: const InputDecoration(
+                            hintText: "Confirm Your Password",
                           ),
                           controller: controllerPassword,
                           validator: pwdValidator,
@@ -256,7 +275,7 @@ void handleUpdateData() {
                       ],
                     )),
                 Padding(
-                    padding: EdgeInsets.only(left: 25, right: 25, top: 2),
+                    padding: EdgeInsets.only(left: 25, right: 25, top: 10),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
@@ -386,7 +405,7 @@ void handleUpdateData() {
               padding: EdgeInsets.only(right: 10),
               child: Container(
                   child: RaisedButton(
-                child: Text("Save"),
+                child: Text("Register"),
                 textColor: Colors.white,
                 color: Colors.green,
                 elevation: 10,
