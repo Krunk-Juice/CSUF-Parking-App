@@ -43,7 +43,7 @@ class _RegisterBodyState extends State<RegisterBody> {
     // Force refresh input
     setState(() {});
   }
-void handleUpdateData() {
+  void handleUpdateData() {
     // focusNodeNickname.unfocus();
     // focusNodeAboutMe.unfocus();
 
