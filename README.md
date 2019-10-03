@@ -26,11 +26,13 @@ Follow effective dart style
 
 ## Demo and ScreenShots
 
-<img src="gif/showcase.gif" width="200" height="400" />
+<img src="gif/showcase.gif" width="300"  />
 
-<img src="screenshots/Screenshot_20190923-014007.jpg" width="200" height="400" /> <img src="screenshots/Screenshot_20190923-014014.jpg" width="200" height="400" /> <img src="screenshots/Screenshot_20190923-014114.jpg" width="200" height="400" /> 
+<img src="screenshots/Screenshot_20190923-014007.jpg" width="300em" /> <img src="screenshots/Screenshot_20190923-014014.jpg" width="300em"  /> 
 
-<img src="screenshots/Screenshot_20190923-014128.jpg" width="200" height="400" /> <img src="screenshots/Screenshot_20190923-014136.jpg" width="200" height="400" /> <img src="screenshots/Screenshot_20190923-014943.jpg" width="200" height="400" />
+<img src="screenshots/Screenshot_20190923-014114.jpg" width="300em" /> <img src="screenshots/Screenshot_20190923-014128.jpg" width="300em"  /> 
+
+<img src="screenshots/Screenshot_20190923-014136.jpg" width="300em"  /> <img src="screenshots/Screenshot_20190923-014943.jpg" width="300em" />
 
 
 ## Code Example
@@ -76,7 +78,7 @@ class MyApp extends StatelessWidget {
 
 - [Image Picker](https://pub.dev/packages/image_picker)
 
-- [Share Preferences](https://pub.dev/packages/shared_preferences)
+- [Share Preferences](https://pub.dev/packagesshared_preferences)
 
 - [Google SignIn](https://pub.dev/packages/google_sign_in)
 
@@ -98,4 +100,8 @@ class MyApp extends StatelessWidget {
 
 Hey yo!!! Want my spot?
 
-<img src="gif/parking.gif" width="400" height="200" />
+<img src="gif/parking.gif" width="300em" />
+
+I am late again !!!!!!!
+
+<img src="gif/late.gif" width="300em" />
