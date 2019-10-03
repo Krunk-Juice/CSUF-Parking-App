@@ -8,14 +8,14 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 /// enum FromMode for clarify the Login and signup form
 enum FormMode { LOGIN, SIGNUP }
 
-class LoginPage extends StatefulWidget {
-  static const String id = "login_page";
+class Login extends StatefulWidget {
+  static const String id = "login";
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginState createState() => _LoginState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginState extends State<Login> {
   final _auth = FirebaseAuth.instance; //initial constant for firebase
 
   final _formKey = new GlobalKey<

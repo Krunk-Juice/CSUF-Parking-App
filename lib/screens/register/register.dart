@@ -3,7 +3,7 @@ import 'package:flutter_parking_app/screens/register/register_body.dart';
 import 'package:flutter_parking_app/screens/register/register_header.dart';
 
 class Register extends StatefulWidget {
-  static const String id = "Register";
+  static const String id = "register";
 
   @override
   MapScreenState createState() => MapScreenState();
