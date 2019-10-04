@@ -8,10 +8,10 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="flutter_parking_app"
+        android:label="CSUF SWAP"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDzCIl6OpKpdHrDPglnJk-c--ny0zeLDK8"/>
+            android:value="AIzaSyCxEiEcbR3qRd7WFB09BN4hW2hF8DU2jgQ"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

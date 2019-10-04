@@ -11,7 +11,7 @@ With this in mind, we propose creating a mobile application that aims to allevia
 
 ## Installation
 
-- [Get started with Flutter on Windows](https://medium.com/@psyanite/get-started-with-flutter-on-windows-3d3fbb8b221a)
+- [Get started with Flutter on Windows](https://medium.com/fnplus/setting-up-flutter-for-windows-ca2c5e643fdf)
 
 - [Get started with Flutter on Linux Ubuntu](https://link.medium.com/wnUcqyGaUZ)
 
@@ -24,9 +24,15 @@ Follow effective dart style
 
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://dart.dev/guides/language/effective-dart/style)
 
-## Screenshots
+## Demo and ScreenShots
 
-<img src="screenshots/Screenshot_1.png" width="200" height="400" /> <img src="screenshots/Screenshot_2.png" width="200" height="400" /> <img src="screenshots/Screenshot_3.png" width="200" height="400" />
+<img src="gif/showcase.gif" width="300"  />
+
+<img src="screenshots/Screenshot_20190923-014007.jpg" width="300em" /> <img src="screenshots/Screenshot_20190923-014014.jpg" width="300em"  /> 
+
+<img src="screenshots/Screenshot_20190923-014114.jpg" width="300em" /> <img src="screenshots/Screenshot_20190923-014128.jpg" width="300em"  /> 
+
+<img src="screenshots/Screenshot_20190923-014136.jpg" width="300em"  /> <img src="screenshots/Screenshot_20190923-014943.jpg" width="300em" />
 
 
 ## Code Example
@@ -44,6 +50,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      //initial application go to log in screen
       initialRoute: 'login_page',
       routes: {
         'login_page': (context)=>LoginPage(),
@@ -55,7 +62,7 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-## Features
+## Features and Plugins
 
 - [Flutter Material](https://material.io/)
 
@@ -66,6 +73,14 @@ class MyApp extends StatelessWidget {
 - [Cloud Firestore](https://pub.dev/packages/cloud_firestore)
 
 - [Google Map Flutter](https://pub.dev/packages/google_maps_flutter)
+
+- [Photo View](https://pub.dev/packages/photo_view)
+
+- [Image Picker](https://pub.dev/packages/image_picker)
+
+- [Share Preferences](https://pub.dev/packagesshared_preferences)
+
+- [Google SignIn](https://pub.dev/packages/google_sign_in)
 
 
 ## Credits
@@ -85,4 +100,8 @@ class MyApp extends StatelessWidget {
 
 Hey yo!!! Want my spot?
 
-<img src="parking.gif" width="400" height="200" />
+<img src="gif/parking.gif" width="300em" />
+
+I am late again !!!!!!!
+
+<img src="gif/late.gif" width="300em" />
