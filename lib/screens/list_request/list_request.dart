@@ -59,7 +59,7 @@ class _ListRequestState extends State<ListRequest> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             StreamBuilder(
-              stream: _firestore.collection('requests').document(id).collection('listRequests').snapshots(),
+              stream: _firestore.collection('requests').snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final doc = snapshot.data.documents;
@@ -69,8 +69,9 @@ class _ListRequestState extends State<ListRequest> {
                     final bookerId = item.data['bookerId'];
                     final bookerName = item.data['bookerName'];
                     final bookerPhotoUrl = item.data['bookerPhotoUrl'];
+                    final turnOn = item.data['turnOn'];
                     
-                    if (releaserId == id ) {
+                    if (releaserId == id && turnOn) {
                       final bookerWidget = RequestItem(
                         bookerName: bookerName,
                         bookerId: bookerId,

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/screens/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,8 @@ class AcceptCard extends StatefulWidget {
 }
 
 class _AcceptCardState extends State<AcceptCard> {
+  final db = Firestore.instance;
+
   String id = '';
   String nickname = '';
   String photoUrl = '';
@@ -33,7 +36,7 @@ class _AcceptCardState extends State<AcceptCard> {
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
-     nickname = prefs.getString('nickname') ?? '';
+    nickname = prefs.getString('nickname') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
     status = prefs.getString('status') ?? '';
 
@@ -59,7 +62,7 @@ class _AcceptCardState extends State<AcceptCard> {
           title: Text('Checking',
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
-                  centerTitle: true,
+          centerTitle: true,
         ),
         body: Container(
             //color: Colors.blueGrey,
@@ -152,9 +155,10 @@ class _AcceptCardState extends State<AcceptCard> {
 
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onPressed: () => (status == 'Giving')
+                  onPressed: () => (status == 'Swaping')
                       ? _handleError(context)
-                      : _handleRequest(context),
+                      : null,
+                      // _handleAccept(context),
                 ),
               ],
             )
@@ -186,42 +190,35 @@ class _AcceptCardState extends State<AcceptCard> {
     );
   }
 
-  void _handleRequest(BuildContext context) {
+  
+
+  void _handleAccept(BuildContext context) async {
 //update release status
     Firestore.instance.collection('users').document(id).updateData({
-      'status': 'Giving',
+      'status': 'Swaping',
     }).then((data) async {
-      await prefs.setString('status', 'Giving');
+      await prefs.setString('status', 'Swaping');
+      await db.collection('requests').document(id).delete();
+      // Navigator.pushNamed(context, Home.id);
+      // Fluttertoast.showToast(msg: "Update success");
+    }).catchError((err) => print(err));
+
+    Firestore.instance.collection('users').document(bookerId).updateData({
+      'status': 'Swaping',
+    });
+
+
+
+    Firestore.instance.collection('swaps').add({
+      'releaserId': id,
+      'releaserName': nickname,
+      'releaserPhoto': photoUrl,
+      'bookerId': bookerId,
+      'bookerName': bookerName,
+      'bookerPhotoUrl': bookerPhotoUrl,
+    }).then((data) async {
       Navigator.pushNamed(context, Home.id);
       Fluttertoast.showToast(msg: "Update success");
     }).catchError((err) => print(err));
-
-    // Firestore.instance
-    //     .collection('requests')
-    //     .document(id)
-    //     .collection('listRequests')
-    //     .document(bookerId)
-    //     .updateData({
-    //       'accepted': true,
-      
-    // }).then((data) async {
-      
-    //   Fluttertoast.showToast(msg: "Update success");
-    // }).catchError((err) => print(err));
-
-    // Firestore.instance
-    //     .collection('givings')
-    //     .document('releaserId')
-    //     .setData({
-    //   'releaserId': id,
-    //   'releaserName': nickname,
-    //   'releaserPhoto': photoUrl,
-    //   'bookerId': bookerId,
-    //   'bookerName': bookerName,
-    //   'bookerPhotoUrl': bookerPhotoUrl,
-    // }).then((data) async {
-    //   Navigator.pushNamed(context, HomePage.id);
-    //   Fluttertoast.showToast(msg: "Update success");
-    // }).catchError((err) => print(err));
   }
 }

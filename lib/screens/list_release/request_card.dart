@@ -59,7 +59,7 @@ class _RequestCardState extends State<RequestCard> {
           title: Text('Request',
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
-                  centerTitle: true,
+          centerTitle: true,
         ),
         body: Container(
             //color: Colors.blueGrey,
@@ -152,11 +152,11 @@ class _RequestCardState extends State<RequestCard> {
 
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onPressed: () => (status == 'Releasing')
-                      ? _handleError(context)
-                      : null,
-                      //TODO: edit request database before modify this handler
+                  onPressed: () =>
+                      (status == 'Releasing') ? _handleError(context) : null,
                       // _handleRequest(context),
+                  //TODO: edit request database before modify this handler
+                  
                 ),
               ],
             )
@@ -164,7 +164,7 @@ class _RequestCardState extends State<RequestCard> {
         )));
   }
 
-  Future  _handleError(BuildContext context) {
+  Future _handleError(BuildContext context) {
     return showDialog(
       context: context,
       builder: (context) => new AlertDialog(
@@ -191,28 +191,25 @@ class _RequestCardState extends State<RequestCard> {
   void _handleRequest(BuildContext context) {
 //update release status
     Firestore.instance.collection('users').document(id).updateData({
-      'status': 'Booking',
+      'status': 'Requesting',
     }).then((data) async {
-      await prefs.setString('status', 'Booking');
-Navigator.pushNamed(context, Home.id);
-      Fluttertoast.showToast(msg: "Update success");
+      await prefs.setString('status', 'Requesting');
+      // Navigator.pushNamed(context, Home.id);
+      // Fluttertoast.showToast(msg: "Update success");
     }).catchError((err) => print(err));
 
+    Firestore.instance.collection('users').document(releaserId).updateData({
+      'status': 'Getting Request',
+    });
 
-    // Firestore.instance
-    //     .collection('requests')
-    //     .document(releaserId)
-    //     .collection('listRequests')
-    //     .document(id)
-    //     .setData({
-    //   'releaserId': releaserId,
-    //   'bookerId': id,
-    //   'bookerName': nickname,
-    //   'bookerPhotoUrl': photoUrl,
-    //   'accepted': false,
-    // }).then((data) async {
-    //   Navigator.pushNamed(context, Home.id);
-    //   Fluttertoast.showToast(msg: "Update success");
-    // }).catchError((err) => print(err));
+    Firestore.instance.collection('requests').add({
+      'releaserId': releaserId,
+      'bookerId': id,
+      'bookerName': nickname,
+      'bookerPhotoUrl': photoUrl,
+    }).then((data) async {
+      Navigator.pushNamed(context, Home.id);
+      Fluttertoast.showToast(msg: "Update success");
+    }).catchError((err) => print(err));
   }
 }

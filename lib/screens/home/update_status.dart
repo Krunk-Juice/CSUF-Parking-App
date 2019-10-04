@@ -152,9 +152,7 @@ class _UpdateStatusState extends State<UpdateStatus> {
 
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
-                  onPressed: () => (status == 'Releasing')
-                      ? _handleCancelReleasing(context)
-                      : _handleCancelBooking(context),
+                  onPressed: () => _handleCancel(context),
                 ),
               ],
             )
@@ -162,29 +160,9 @@ class _UpdateStatusState extends State<UpdateStatus> {
         )));
   }
 
-  void _handleCancelBooking(BuildContext context) {
-//update release status
-    Firestore.instance.collection('users').document(id).updateData({
-      'status': 'Relaxing',
-    }).then((data) async {
-      await prefs.setString('status', 'Relaxing');
-      Navigator.pushNamed(context, Home.id);
-      Fluttertoast.showToast(msg: "Update success");
-    }).catchError((err) => print(err));
+  
 
-    //remove from request list
-
-    // Firestore.instance
-    //     .collection('requests')
-    //     .document(id)
-    //     .delete()
-    //     .then((result) => {
-    //           Navigator.pushNamed(context, HomePage.id),
-    //         })
-    //     .catchError((err) => print(err));
-  }
-
-  void _handleCancelReleasing(BuildContext context) {
+  void _handleCancel(BuildContext context) {
 //update release status
     Firestore.instance.collection('users').document(id).updateData({
       'status': 'Relaxing',
@@ -195,15 +173,6 @@ class _UpdateStatusState extends State<UpdateStatus> {
       
     }).catchError((err) => print(err));
 
-    //remove from list
-
-    // Firestore.instance
-    //     .collection('requests')
-    //     .document(id)
-    //     .delete()
-    //     .then((result) => {
-    //           Navigator.pushNamed(context, Home.id),
-    //         })
-    //     .catchError((err) => print(err));
+    
   }
 }

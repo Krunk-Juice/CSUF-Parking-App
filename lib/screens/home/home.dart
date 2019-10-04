@@ -297,16 +297,16 @@ void getCurrentUser()async
           ],
         ),
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: (status == 'Releasing' || status == 'Booking')
+          onPressed: (status == 'Releasing' || status == 'Requesting')
               ? () => Navigator.pushNamed(context, UpdateStatus.id)
               : () => Navigator.pushNamed(context, SlideCardRelease.id),
-          label: (status == 'Releasing' || status == 'Booking')
+          label: (status == 'Releasing' || status == 'Requesting')
               ? Text('Update')
               : Text('Release'),
-          icon: (status == 'Releasing' || status == 'Booking')
+          icon: (status == 'Releasing' || status == 'Requesting')
               ? Icon(Icons.track_changes)
               : Icon(Icons.add),
-          backgroundColor: (status == 'Releasing' || status == 'Booking')
+          backgroundColor: (status == 'Releasing' || status == 'Requesting')
               ? Colors.redAccent
               : Colors.blueAccent,
           elevation: 14,
