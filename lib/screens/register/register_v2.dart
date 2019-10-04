@@ -168,10 +168,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             'email': email,
             'phone': null,
             'createdAt': DateTime.now().microsecondsSinceEpoch.toString(),
-            'leavingAt': null,
-            'parkAt': null,
-            'chattingWith': null,
-            'online': null,
             'status': 'Relaxing',
           });
 
@@ -183,7 +179,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
            await prefs.setString('nickname', nickname);
            await prefs.setString('photoUrl', null);
            await prefs.setString('status', 'Relaxing');
-
           Navigator.pushNamed(context, Home.id);
           Fluttertoast.showToast(msg: "Sign up success");
         } else {

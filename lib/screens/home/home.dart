@@ -29,7 +29,13 @@ class _HomeState extends State<Home> {
   String photoUrl = '';
   String status = '';
 
-  int count = 0;
+  @override
+  void initState() {
+    super.initState();
+    readLocal();
+    getCurrentUser();
+  }
+
 
 void getCurrentUser()async
 {
@@ -44,13 +50,6 @@ void getCurrentUser()async
   }
  
 }
-
-  @override
-  void initState() {
-    super.initState();
-    readLocal();
-    getCurrentUser();
-  }
 
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
@@ -87,18 +86,7 @@ void getCurrentUser()async
         false;
   }
 
-  // Future<Null> handleSignOut()async{
-  //   setState(() {
-  //   });
-
-  //   await FirebaseAuth.instance.signOut();
-  //   await googleSignIn.disconnect();
-  //   await googleSignIn.signOut();
-  //   setState(() {
-
-  //   });
-
-  // }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -233,7 +221,7 @@ void getCurrentUser()async
                           Text('List Releasing',
                               style:
                                   TextStyle(color: Colors.pink, fontSize: 15)),
-                          Text('$count Available',
+                          Text('Available',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w700,

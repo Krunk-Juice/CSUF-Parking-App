@@ -94,7 +94,7 @@ Future<Null> handleSignOut()async{
 
     await FirebaseAuth.instance.signOut();
     
-    prefs.clear();
+    // prefs.clear();
     
     setState(() {
       

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_parking_app/screens/csuf_map/csuf_map.dart';
 import 'package:flutter_parking_app/screens/drawer/drawer_navigation.dart';
 import 'package:flutter_parking_app/screens/free_parking_map/free_parking_map.dart';
@@ -17,9 +18,9 @@ import 'package:flutter_parking_app/screens/register/register_v2.dart';
 import 'package:flutter_parking_app/screens/welcome_screen/welcome_screen.dart';
 
 void main() => runApp(MyApp());
-
+// This widget is the root of your application.
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
