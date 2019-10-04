@@ -9,11 +9,11 @@ import 'package:flutter_parking_app/screens/list_release/list_release.dart';
 import 'package:flutter_parking_app/screens/list_release/request_card.dart';
 import 'package:flutter_parking_app/screens/list_request/accept_card.dart';
 import 'package:flutter_parking_app/screens/list_request/list_request.dart';
-import 'package:flutter_parking_app/screens/login/login.dart';
+import 'package:flutter_parking_app/screens/login/login_v2.dart';
 import 'package:flutter_parking_app/screens/parking_status/parking_status.dart';
 import 'package:flutter_parking_app/screens/profile/profile.dart';
-import 'package:flutter_parking_app/screens/register/register-v2.dart';
 import 'package:flutter_parking_app/screens/register/register.dart';
+import 'package:flutter_parking_app/screens/register/register_v2.dart';
 import 'package:flutter_parking_app/screens/welcome_screen/welcome_screen.dart';
 
 void main() => runApp(MyApp());
@@ -31,9 +31,9 @@ class MyApp extends StatelessWidget {
       initialRoute: 'welcome_screen',
       routes: {
         'welcome_screen': (context) => WelcomeScreen(),
-        'registration':(context) => RegistrationScreen(),
+        'register_v2':(context) => RegistrationScreen(),
         // 'google_login': (context) => GoogleLogin(),
-        'login': (context)=>Login(),
+        'login_v2': (context)=>LoginScreen(),
         'home': (context) => Home(),
         'profile': (context) => Profile(),
         'drawer_navigation': (context) => DrawerNavigation(),

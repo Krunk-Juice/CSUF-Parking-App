@@ -1,9 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/screens/login/login.dart';
-import 'package:flutter_parking_app/screens/register/register-v2.dart';
-import 'package:flutter_parking_app/screens/register/register.dart';
+import 'package:flutter_parking_app/screens/login/login_v2.dart';
 import 'package:flutter_parking_app/components/round_button.dart';
+import 'package:flutter_parking_app/screens/register/register_v2.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
@@ -28,7 +27,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 Hero(
                   tag: 'logo',
                   child: Container(
-                    child: Image.asset('assets/images/eastside.png'),
+                    child: Image.asset('assets/images/CSUF Parking Swap Big Car.png'),
                     height: 60.0,
                   ),
                 ),
@@ -48,7 +47,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             RoundedButton(
               colour: Colors.lightBlueAccent,
               title: 'Login',
-              onPressed: () => Navigator.pushNamed(context, Login.id),
+              onPressed: () => Navigator.pushNamed(context, LoginScreen.id),
             ),
             RoundedButton(
               colour: Colors.blueAccent,

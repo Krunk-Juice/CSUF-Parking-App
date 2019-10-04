@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/main.dart';
 import 'package:flutter_parking_app/screens/profile/profile.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -20,7 +19,7 @@ class DrawerNavigation extends StatefulWidget {
 class _DrawerNavigationState extends State<DrawerNavigation> {
   SharedPreferences prefs;
   
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+  
 
  
   String nickname='';
@@ -94,8 +93,7 @@ Future<Null> handleSignOut()async{
     });
 
     await FirebaseAuth.instance.signOut();
-    await googleSignIn.disconnect();
-    await googleSignIn.signOut();
+    
     prefs.clear();
     
     setState(() {

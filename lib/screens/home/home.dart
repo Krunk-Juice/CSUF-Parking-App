@@ -11,8 +11,7 @@ import 'package:flutter_parking_app/screens/list_request/list_request.dart';
 import 'package:flutter_parking_app/screens/parking_status/parking_status.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 class Home extends StatefulWidget {
   static const String id = "home";
   @override
@@ -20,8 +19,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final _auth = FirebaseAuth.instance;
+  FirebaseUser firebaseUser;
+
   SharedPreferences prefs;
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+  // final GoogleSignIn googleSignIn = GoogleSignIn();
   String id = '';
   String nickname = '';
   String photoUrl = '';
@@ -29,12 +31,25 @@ class _HomeState extends State<Home> {
 
   int count = 0;
 
+void getCurrentUser()async
+{
+  try {
+    final user = await _auth.currentUser();
+ if(user != null)
+ {
+   firebaseUser = user;
+ }
+  } catch (e) {
+    print(e);
+  }
+ 
+}
+
   @override
   void initState() {
     super.initState();
     readLocal();
-    // count =0;
-    // countRelease();
+    getCurrentUser();
   }
 
   void readLocal() async {
