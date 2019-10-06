@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/components/round_button.dart';
+import 'package:flutter_parking_app/screens/cancel_status/cancel_status.dart';
 import 'package:flutter_parking_app/screens/csuf_map/csuf_map.dart';
 import 'package:flutter_parking_app/screens/free_parking_map/free_parking_map.dart';
-import 'package:flutter_parking_app/screens/home/slide_card_release.dart';
-import 'package:flutter_parking_app/screens/home/update_status.dart';
 import 'package:flutter_parking_app/screens/list_release/list_release.dart';
 import 'package:flutter_parking_app/screens/parking_status/parking_status.dart';
 import 'package:flutter_parking_app/screens/request/request.dart';
+import 'package:flutter_parking_app/screens/slide_card_release/slide_card_release.dart';
 import 'package:flutter_parking_app/screens/swap/swap.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -242,7 +242,7 @@ class HomeBody extends StatelessWidget {
       
       return RoundedButton(
         onPressed: (status == 'Releasing' || status == 'Requesting')
-            ? () => Navigator.pushNamed(context, UpdateStatus.id)
+            ? () => Navigator.pushNamed(context, CancelStatus.id)
             : () => Navigator.pushNamed(context, SlideCardRelease.id),
         title: (status == 'Releasing' || status == 'Requesting')
             ? 'Update'

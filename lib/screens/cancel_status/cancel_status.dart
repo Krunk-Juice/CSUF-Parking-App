@@ -7,13 +7,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 SharedPreferences prefs;
 String status = '';
-class UpdateStatus extends StatefulWidget {
-  static const String id = "update_status";
+class CancelStatus extends StatefulWidget {
+  static const String id = "cancel_status";
   @override
-  _UpdateStatusState createState() => _UpdateStatusState();
+  _CancelStatusState createState() => _CancelStatusState();
 }
 
-class _UpdateStatusState extends State<UpdateStatus> {
+class _CancelStatusState extends State<CancelStatus> {
   String id = '';
   String nickname = '';
   String photoUrl = '';

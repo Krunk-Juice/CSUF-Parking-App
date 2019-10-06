@@ -1,17 +1,8 @@
 import 'dart:io';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/screens/csuf_map/csuf_map.dart';
 import 'package:flutter_parking_app/screens/drawer/drawer_navigation.dart';
-import 'package:flutter_parking_app/screens/free_parking_map/free_parking_map.dart';
 import 'package:flutter_parking_app/screens/home/home_body.dart';
-import 'package:flutter_parking_app/screens/home/slide_card_release.dart';
-import 'package:flutter_parking_app/screens/home/update_status.dart';
-import 'package:flutter_parking_app/screens/list_release/list_release.dart';
-import 'package:flutter_parking_app/screens/parking_status/parking_status.dart';
-import 'package:flutter_parking_app/screens/request/request.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
