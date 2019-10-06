@@ -141,13 +141,12 @@ class ReleaseItem extends StatelessWidget {
                         shadowColor: Color(0x802196F3),
                         color: Colors.white,
                         child: InkWell(
-                          onTap: () => {
+                          onTap: () {
                             //set prefs for releaser
-                            prefs.setString('releaserId', releaserId),
-                            prefs.setString('releaserName', releaserName),
-                            prefs.setString(
-                                'releaserPhotoUrl', releaserPhotoUrl),
-                            Navigator.pushNamed(context, RequestCard.id),
+                            prefs.setString('releaserId', releaserId);
+                            prefs.setString('releaserName', releaserName);
+                            prefs.setString('releaserPhotoUrl', releaserPhotoUrl);
+                            Navigator.pushNamed(context, RequestCard.id);
                           },
                           child: Padding(
                             padding: EdgeInsets.all(24.0),

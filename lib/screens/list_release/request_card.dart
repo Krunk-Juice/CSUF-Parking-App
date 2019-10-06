@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_parking_app/components/round_button.dart';
 
 SharedPreferences prefs;
 
@@ -17,7 +18,7 @@ class _RequestCardState extends State<RequestCard> {
   String id = '';
   String nickname = '';
   String photoUrl = '';
-  String status = '';
+  // String status = '';
 
   String releaserId = '';
   String releaserName = '';
@@ -35,12 +36,17 @@ class _RequestCardState extends State<RequestCard> {
     id = prefs.getString('id') ?? '';
     nickname = prefs.getString('nickname') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
-    status = prefs.getString('status') ?? '';
+    // status = prefs.getString('status') ?? '';
 
     releaserId = prefs.getString('releaserId') ?? '';
     releaserName = prefs.getString('releaserName') ?? '';
     releaserPhotoUrl = prefs.getString('releaserPhotoUrl') ?? '';
-
+      // Firestore.instance.collection('users').document(releaserId).get().then(
+      //     (DocumentSnapshot snapshot){
+            
+      //         releaserName = snapshot.data['nickname'].toString(); 
+      //         releaserPhotoUrl = snapshot.data['photoUrl'].toString();
+      //         });
     // Force refresh input
     setState(() {});
   }
@@ -138,26 +144,8 @@ class _RequestCardState extends State<RequestCard> {
                   height: 100,
                 ),
                 /* Button Container */
-                RaisedButton(
-                  padding: EdgeInsets.symmetric(vertical: 25, horizontal: 80),
-                  // padding: EdgeInsets.all(0),
-                  elevation: 15,
-
-                  splashColor: Colors.blueAccent,
-                  child: Text('Request',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green[900])),
-
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  onPressed: () =>
-                      (status == 'Releasing') ? _handleError(context) : null,
-                      // _handleRequest(context),
-                  //TODO: edit request database before modify this handler
-                  
-                ),
+                RoundedButton(colour: Colors.blueAccent,title: 'Request',onPressed:()=>_handleRequest(context),),
+                
               ],
             )
           ],
@@ -192,24 +180,21 @@ class _RequestCardState extends State<RequestCard> {
 //update release status
     Firestore.instance.collection('users').document(id).updateData({
       'status': 'Requesting',
-    }).then((data) async {
-      await prefs.setString('status', 'Requesting');
-      // Navigator.pushNamed(context, Home.id);
-      // Fluttertoast.showToast(msg: "Update success");
-    }).catchError((err) => print(err));
+    });
 
     Firestore.instance.collection('users').document(releaserId).updateData({
       'status': 'Getting Request',
     });
+    
 
-    Firestore.instance.collection('requests').add({
+    Firestore.instance.collection('requests').document(releaserId).updateData({
       'releaserId': releaserId,
       'bookerId': id,
       'bookerName': nickname,
       'bookerPhotoUrl': photoUrl,
-    }).then((data) async {
-      Navigator.pushNamed(context, Home.id);
-      Fluttertoast.showToast(msg: "Update success");
-    }).catchError((err) => print(err));
+      'turnOn':true,
+    });
+    Navigator.pushNamed(context, Home.id);
+    Fluttertoast.showToast(msg: "Update success");
   }
 }

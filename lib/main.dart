@@ -8,13 +8,15 @@ import 'package:flutter_parking_app/screens/home/slide_card_release.dart';
 import 'package:flutter_parking_app/screens/home/update_status.dart';
 import 'package:flutter_parking_app/screens/list_release/list_release.dart';
 import 'package:flutter_parking_app/screens/list_release/request_card.dart';
-import 'package:flutter_parking_app/screens/list_request/accept_card.dart';
-import 'package:flutter_parking_app/screens/list_request/list_request.dart';
 import 'package:flutter_parking_app/screens/login/login_v2.dart';
 import 'package:flutter_parking_app/screens/parking_status/parking_status.dart';
 import 'package:flutter_parking_app/screens/profile/profile.dart';
 import 'package:flutter_parking_app/screens/register/register.dart';
 import 'package:flutter_parking_app/screens/register/register_v2.dart';
+import 'package:flutter_parking_app/screens/request/accept_card.dart';
+import 'package:flutter_parking_app/screens/request/request.dart';
+import 'package:flutter_parking_app/screens/swap/contact_card.dart';
+import 'package:flutter_parking_app/screens/swap/swap.dart';
 import 'package:flutter_parking_app/screens/welcome_screen/welcome_screen.dart';
 
 void main() => runApp(MyApp());
@@ -33,7 +35,6 @@ class MyApp extends StatelessWidget {
       routes: {
         'welcome_screen': (context) => WelcomeScreen(),
         'register_v2':(context) => RegistrationScreen(),
-        // 'google_login': (context) => GoogleLogin(),
         'login_v2': (context)=>LoginScreen(),
         'home': (context) => Home(),
         'profile': (context) => Profile(),
@@ -46,8 +47,10 @@ class MyApp extends StatelessWidget {
         'list_release': (context) => ListRelease(),
         'request_card': (context) => RequestCard(),
         'accept_card': (context) => AcceptCard(),
-        'list_request': (context) => ListRequest(),
+        'request': (context) => Request(),
         'register': (context) => Register(),
+        'swap': (context) => Swap(),
+        'contact_card': (context) => ContactCard(),
       },
     );
   }

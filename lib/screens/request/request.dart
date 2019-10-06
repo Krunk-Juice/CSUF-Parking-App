@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_parking_app/screens/list_request/accept_card.dart';
+import 'package:flutter_parking_app/screens/request/accept_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences prefs;
 
-class ListRequest extends StatefulWidget {
-  static const String id = "list_request";
+class Request extends StatefulWidget {
+  static const String id = "request";
 
   @override
-  _ListRequestState createState() => _ListRequestState();
+  _RequestState createState() => _RequestState();
 }
 
-class _ListRequestState extends State<ListRequest> {
+class _RequestState extends State<Request> {
   // FirebaseUser currentUser;
   bool isLoading = false;
   String id = '';
@@ -49,7 +49,7 @@ class _ListRequestState extends State<ListRequest> {
           onPressed: () => Navigator.of(context).pop(),
           icon: Icon(Icons.arrow_back, color: Colors.black),
         ),
-        title: Text('List Requests Your Spot',
+        title: Text('Person Requests Your Spot',
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
             centerTitle: true,
       ),
@@ -87,6 +87,12 @@ class _ListRequestState extends State<ListRequest> {
                       children: bookerWidgets,
                     ),
                   );
+                }
+                else{
+                  return Center(
+                      child: Container(
+                          alignment: FractionalOffset.center,
+                          child: Image.asset('assets/images/loading.gif')));
                 }
               },
             ),
@@ -133,24 +139,14 @@ class RequestItem extends StatelessWidget {
                         shadowColor: Color(0x802196F3),
                         color: Colors.white,
                         child: InkWell(
-                          onTap: () => {
+                          onTap: (){
                             //set prefs for releaser
-                            prefs.setString('bookerId', bookerId),
-                            prefs.setString('bookerName', bookerName),
-                            prefs.setString('bookerPhotoUrl', bookerPhotoUrl),
-                            Navigator.pushNamed(context, AcceptCard.id),
+                            prefs.setString('bookerId', bookerId);
+                            prefs.setString('bookerName', bookerName);
+                            prefs.setString('bookerPhotoUrl', bookerPhotoUrl);
+                            Navigator.pushNamed(context, AcceptCard.id);
                           },
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => RequestPage(
-                          //       releaserId: releaserId,
-                          //       releaserName: releaserName,
-                          //       releaserPhotoUrl: releaserPhotoUrl,
-                          //     ),
-                          //   ),
-                          // ),
-                          // RequestPage(releaserId: releaserId,releaserName: releaserName,releaserPhotoUrl: releaserPhotoUrl,),
+                          
                           child: Padding(
                             padding: EdgeInsets.all(24.0),
                             child: Column(

@@ -27,6 +27,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String email;
   String password;
   String errorMessage;
+  String phoneNumber;
 
   @override
   void initState() {
@@ -87,6 +88,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 SizedBox(
                   height: 8.0,
                 ),
+                 TextFormField(
+                  keyboardType: TextInputType.phone,
+                  textAlign: TextAlign.center,
+                  validator: validatePhone,
+                  onSaved: (value) {
+                    phoneNumber = value;
+                  },
+                  decoration:
+                      kTextFeildDecoration.copyWith(hintText: 'Enter your phone number'),
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
                 TextFormField(
                   textAlign: TextAlign.center,
                   obscureText: true,
@@ -115,6 +129,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         progressIndicator: CircularProgressIndicator(),
       ),
     );
+  }
+
+
+String validatePhone(String value) {
+    Pattern pattern =
+        r'^(?:[+0]9)?[0-9]{10}$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Enter Valid Phone Number';
+    else
+      return null;
   }
 
   String validateEmail(String value) {
@@ -166,19 +191,44 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             'photoUrl': null,
             'id': firebaseUser.uid,
             'email': email,
-            'phone': null,
+            'phone': phoneNumber,
             'createdAt': DateTime.now().microsecondsSinceEpoch.toString(),
             'status': 'Relaxing',
+            'parkAt':null,
+            'leaveAt':null,
+          });
+          Firestore.instance
+              .collection('requests')
+              .document(firebaseUser.uid)
+              .setData({
+            'releaserId': firebaseUser.uid,
+            'bookerId': null,
+            'bookerName': null,
+            'bookerPhotoUrl': null,
+            'turnOn':false,
+            
+          });
+           Firestore.instance
+              .collection('swaps')
+              .document(firebaseUser.uid)
+              .setData({
+            'releaserId': firebaseUser.uid,
+            'releaserName':nickname,
+            'releaserPhotoUrl': null,
+            'bookerId': null,
+            'bookerName': null,
+            'bookerPhotoUrl': null,
+            'turnOn':false,
+            
           });
 
           //set user data to local
            prefs = await SharedPreferences.getInstance();
            await prefs.setString('id', firebaseUser.uid);
            await prefs.setString('email', email);
-           await prefs.setString('phone', null);
            await prefs.setString('nickname', nickname);
            await prefs.setString('photoUrl', null);
-           await prefs.setString('status', 'Relaxing');
+           
           Navigator.pushNamed(context, Home.id);
           Fluttertoast.showToast(msg: "Sign up success");
         } else {
