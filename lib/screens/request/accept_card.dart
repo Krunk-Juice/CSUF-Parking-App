@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_parking_app/components/round_button.dart';
 
 SharedPreferences prefs;
 
@@ -20,7 +21,7 @@ class _AcceptCardState extends State<AcceptCard> {
   String id = '';
   String nickname = '';
   String photoUrl = '';
-  String status = '';
+  // String status = '';
 
   String bookerId = '';
   String bookerName = '';
@@ -38,12 +39,17 @@ class _AcceptCardState extends State<AcceptCard> {
     id = prefs.getString('id') ?? '';
     nickname = prefs.getString('nickname') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
-    status = prefs.getString('status') ?? '';
+    // status = prefs.getString('status') ?? '';
 
     bookerId = prefs.getString('bookerId') ?? '';
     bookerName = prefs.getString('bookerName') ?? '';
     bookerPhotoUrl = prefs.getString('bookerPhotoUrl') ?? '';
-
+// Firestore.instance.collection('users').document(bookerId).get().then(
+//           (DocumentSnapshot snapshot){
+            
+//               bookerName = snapshot.data['nickname'].toString(); 
+//               bookerPhotoUrl = snapshot.data['photoUrl'].toString();
+//               });
     // Force refresh input
     setState(() {});
   }
@@ -59,7 +65,7 @@ class _AcceptCardState extends State<AcceptCard> {
             onPressed: () => Navigator.of(context).pop(),
             icon: Icon(Icons.arrow_back, color: Colors.black),
           ),
-          title: Text('Checking',
+          title: Text('Requester',
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
           centerTitle: true,
@@ -81,19 +87,7 @@ class _AcceptCardState extends State<AcceptCard> {
                     ),
                     child: Column(
                       children: <Widget>[
-                        Padding(
-                            padding: EdgeInsets.only(top: 50),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text('Booker',
-                                    style: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.white)),
-                              ],
-                            )),
+                        
                         Padding(
                             padding: EdgeInsets.only(top: 30),
                             // child: Stack(fit: StackFit.loose, children: <Widget>[
@@ -141,24 +135,18 @@ class _AcceptCardState extends State<AcceptCard> {
                   height: 100,
                 ),
                 /* Button Container */
-                RaisedButton(
-                  padding: EdgeInsets.symmetric(vertical: 25, horizontal: 80),
-                  // padding: EdgeInsets.all(0),
-                  elevation: 15,
-
-                  splashColor: Colors.blueAccent,
-                  child: Text('Accept',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green[900])),
-
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  onPressed: () => (status == 'Swaping')
-                      ? _handleError(context)
-                      : null,
-                      // _handleAccept(context),
+                RoundedButton(
+                  colour: Colors.greenAccent,
+                  title: 'Accept',
+                  onPressed:()=> _handleAccept(context),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                RoundedButton(
+                  colour: Colors.redAccent,
+                  title: 'Reject',
+                  onPressed: ()=>_handleReject(context),
                 ),
               ],
             )
@@ -166,56 +154,66 @@ class _AcceptCardState extends State<AcceptCard> {
         )));
   }
 
-  Future _handleError(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text('Check your status'),
-        content: new Text('Can not accpect request while giving'),
-        actions: <Widget>[
-          new FlatButton(
-            onPressed: () => Navigator.pushNamed(context, Home.id),
-            child: new Text('OK'),
-          ),
-          // new FlatButton(
-          //   onPressed: () {
-          //     // handleSignOut();
-          //     // Navigator.pushNamedAndRemoveUntil(context, LoginPage.id, (Route <dynamic> route)=>false);
+  // Future _handleError(BuildContext context) {
+  //   return showDialog(
+  //     context: context,
+  //     builder: (context) => new AlertDialog(
+  //       title: new Text('Check your status'),
+  //       content: new Text('Can not accpect request while giving'),
+  //       actions: <Widget>[
+  //         new FlatButton(
+  //           onPressed: () => Navigator.pushNamed(context, Home.id),
+  //           child: new Text('OK'),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
-          //   },
-          //   child: new Text('Yes'),
-          // ),
-        ],
-      ),
-    );
+  void _handleReject(BuildContext context) async {
+//update status
+
+    Firestore.instance.collection('users').document(bookerId).updateData({
+      'status': 'Relaxing',
+    });
+
+    Firestore.instance.collection('requests').document(id).updateData({
+      'turnOn': false,
+    });
+
+    Firestore.instance.collection('users').document(id).updateData({
+      'status': 'Releasing',
+    }).then((data) async {
+      await prefs.setString('status', 'Releasing');
+      
+      Navigator.pushNamed(context, Home.id);
+      Fluttertoast.showToast(msg: "Update success");
+    }).catchError((err) => print(err));
   }
 
-  
-
   void _handleAccept(BuildContext context) async {
-//update release status
-    Firestore.instance.collection('users').document(id).updateData({
-      'status': 'Swaping',
-    }).then((data) async {
-      await prefs.setString('status', 'Swaping');
-      await db.collection('requests').document(id).delete();
-      // Navigator.pushNamed(context, Home.id);
-      // Fluttertoast.showToast(msg: "Update success");
-    }).catchError((err) => print(err));
+//update status
 
     Firestore.instance.collection('users').document(bookerId).updateData({
       'status': 'Swaping',
     });
 
+    Firestore.instance.collection('requests').document(id).updateData({
+      'turnOn': false,
+    });
 
+    Firestore.instance.collection('users').document(id).updateData({
+      'status': 'Swaping',
+    });
 
-    Firestore.instance.collection('swaps').add({
+    Firestore.instance.collection('swaps').document(id).updateData({
       'releaserId': id,
       'releaserName': nickname,
-      'releaserPhoto': photoUrl,
+      'releaserPhotoUrl': photoUrl,
       'bookerId': bookerId,
       'bookerName': bookerName,
       'bookerPhotoUrl': bookerPhotoUrl,
+      'turnOn': true,
     }).then((data) async {
       Navigator.pushNamed(context, Home.id);
       Fluttertoast.showToast(msg: "Update success");

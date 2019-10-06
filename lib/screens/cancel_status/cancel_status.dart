@@ -4,25 +4,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter_parking_app/components/round_button.dart';
 
 SharedPreferences prefs;
-
-class RequestCard extends StatefulWidget {
-  static const String id = "request_card";
+String status = '';
+class CancelStatus extends StatefulWidget {
+  static const String id = "cancel_status";
   @override
-  _RequestCardState createState() => _RequestCardState();
+  _CancelStatusState createState() => _CancelStatusState();
 }
 
-class _RequestCardState extends State<RequestCard> {
+class _CancelStatusState extends State<CancelStatus> {
   String id = '';
   String nickname = '';
   String photoUrl = '';
-  // String status = '';
+  
 
   String releaserId = '';
-  String releaserName = '';
-  String releaserPhotoUrl = '';
+  // String releaserName = '';
+  // String releaserPhotoUrl = '';
 
   @override
   void initState() {
@@ -36,17 +35,12 @@ class _RequestCardState extends State<RequestCard> {
     id = prefs.getString('id') ?? '';
     nickname = prefs.getString('nickname') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
-    // status = prefs.getString('status') ?? '';
+    status = prefs.getString('status') ?? '';
 
     releaserId = prefs.getString('releaserId') ?? '';
-    releaserName = prefs.getString('releaserName') ?? '';
-    releaserPhotoUrl = prefs.getString('releaserPhotoUrl') ?? '';
-      // Firestore.instance.collection('users').document(releaserId).get().then(
-      //     (DocumentSnapshot snapshot){
-            
-      //         releaserName = snapshot.data['nickname'].toString(); 
-      //         releaserPhotoUrl = snapshot.data['photoUrl'].toString();
-      //         });
+    // releaserName = prefs.getString('releaserName') ?? '';
+    // releaserPhotoUrl = prefs.getString('releaserPhotoUrl') ?? '';
+
     // Force refresh input
     setState(() {});
   }
@@ -62,10 +56,10 @@ class _RequestCardState extends State<RequestCard> {
             onPressed: () => Navigator.of(context).pop(),
             icon: Icon(Icons.arrow_back, color: Colors.black),
           ),
-          title: Text('Request',
+          title: Text('Update',
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
-          centerTitle: true,
+                  centerTitle: true,
         ),
         body: Container(
             //color: Colors.blueGrey,
@@ -90,7 +84,7 @@ class _RequestCardState extends State<RequestCard> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text('Spot Holder',
+                                Text(status,
                                     style: TextStyle(
                                         fontSize: 30,
                                         fontWeight: FontWeight.normal,
@@ -109,14 +103,14 @@ class _RequestCardState extends State<RequestCard> {
                                     color: Colors.blue,
                                     borderRadius: BorderRadius.circular(24.0),
                                     child: ClipOval(
-                                      child: releaserPhotoUrl == null
+                                      child: photoUrl == null
                                           ? Icon(
                                               Icons.account_circle,
                                               size: 90.0,
                                               color: Colors.grey,
                                             )
                                           : CachedNetworkImage(
-                                              imageUrl: releaserPhotoUrl,
+                                              imageUrl: photoUrl,
                                               width: 50.0,
                                               height: 50.0,
                                             ),
@@ -131,7 +125,7 @@ class _RequestCardState extends State<RequestCard> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(releaserName,
+                                Text(nickname,
                                     style: TextStyle(
                                         fontSize: 30,
                                         fontWeight: FontWeight.normal,
@@ -144,57 +138,65 @@ class _RequestCardState extends State<RequestCard> {
                   height: 100,
                 ),
                 /* Button Container */
-                RoundedButton(colour: Colors.blueAccent,title: 'Request',onPressed:()=>_handleRequest(context),),
-                
+                RaisedButton(
+                  padding: EdgeInsets.symmetric(vertical: 25, horizontal: 80),
+                  // padding: EdgeInsets.all(0),
+                  elevation: 15,
+
+                  splashColor: Colors.blueAccent,
+                  child: Text('Cancel',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green[900])),
+
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  onPressed: () => _handleCancel(context),
+                ),
               ],
             )
           ],
         )));
   }
 
-  Future _handleError(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text('Check your status'),
-        content: new Text('Can not request while releasing'),
-        actions: <Widget>[
-          new FlatButton(
-            onPressed: () => Navigator.pushNamed(context, Home.id),
-            child: new Text('OK'),
-          ),
-          // new FlatButton(
-          //   onPressed: () {
-          //     // handleSignOut();
-          //     // Navigator.pushNamedAndRemoveUntil(context, LoginPage.id, (Route <dynamic> route)=>false);
+  
 
-          //   },
-          //   child: new Text('Yes'),
-          // ),
-        ],
-      ),
-    );
-  }
-
-  void _handleRequest(BuildContext context) {
-//update release status
-    Firestore.instance.collection('users').document(id).updateData({
-      'status': 'Requesting',
-    });
-
-    Firestore.instance.collection('users').document(releaserId).updateData({
-      'status': 'Getting Request',
+  void _handleCancel(BuildContext context) {
+//update status
+    
+    if(status == 'Requesting')
+    {
+    Firestore.instance.collection('requests').document(releaserId).updateData({
+      'turnOn': false,
     });
     
-
-    Firestore.instance.collection('requests').document(releaserId).updateData({
-      'releaserId': releaserId,
-      'bookerId': id,
-      'bookerName': nickname,
-      'bookerPhotoUrl': photoUrl,
-      'turnOn':true,
+    Firestore.instance.collection('users').document(releaserId).updateData({
+      'status': 'Releasing',
     });
-    Navigator.pushNamed(context, Home.id);
-    Fluttertoast.showToast(msg: "Update success");
+    }
+
+    // if(status == 'Getting Request')
+    // {
+    // Firestore.instance.collection('requests').document(releaserId).updateData({
+    //   'turnOn': false,
+    // });
+    // Firestore.instance.collection('users').document().updateData({
+    //   'status': 'Releasing',
+    // });
+    
+    // }
+    
+    
+    Firestore.instance.collection('users').document(id).updateData({
+      'status': 'Relaxing',
+    }).then((data) async {
+      await prefs.setString('status', 'Relaxing');
+      Navigator.pushNamed(context, Home.id);
+      Fluttertoast.showToast(msg: "Update success");
+      
+    }).catchError((err) => print(err));
+
+    
   }
 }

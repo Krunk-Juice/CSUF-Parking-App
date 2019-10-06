@@ -1,27 +1,33 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/screens/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_parking_app/components/round_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 SharedPreferences prefs;
 
-class UpdateStatus extends StatefulWidget {
-  static const String id = "update_status";
+class ContactCard extends StatefulWidget {
+  static const String id = "contact_card";
   @override
-  _UpdateStatusState createState() => _UpdateStatusState();
+  _ContactCardState createState() => _ContactCardState();
 }
 
-class _UpdateStatusState extends State<UpdateStatus> {
-  String id = '';
-  String nickname = '';
-  String photoUrl = '';
-  String status = '';
+class _ContactCardState extends State<ContactCard> {
+  // final db = Firestore.instance;
 
-  String releaserId = '';
-  String releaserName = '';
-  String releaserPhotoUrl = '';
+  String id = '';
+  // String nickname = '';
+  // String photoUrl = '';
+  // String status = '';
+  Future<void> _launched;
+  String swaperId = '';
+  String swaperName = '';
+  String swaperPhotoUrl = '';
+  String swaperPhoneNumber = '';
 
   @override
   void initState() {
@@ -33,13 +39,23 @@ class _UpdateStatusState extends State<UpdateStatus> {
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
-    nickname = prefs.getString('nickname') ?? '';
-    photoUrl = prefs.getString('photoUrl') ?? '';
-    status = prefs.getString('status') ?? '';
+    // nickname = prefs.getString('nickname') ?? '';
+    // photoUrl = prefs.getString('photoUrl') ?? '';
+    // status = prefs.getString('status') ?? '';
 
-    releaserId = prefs.getString('releaserId') ?? '';
-    releaserName = prefs.getString('releaserName') ?? '';
-    releaserPhotoUrl = prefs.getString('releaserPhotoUrl') ?? '';
+    swaperId = prefs.getString('swaperId') ?? '';
+    swaperName = prefs.getString('swaperName') ?? '';
+    swaperPhotoUrl = prefs.getString('swaperPhotoUrl') ?? '';
+
+    Firestore.instance
+        .collection('users')
+        .document(swaperId)
+        .get()
+        .then((DocumentSnapshot snapshot) {
+      swaperPhoneNumber = snapshot.data['phone'].toString();
+      // swaperName = snapshot.data['nickname'].toString();
+      swaperPhotoUrl = snapshot.data['photoUrl'];
+    });
 
     // Force refresh input
     setState(() {});
@@ -56,10 +72,10 @@ class _UpdateStatusState extends State<UpdateStatus> {
             onPressed: () => Navigator.of(context).pop(),
             icon: Icon(Icons.arrow_back, color: Colors.black),
           ),
-          title: Text('Update',
+          title: Text('Swaper',
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
-                  centerTitle: true,
+          centerTitle: true,
         ),
         body: Container(
             //color: Colors.blueGrey,
@@ -79,19 +95,6 @@ class _UpdateStatusState extends State<UpdateStatus> {
                     child: Column(
                       children: <Widget>[
                         Padding(
-                            padding: EdgeInsets.only(top: 50),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(status,
-                                    style: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.white)),
-                              ],
-                            )),
-                        Padding(
                             padding: EdgeInsets.only(top: 30),
                             // child: Stack(fit: StackFit.loose, children: <Widget>[
                             //   /* Container fills the full width of the device */
@@ -103,14 +106,14 @@ class _UpdateStatusState extends State<UpdateStatus> {
                                     color: Colors.blue,
                                     borderRadius: BorderRadius.circular(24.0),
                                     child: ClipOval(
-                                      child: photoUrl == null
+                                      child: swaperPhotoUrl == null
                                           ? Icon(
                                               Icons.account_circle,
                                               size: 90.0,
                                               color: Colors.grey,
                                             )
                                           : CachedNetworkImage(
-                                              imageUrl: photoUrl,
+                                              imageUrl: swaperPhotoUrl,
                                               width: 50.0,
                                               height: 50.0,
                                             ),
@@ -125,7 +128,7 @@ class _UpdateStatusState extends State<UpdateStatus> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(nickname,
+                                Text(swaperName,
                                     style: TextStyle(
                                         fontSize: 30,
                                         fontWeight: FontWeight.normal,
@@ -138,41 +141,86 @@ class _UpdateStatusState extends State<UpdateStatus> {
                   height: 100,
                 ),
                 /* Button Container */
-                RaisedButton(
-                  padding: EdgeInsets.symmetric(vertical: 25, horizontal: 80),
-                  // padding: EdgeInsets.all(0),
-                  elevation: 15,
-
-                  splashColor: Colors.blueAccent,
-                  child: Text('Cancel',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green[900])),
-
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  onPressed: () => _handleCancel(context),
+                Row(
+                  children: <Widget>[
+                    RoundedButton(
+                      colour: Colors.blueAccent,
+                      title: 'Call',
+                      onPressed: () => _handleCall(),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    RoundedButton(
+                      colour: Colors.greenAccent,
+                      title: 'Message',
+                      onPressed: () => _handleMessage(),
+                    ),
+                  ],
                 ),
+                SizedBox(
+                  height: 10,
+                ),
+                RoundedButton(
+                  colour: Colors.redAccent,
+                  title: 'Finish',
+                  onPressed: () => _handleFinish(context),
+                )
               ],
-            )
+            ),
+            FutureBuilder<void>(future: _launched, builder: _launchStatus),
           ],
         )));
   }
 
-  
+  Future _handleFinish(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Are you sure?'),
+        content: new Text('You finish swap'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () {
 
-  void _handleCancel(BuildContext context) {
-//update release status
-    Firestore.instance.collection('users').document(id).updateData({
-      'status': 'Relaxing',
-    }).then((data) async {
-      await prefs.setString('status', 'Relaxing');
-      Navigator.pushNamed(context, Home.id);
-      Fluttertoast.showToast(msg: "Update success");
-      
-    }).catchError((err) => print(err));
+              Firestore.instance.collection('users').document(id).updateData({
+                'status': 'Relaxing',
+              }).then((data) async {
+                await prefs.setString('status', 'Relaxing');
 
-    
+                Navigator.pushNamed(context, Home.id);
+                Fluttertoast.showToast(msg: "Update success");
+              }).catchError((err) => print(err));
+
+            },
+            child: new Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _handleCall() async {
+    _launched = _makePhoneCallAndTextMessage('tel:$swaperPhoneNumber');
+  }
+
+  void _handleMessage() async {
+    _launched = _makePhoneCallAndTextMessage('sms:$swaperPhoneNumber');
+  }
+
+  Widget _launchStatus(BuildContext context, AsyncSnapshot<void> snapshot) {
+    if (snapshot.hasError) {
+      return Text('Error: ${snapshot.error}');
+    } else {
+      return const Text('');
+    }
+  }
+
+  Future<void> _makePhoneCallAndTextMessage(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
