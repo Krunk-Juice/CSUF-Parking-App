@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_parking_app/screens/cancel_status/cancel_status.dart';
-import 'package:flutter_parking_app/screens/csuf_map/csuf_map.dart';
-import 'package:flutter_parking_app/screens/drawer/drawer_navigation.dart';
-import 'package:flutter_parking_app/screens/free_parking_map/free_parking_map.dart';
-import 'package:flutter_parking_app/screens/home/home.dart';
-import 'package:flutter_parking_app/screens/list_release/list_release.dart';
-import 'package:flutter_parking_app/screens/list_release/request_card.dart';
-import 'package:flutter_parking_app/screens/login/login_v2.dart';
-import 'package:flutter_parking_app/screens/parking_status/parking_status.dart';
-import 'package:flutter_parking_app/screens/profile/profile.dart';
-import 'package:flutter_parking_app/screens/register/register.dart';
-import 'package:flutter_parking_app/screens/register/register_v2.dart';
-import 'package:flutter_parking_app/screens/request/accept_card.dart';
-import 'package:flutter_parking_app/screens/request/request.dart';
-import 'package:flutter_parking_app/screens/slide_card_release/slide_card_release.dart';
-import 'package:flutter_parking_app/screens/swap/contact_card.dart';
-import 'package:flutter_parking_app/screens/swap/swap.dart';
-import 'package:flutter_parking_app/screens/welcome_screen/welcome_screen.dart';
+import 'package:flutter_parking_app/views/cancel_status/cancel_status.dart';
+import 'package:flutter_parking_app/views/csuf_map/csuf_map.dart';
+import 'package:flutter_parking_app/views/drawer/drawer_navigation.dart';
+import 'package:flutter_parking_app/views/free_parking_map/free_parking_map.dart';
+import 'package:flutter_parking_app/views/home/home.dart';
+import 'package:flutter_parking_app/views/list_release/list_release.dart';
+import 'package:flutter_parking_app/views/list_release/request_card.dart';
+import 'package:flutter_parking_app/views/login/login_v2.dart';
+import 'package:flutter_parking_app/views/parking_status/parking_status.dart';
+import 'package:flutter_parking_app/views/profile/profile.dart';
+import 'package:flutter_parking_app/views/register/register_v2.dart';
+import 'package:flutter_parking_app/views/request/accept_card.dart';
+import 'package:flutter_parking_app/views/slide_card_release/slide_card_release.dart';
+import 'package:flutter_parking_app/views/swap/contact_card.dart';
+import 'package:flutter_parking_app/views/swap/swap.dart';
+import 'package:flutter_parking_app/views/welcome_screen/welcome_screen.dart';
 
 void main() => runApp(MyApp());
 // This widget is the root of your application.
@@ -47,8 +45,7 @@ class MyApp extends StatelessWidget {
         'list_release': (context) => ListRelease(),
         'request_card': (context) => RequestCard(),
         'accept_card': (context) => AcceptCard(),
-        'request': (context) => Request(),
-        'register': (context) => Register(),
+        'request': (context) => RequestCard(),
         'swap': (context) => Swap(),
         'contact_card': (context) => ContactCard(),
       },

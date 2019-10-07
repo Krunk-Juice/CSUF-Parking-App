@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/main.dart';
-import 'package:flutter_parking_app/screens/profile/profile.dart';
+import 'package:flutter_parking_app/views/profile/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

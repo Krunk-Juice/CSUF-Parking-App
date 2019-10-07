@@ -1,10 +1,10 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/screens/home/home.dart';
-import 'package:flutter_parking_app/screens/login/login_v2.dart';
 import 'package:flutter_parking_app/components/round_button.dart';
-import 'package:flutter_parking_app/screens/register/register_v2.dart';
+import 'package:flutter_parking_app/views/home/home.dart';
+import 'package:flutter_parking_app/views/login/login_v2.dart';
+import 'package:flutter_parking_app/views/register/register_v2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
