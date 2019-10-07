@@ -1,5 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/screens/home/home.dart';
+import 'package:flutter_parking_app/views/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,21 +9,23 @@ import 'package:flutter_parking_app/components/round_button.dart';
 
 SharedPreferences prefs;
 
-class RequestCard extends StatefulWidget {
-  static const String id = "request_card";
+class AcceptCard extends StatefulWidget {
+  static const String id = "accept_card";
   @override
-  _RequestCardState createState() => _RequestCardState();
+  _AcceptCardState createState() => _AcceptCardState();
 }
 
-class _RequestCardState extends State<RequestCard> {
+class _AcceptCardState extends State<AcceptCard> {
+  final db = Firestore.instance;
+
   String id = '';
   String nickname = '';
   String photoUrl = '';
   // String status = '';
 
-  String releaserId = '';
-  String releaserName = '';
-  String releaserPhotoUrl = '';
+  String bookerId = '';
+  String bookerName = '';
+  String bookerPhotoUrl = '';
 
   @override
   void initState() {
@@ -38,15 +41,15 @@ class _RequestCardState extends State<RequestCard> {
     photoUrl = prefs.getString('photoUrl') ?? '';
     // status = prefs.getString('status') ?? '';
 
-    releaserId = prefs.getString('releaserId') ?? '';
-    releaserName = prefs.getString('releaserName') ?? '';
-    releaserPhotoUrl = prefs.getString('releaserPhotoUrl') ?? '';
-      // Firestore.instance.collection('users').document(releaserId).get().then(
-      //     (DocumentSnapshot snapshot){
+    bookerId = prefs.getString('bookerId') ?? '';
+    bookerName = prefs.getString('bookerName') ?? '';
+    bookerPhotoUrl = prefs.getString('bookerPhotoUrl') ?? '';
+// Firestore.instance.collection('users').document(bookerId).get().then(
+//           (DocumentSnapshot snapshot){
             
-      //         releaserName = snapshot.data['nickname'].toString(); 
-      //         releaserPhotoUrl = snapshot.data['photoUrl'].toString();
-      //         });
+//               bookerName = snapshot.data['nickname'].toString(); 
+//               bookerPhotoUrl = snapshot.data['photoUrl'].toString();
+//               });
     // Force refresh input
     setState(() {});
   }
@@ -62,7 +65,7 @@ class _RequestCardState extends State<RequestCard> {
             onPressed: () => Navigator.of(context).pop(),
             icon: Icon(Icons.arrow_back, color: Colors.black),
           ),
-          title: Text('Request',
+          title: Text('Requester',
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
           centerTitle: true,
@@ -84,19 +87,7 @@ class _RequestCardState extends State<RequestCard> {
                     ),
                     child: Column(
                       children: <Widget>[
-                        Padding(
-                            padding: EdgeInsets.only(top: 50),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text('Spot Holder',
-                                    style: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.white)),
-                              ],
-                            )),
+                        
                         Padding(
                             padding: EdgeInsets.only(top: 30),
                             // child: Stack(fit: StackFit.loose, children: <Widget>[
@@ -109,14 +100,14 @@ class _RequestCardState extends State<RequestCard> {
                                     color: Colors.blue,
                                     borderRadius: BorderRadius.circular(24.0),
                                     child: ClipOval(
-                                      child: releaserPhotoUrl == null
+                                      child: bookerPhotoUrl == null
                                           ? Icon(
                                               Icons.account_circle,
                                               size: 90.0,
                                               color: Colors.grey,
                                             )
                                           : CachedNetworkImage(
-                                              imageUrl: releaserPhotoUrl,
+                                              imageUrl: bookerPhotoUrl,
                                               width: 50.0,
                                               height: 50.0,
                                             ),
@@ -131,7 +122,7 @@ class _RequestCardState extends State<RequestCard> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(releaserName,
+                                Text(bookerName,
                                     style: TextStyle(
                                         fontSize: 30,
                                         fontWeight: FontWeight.normal,
@@ -141,60 +132,91 @@ class _RequestCardState extends State<RequestCard> {
                       ],
                     )),
                 SizedBox(
-                  height: 100,
+                  height: 50,
                 ),
                 /* Button Container */
-                RoundedButton(colour: Colors.blueAccent,title: 'Request',onPressed:()=>_handleRequest(context),),
-                
+                RoundedButton(
+                  colour: Colors.greenAccent,
+                  title: 'Accept',
+                  onPressed:()=> _handleAccept(context),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                RoundedButton(
+                  colour: Colors.redAccent,
+                  title: 'Reject',
+                  onPressed: ()=>_handleReject(context),
+                ),
               ],
             )
           ],
         )));
   }
 
-  Future _handleError(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text('Check your status'),
-        content: new Text('Can not request while releasing'),
-        actions: <Widget>[
-          new FlatButton(
-            onPressed: () => Navigator.pushNamed(context, Home.id),
-            child: new Text('OK'),
-          ),
-          // new FlatButton(
-          //   onPressed: () {
-          //     // handleSignOut();
-          //     // Navigator.pushNamedAndRemoveUntil(context, LoginPage.id, (Route <dynamic> route)=>false);
+  // Future _handleError(BuildContext context) {
+  //   return showDialog(
+  //     context: context,
+  //     builder: (context) => new AlertDialog(
+  //       title: new Text('Check your status'),
+  //       content: new Text('Can not accpect request while giving'),
+  //       actions: <Widget>[
+  //         new FlatButton(
+  //           onPressed: () => Navigator.pushNamed(context, Home.id),
+  //           child: new Text('OK'),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
-          //   },
-          //   child: new Text('Yes'),
-          // ),
-        ],
-      ),
-    );
+  void _handleReject(BuildContext context) async {
+//update status
+
+    Firestore.instance.collection('users').document(bookerId).updateData({
+      'status': 'Relaxing',
+    });
+
+    Firestore.instance.collection('requests').document(id).updateData({
+      'turnOn': false,
+    });
+
+    Firestore.instance.collection('users').document(id).updateData({
+      'status': 'Releasing',
+    }).then((data) async {
+      await prefs.setString('status', 'Releasing');
+      
+      Navigator.pushNamed(context, Home.id);
+      Fluttertoast.showToast(msg: "Update success");
+    }).catchError((err) => print(err));
   }
 
-  void _handleRequest(BuildContext context) {
-//update release status
+  void _handleAccept(BuildContext context) async {
+//update status
+
+    Firestore.instance.collection('users').document(bookerId).updateData({
+      'status': 'Swaping',
+    });
+
+    Firestore.instance.collection('requests').document(id).updateData({
+      'turnOn': false,
+    });
+
     Firestore.instance.collection('users').document(id).updateData({
-      'status': 'Requesting',
+      'status': 'Swaping',
     });
 
-    Firestore.instance.collection('users').document(releaserId).updateData({
-      'status': 'Getting Request',
-    });
-    
-
-    Firestore.instance.collection('requests').document(releaserId).updateData({
-      'releaserId': releaserId,
-      'bookerId': id,
-      'bookerName': nickname,
-      'bookerPhotoUrl': photoUrl,
-      'turnOn':true,
-    });
-    Navigator.pushNamed(context, Home.id);
-    Fluttertoast.showToast(msg: "Update success");
+    Firestore.instance.collection('swaps').document(id).updateData({
+      'releaserId': id,
+      'releaserName': nickname,
+      'releaserPhotoUrl': photoUrl,
+      'bookerId': bookerId,
+      'bookerName': bookerName,
+      'bookerPhotoUrl': bookerPhotoUrl,
+      'turnOn': true,
+    }).then((data) async {
+      Navigator.pushNamed(context, Home.id);
+      Fluttertoast.showToast(msg: "Update success");
+    }).catchError((err) => print(err));
   }
 }

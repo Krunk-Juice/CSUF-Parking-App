@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/components/round_button.dart';
-import 'package:flutter_parking_app/screens/cancel_status/cancel_status.dart';
-import 'package:flutter_parking_app/screens/csuf_map/csuf_map.dart';
-import 'package:flutter_parking_app/screens/free_parking_map/free_parking_map.dart';
-import 'package:flutter_parking_app/screens/list_release/list_release.dart';
-import 'package:flutter_parking_app/screens/parking_status/parking_status.dart';
-import 'package:flutter_parking_app/screens/request/request.dart';
-import 'package:flutter_parking_app/screens/slide_card_release/slide_card_release.dart';
-import 'package:flutter_parking_app/screens/swap/swap.dart';
+import 'package:flutter_parking_app/views/cancel_status/cancel_status.dart';
+import 'package:flutter_parking_app/views/csuf_map/csuf_map.dart';
+import 'package:flutter_parking_app/views/free_parking_map/free_parking_map.dart';
+import 'package:flutter_parking_app/views/list_release/list_release.dart';
+import 'package:flutter_parking_app/views/list_release/request_card.dart';
+import 'package:flutter_parking_app/views/parking_status/parking_status.dart';
+import 'package:flutter_parking_app/views/request/accept_card.dart';
+import 'package:flutter_parking_app/views/request/request.dart';
+import 'package:flutter_parking_app/views/slide_card_release/slide_card_release.dart';
+import 'package:flutter_parking_app/views/swap/swap.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class HomeBody extends StatelessWidget {
@@ -125,7 +127,7 @@ class HomeBody extends StatelessWidget {
               onTap: () => Navigator.pushNamed(context, ParkingStatus.id),
               // Navigator.pushNamed(context, ListRequest.id),
             ),
-            _buildTile(
+            (status != 'Relaxing' )?SizedBox(height: 0,):_buildTile(
               Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: Row(
@@ -199,7 +201,7 @@ class HomeBody extends StatelessWidget {
             StaggeredTile.extent(2, 110.0),
             StaggeredTile.extent(1, 180.0),
             StaggeredTile.extent(1, 180.0),
-            StaggeredTile.extent(2, 110.0),
+            (status !='Relaxing')?StaggeredTile.extent(2,0):StaggeredTile.extent(2, 110.0),
             StaggeredTile.extent(2, 110.0),
             StaggeredTile.extent(2, 100.0),
           ],

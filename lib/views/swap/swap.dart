@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_parking_app/screens/request/accept_card.dart';
-import 'package:flutter_parking_app/screens/swap/contact_card.dart';
+import 'package:flutter_parking_app/views/swap/contact_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences prefs;

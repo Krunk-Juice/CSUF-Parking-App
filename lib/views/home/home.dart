@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/screens/drawer/drawer_navigation.dart';
-import 'package:flutter_parking_app/screens/home/home_body.dart';
+import 'package:flutter_parking_app/views/drawer/drawer_navigation.dart';
+import 'package:flutter_parking_app/views/home/home_body.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

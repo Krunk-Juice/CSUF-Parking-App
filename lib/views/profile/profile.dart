@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/screens/profile/profile_body.dart';
-import 'package:flutter_parking_app/screens/profile/profile_header.dart';
+import 'package:flutter_parking_app/views/profile/profile_body.dart';
+import 'package:flutter_parking_app/views/profile/profile_header.dart';
 
 
 
