@@ -191,6 +191,7 @@ class _CancelStatusState extends State<CancelStatus> {
     Firestore.instance.collection('users').document(id).updateData({
       'status': 'Relaxing',
     }).then((data) async {
+      
       await prefs.setString('status', 'Relaxing');
       Navigator.pushNamed(context, Home.id);
       Fluttertoast.showToast(msg: "Update success");

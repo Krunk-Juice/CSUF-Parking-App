@@ -12,6 +12,7 @@ import 'package:flutter_parking_app/views/parking_status/parking_status.dart';
 import 'package:flutter_parking_app/views/profile/profile.dart';
 import 'package:flutter_parking_app/views/register/register_v2.dart';
 import 'package:flutter_parking_app/views/request/accept_card.dart';
+import 'package:flutter_parking_app/views/request/request.dart';
 import 'package:flutter_parking_app/views/slide_card_release/slide_card_release.dart';
 import 'package:flutter_parking_app/views/swap/contact_card.dart';
 import 'package:flutter_parking_app/views/swap/swap.dart';
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
         'list_release': (context) => ListRelease(),
         'request_card': (context) => RequestCard(),
         'accept_card': (context) => AcceptCard(),
-        'request': (context) => RequestCard(),
+        'request': (context) => Request(),
         'swap': (context) => Swap(),
         'contact_card': (context) => ContactCard(),
       },

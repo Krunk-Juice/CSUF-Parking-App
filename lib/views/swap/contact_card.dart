@@ -138,7 +138,7 @@ class _ContactCardState extends State<ContactCard> {
                       ],
                     )),
                 SizedBox(
-                  height: 100,
+                  height: 50,
                 ),
                 /* Button Container */
                 Row(

@@ -132,7 +132,7 @@ class _AcceptCardState extends State<AcceptCard> {
                       ],
                     )),
                 SizedBox(
-                  height: 100,
+                  height: 50,
                 ),
                 /* Button Container */
                 RoundedButton(
