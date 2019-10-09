@@ -26,14 +26,16 @@ class _SlideCardReleaseState extends State<SlideCardRelease> {
   Widget build(BuildContext context) {
     return SafeArea(
           child: Scaffold(
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Colors.transparent,
           leading: IconButton(
-            color: Colors.black,
+            // color: Colors.black,
             onPressed: () => Navigator.of(context).pop(),
-            icon: Icon(Icons.arrow_back, color: Colors.black),
+            icon: Icon(Icons.arrow_back, 
+            // color: Colors.black,
+            ),
           ),
           // title: Text('Releasing',
           //     style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
@@ -56,12 +58,12 @@ class _SlideCardReleaseState extends State<SlideCardRelease> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Where you park your car?',
+                                Text('Where did you park your car?',
                                     style: TextStyle(
                                         color: Colors.redAccent, fontSize: 15)),
                                 Text('Please choose one!',
                                     style: TextStyle(
-                                        color: Colors.black,
+                                        // color: Colors.black,
                                         fontWeight: FontWeight.w700,
                                         fontSize: 20)),
                               ],
@@ -254,7 +256,9 @@ class CardContent extends StatelessWidget {
             offset: Offset(32 * offset, 0),
             child: Text(
               date,
-              style: TextStyle(color: Colors.grey),
+              style: TextStyle(
+                // color: Colors.grey
+              ),
             ),
           ),
           Spacer(),

@@ -27,18 +27,23 @@ class MapScreenState extends State<Profile> with SingleTickerProviderStateMixin 
       appBar: AppBar
       (
         elevation: 0.0,
-        backgroundColor: Colors.transparent,
+        // backgroundColor: Colors.transparent,
         leading: IconButton
         (
-          color: Colors.black,
+          
           onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, 
+          // color: Colors.black,
+          ),
         ),
-        title: Text('Profile', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
+        title: Text('Profile', style: TextStyle(
+          // color: Colors.black, 
+          fontWeight: FontWeight.w700)
+        ),
         centerTitle: true,
       ),
       body: Container(
-        color: Colors.blueGrey,
+        // color: Colors.blueGrey,
         child: ListView(
           children: <Widget>[
             Column(children: <Widget>[

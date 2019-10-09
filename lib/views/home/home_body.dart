@@ -47,7 +47,7 @@ class HomeBody extends StatelessWidget {
                               
                           Text(status,
                               style: TextStyle(
-                                  color: Colors.black,
+                                  // color: Colors.black,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 30.0))
                         ],
@@ -91,7 +91,7 @@ class HomeBody extends StatelessWidget {
                       Padding(padding: EdgeInsets.only(bottom: 16.0)),
                       Text('CSUF Map',
                           style: TextStyle(
-                              color: Colors.black,
+                              // color: Colors.black,
                               fontWeight: FontWeight.w700,
                               fontSize: 24.0)),
                       Text('Zoom In and Out Map',
@@ -118,7 +118,7 @@ class HomeBody extends StatelessWidget {
                       Padding(padding: EdgeInsets.only(bottom: 16.0)),
                       Text('Parking Status',
                           style: TextStyle(
-                              color: Colors.black,
+                              // color: Colors.black,
                               fontWeight: FontWeight.w700,
                               fontSize: 20.0)),
                       
@@ -143,7 +143,7 @@ class HomeBody extends StatelessWidget {
                                   TextStyle(color: Colors.pink, fontSize: 15)),
                           Text('Available',
                               style: TextStyle(
-                                  color: Colors.black,
+                                  // color: Colors.black,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 34.0)),
                         ],
@@ -177,7 +177,7 @@ class HomeBody extends StatelessWidget {
                                   color: Colors.purpleAccent, fontSize: 15)),
                           Text('4 Locations',
                               style: TextStyle(
-                                  color: Colors.black,
+                                  // color: Colors.black,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 34.0))
                         ],

@@ -75,7 +75,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
             trailing: Icon(Icons.arrow_forward),
           ),
           ListTile(
-            title: Text("SignOut"),
+            title: Text("Sign Out"),
             trailing: Icon(Icons.exit_to_app),
             onTap: () {
               handleSignOut();

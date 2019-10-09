@@ -42,15 +42,21 @@ class _ListReleaseState extends State<ListRelease> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.transparent,
+        // backgroundColor: Colors.transparent,
         leading: IconButton(
-          color: Colors.black,
+          // color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, 
+          // color: Colors.black,
+          ),
         ),
         title: Text('List Spot Holder Releasing Spot',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
-            centerTitle: true,
+            style: TextStyle(
+              // color: Colors.black, 
+              fontWeight: FontWeight.w700
+            )
+        ),
+        centerTitle: true,
       ),
       body: SafeArea(
         child: Column(
@@ -121,7 +127,9 @@ class ReleaseItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 16.0),
+      padding: EdgeInsets.only(top: 6.0,
+      bottom: 10.0,
+      ),
       child: Stack(
         children: <Widget>[
           /// Item card
@@ -139,7 +147,7 @@ class ReleaseItem extends StatelessWidget {
                         elevation: 14.0,
                         borderRadius: BorderRadius.circular(12.0),
                         shadowColor: Color(0x802196F3),
-                        color: Colors.white,
+                        // color: Colors.white,
                         child: InkWell(
                           onTap: () {
                             //set prefs for releaser
@@ -173,7 +181,7 @@ class ReleaseItem extends StatelessWidget {
                                                 ? releaserParking
                                                 : 'Not Available',
                                             style: TextStyle(
-                                                color: Colors.black,
+                                                // color: Colors.black,
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 34.0)),
                                         Icon(Icons.directions,

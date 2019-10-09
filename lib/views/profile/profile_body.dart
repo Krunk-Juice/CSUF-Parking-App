@@ -74,7 +74,7 @@ void handleUpdateData() {
   Widget build(BuildContext context) {
     /* Information Section */
     return Container(
-        color: Color(0xFFFFFFFF),
+        // color: Color(0xFFFFFFFF),
         child: Padding(
             padding: EdgeInsets.only(bottom: 25),
             child: Column(
