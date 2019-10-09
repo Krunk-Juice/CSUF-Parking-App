@@ -83,12 +83,14 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         endDrawer: DrawerNavigation(),
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.green),
+          iconTheme: IconThemeData(
+            // color: Colors.green
+            ),
           elevation: 2.0,
-          backgroundColor: Colors.white,
+          // backgroundColor: Colors.white,
           title: Text('Dashboard',
               style: TextStyle(
-                  color: Colors.black,
+                  // color: Colors.black,
                   fontWeight: FontWeight.w700,
                   fontSize: 30.0)),
           centerTitle: true,

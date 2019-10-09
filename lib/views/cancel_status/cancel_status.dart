@@ -52,14 +52,20 @@ class _CancelStatusState extends State<CancelStatus> {
           elevation: 0.0,
           backgroundColor: Colors.transparent,
           leading: IconButton(
-            color: Colors.black,
+            // color: Colors.black,
             onPressed: () => Navigator.of(context).pop(),
-            icon: Icon(Icons.arrow_back, color: Colors.black),
+            icon: Icon(Icons.arrow_back, 
+            // color: Colors.black,
+            ),
           ),
           title: Text('Update',
               style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
-                  centerTitle: true,
+                  TextStyle(
+                    // color: Colors.black, 
+                    fontWeight: FontWeight.w700
+                  )
+          ),
+          centerTitle: true,
         ),
         body: Container(
             //color: Colors.blueGrey,

@@ -37,17 +37,21 @@ class _FreeParkingMapState extends State<FreeParkingMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         leading: IconButton(
-          color: Colors.black,
+          // color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, 
+          // color: Colors.black,
+          ),
         ),
         title: Text('Free Parking Locations',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
+            style: TextStyle(// color: Colors.black,
+            fontWeight: FontWeight.w700,)
+            ),
             centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -164,8 +168,8 @@ class StoreListTile extends StatefulWidget {
 }
 
 class _StoreListTileState extends State<StoreListTile> {
-  String _placePhotoUrl = '';
-  bool _disposed = false;
+  // String _placePhotoUrl = '';
+  // bool _disposed = false;
 
   @override
   void initState() {
@@ -173,23 +177,23 @@ class _StoreListTileState extends State<StoreListTile> {
     _retrievePlacesDetails();
   }
 
-  @override
-  void dispose() {
-    _disposed = true;
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _disposed = true;
+  //   super.dispose();
+  // }
 
   Future<void> _retrievePlacesDetails() async {
     final details =
         await _placesApiClient.getDetailsByPlaceId(widget.document['placeId']);
-    if (!_disposed) {
-      setState(() {
-        _placePhotoUrl = _placesApiClient.buildPhotoUrl(
-          photoReference: details.result.photos[0].photoReference,
-          maxHeight: 300,
-        );
-      });
-    }
+    // if (!_disposed) {
+    //   setState(() {
+    //     _placePhotoUrl = _placesApiClient.buildPhotoUrl(
+    //       photoReference: details.result.photos[0].photoReference,
+    //       maxHeight: 300,
+    //     );
+    //   });
+    // }
   }
 
   @override
@@ -203,11 +207,13 @@ class _StoreListTileState extends State<StoreListTile> {
         title: Text(widget.document['name'],style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
         subtitle: Text(widget.document['address']),
         leading: Container(
-          child: _placePhotoUrl.isNotEmpty
-              ? CircleAvatar(
-                  backgroundImage: NetworkImage(_placePhotoUrl),
-                )
-              : Material(
+          child: 
+          // _placePhotoUrl.isNotEmpty
+          //     ? CircleAvatar(
+          //         backgroundImage: NetworkImage(_placePhotoUrl),
+          //       )
+          //     : 
+              Material(
                             color: Colors.greenAccent,
                             borderRadius: BorderRadius.circular(24.0),
                             child: Center(

@@ -15,11 +15,17 @@ class CsufMap extends StatelessWidget {
         backgroundColor: Colors.transparent,
         leading: IconButton
         (
-          color: Colors.black,
+          // color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, 
+          //color: Colors.black,
+          ),
         ),
-        title: Text('Parking Lots & Structures Map', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700)),
+        title: Text('Parking Lots & Structures Map', style: TextStyle(
+          //color: Colors.black, 
+          fontWeight: FontWeight.w700
+          )
+        ),
         centerTitle: true,
       ),
       body: Container(
