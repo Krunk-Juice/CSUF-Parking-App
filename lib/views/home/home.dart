@@ -85,6 +85,7 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           iconTheme: IconThemeData(
             // color: Colors.green
+            color: Colors.white,
             ),
           elevation: 2.0,
           // backgroundColor: Colors.white,

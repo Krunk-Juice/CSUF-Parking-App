@@ -50,7 +50,7 @@ class _CancelStatusState extends State<CancelStatus> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0.0,
-          backgroundColor: Colors.transparent,
+          // backgroundColor: Colors.transparent,
           leading: IconButton(
             // color: Colors.black,
             onPressed: () => Navigator.of(context).pop(),
