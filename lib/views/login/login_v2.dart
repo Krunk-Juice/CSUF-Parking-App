@@ -26,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String email;
   String password;
 
+  // UI Construct
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,18 +42,23 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Flexible(
-                                child: Hero(
+                    child: Hero(
                     tag: 'logo',
                     child: Container(
-                      height: 200.0,
+                      height: 250.0,
                       child: Image.asset(
-                          'assets/images/CSUF Parking Swap Big Car.png'),
+                        'assets/images/CSUF Parking Swap Big Car.png'
+                      ),
                     ),
                   ),
                 ),
+
+                // Spacing
                 SizedBox(
                   height: 48.0,
                 ),
+
+                // Email Text Field
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   textAlign: TextAlign.center,
@@ -63,9 +69,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration:
                       kTextFeildDecoration.copyWith(hintText: 'Enter your email'),
                 ),
+
+                // Spacing
                 SizedBox(
                   height: 8.0,
                 ),
+
+                // Password Text Field
                 TextFormField(
                   textAlign: TextAlign.center,
                   obscureText: true,
@@ -76,12 +86,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: kTextFeildDecoration.copyWith(
                       hintText: 'Enter your password'),
                 ),
+
+                // Spacing
                 SizedBox(
                   height: 24.0,
                 ),
+
+                // Login Button
                 RoundedButton(
                   colour: Colors.lightBlueAccent,
-                  title: 'Log In',
+                  title: 'Login',
                   onPressed: _sendToServer,
                 ),
               ],
@@ -96,6 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  // Email Validation Check
   String validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -106,6 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
       return null;
   }
 
+  // Password Validation Check
   String validatePassword(String value) {
     if (value.length < 8)
       return 'Password must be at least 8 characters.';
@@ -126,17 +142,18 @@ class _LoginScreenState extends State<LoginScreen> {
         final user = await _auth.signInWithEmailAndPassword(
                 email: email, password: password);
 
-        if (user != null) //if user already signup
+        // if user already signed up
+        if (user != null)
         {
           firebaseUser = await _auth.currentUser();
-          //get user data from cloud firestore
+          // get user data from cloud firestore
           final QuerySnapshot result = await Firestore.instance
               .collection('users')
               .where('id', isEqualTo: firebaseUser.uid)
               .getDocuments();
           final List<DocumentSnapshot> documents = result.documents;
 
-          //set user data to local
+          // set user data to local
           prefs = await SharedPreferences.getInstance();
           await prefs.setString('id', documents[0]['id']);
           await prefs.setString('email', documents[0]['email']);

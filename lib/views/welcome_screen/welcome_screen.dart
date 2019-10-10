@@ -52,7 +52,9 @@ void getCurrentUser()async
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Column(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              
               children: <Widget>[
 
                 // Flutter Hero Widget https://flutter.dev/docs/development/ui/animations/hero-animations
@@ -60,16 +62,33 @@ void getCurrentUser()async
                   tag: 'logo',
                   child: Container(
                     child: Image.asset('assets/images/CSUF Parking Swap Big Car.png'),
-                    height: 60.0,
+                    height: 150.0,
                   ),
                 ),
-                TyperAnimatedTextKit(
-                  text: ['CSUF SWAP'],
+                // TyperAnimatedTextKit(
+                //   text: ['CSUF SWAP'],
+                //   textStyle: TextStyle(
+                //     fontSize: 45.0,
+                //     fontWeight: FontWeight.w900,
+                //     color: Colors.blueAccent,
+                //   ),
+                // ),
+
+                // Spacer
+                SizedBox(
+                  width: 22.5,
+                ),
+
+                // Animated Text Kit https://pub.dev/packages/animated_text_kit
+                RotateAnimatedTextKit(
+                  text:["CSUF", "SWAP"],
                   textStyle: TextStyle(
-                    fontSize: 45.0,
+                    fontSize: 67.5,
                     fontWeight: FontWeight.w900,
                     color: Colors.blueAccent,
                   ),
+                  textAlign: TextAlign.justify,
+                  alignment: AlignmentDirectional.topStart,
                 ),
               ],
             ),

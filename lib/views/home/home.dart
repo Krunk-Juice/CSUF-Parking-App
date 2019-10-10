@@ -23,6 +23,7 @@ class _HomeState extends State<Home> {
   String photoUrl = '';
   String status = '';
 
+  // Initialize State
   @override
   void initState() {
     super.initState();
@@ -41,6 +42,7 @@ class _HomeState extends State<Home> {
     }
   }
 
+  // Acquire User Information Shared Preference (reads from RAM)
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
@@ -51,6 +53,7 @@ class _HomeState extends State<Home> {
     setState(() {});
   }
 
+  // Exit Confirmation Pop-up
   Future<bool> _onWillPop() {
     return showDialog(
           context: context,
@@ -99,15 +102,19 @@ class _HomeState extends State<Home> {
         body: StreamBuilder(
           stream: _firestore.collection('users').snapshots(),
           builder: (context, snapshot) {
+
+            // Check if collection have data
             if (snapshot.hasData) {
               final doc = snapshot.data.documents;
               
+              // Each item inside the collection
               for (var item in doc) {
                 // final firestoreName = item.data['nickname'];
                 // final firesPhotoUrl = item.data['photoUrl'];
                 // final firestoreStatus = item.data['status'];
                 final firestoreId = item.data['id'];
 
+                // Set local variables acquired from RAM
                 if (firestoreId == id) {
                   status = item.data['status'];
                   nickname = item.data['nickname'];
