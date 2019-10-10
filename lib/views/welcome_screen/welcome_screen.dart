@@ -24,17 +24,16 @@ void getCurrentUser()async
 {
   try {
     final user = await _auth.currentUser();
- if(user != null)
- {
-   Navigator.pushNamed(context, Home.id);
-
- }
+    if(user != null)
+    {
+    Navigator.pushNamed(context, Home.id);
+    }
   } catch (e) {
     print(e);
   }
- 
 }
 
+  // Initialize User State
   @override
   void initState() {
     super.initState();
@@ -42,7 +41,7 @@ void getCurrentUser()async
     getCurrentUser();
   }
 
- 
+  // UI Construct
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +54,8 @@ void getCurrentUser()async
           children: <Widget>[
             Column(
               children: <Widget>[
+
+                // Flutter Hero Widget https://flutter.dev/docs/development/ui/animations/hero-animations
                 Hero(
                   tag: 'logo',
                   child: Container(
@@ -72,14 +73,20 @@ void getCurrentUser()async
                 ),
               ],
             ),
+
+            // Spacer
             SizedBox(
               height: 48.0,
             ),
+            
+            // Login Button
             RoundedButton(
               colour: Colors.lightBlueAccent,
               title: 'Login',
               onPressed: () => Navigator.pushNamed(context, LoginScreen.id),
             ),
+
+            // Register Button
             RoundedButton(
               colour: Colors.blueAccent,
               title: 'Register',
