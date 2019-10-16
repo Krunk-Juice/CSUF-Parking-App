@@ -5,7 +5,7 @@ import 'package:flutter_parking_app/views/profile/profile_header.dart';
 
 
 class Profile extends StatefulWidget {
-        static const String id ="profile"; 
+  static const String id ="profile"; 
 
   @override
   MapScreenState createState() => MapScreenState();
@@ -15,12 +15,14 @@ class MapScreenState extends State<Profile> with SingleTickerProviderStateMixin 
   //bool _status = true;
   //final FocusNode myFocusNode = FocusNode();
 
+  // Initialize State
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
 
+  // UI Construct (Main)
   @override
   Widget build(BuildContext context) {
     return Scaffold(

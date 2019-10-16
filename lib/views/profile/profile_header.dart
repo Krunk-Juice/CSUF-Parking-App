@@ -8,6 +8,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+// Header of the Profile Screen
+// Contains the user image and button to change user image
 class ProfileHeader extends StatefulWidget {
   @override
   _ProfileHeaderState createState() => _ProfileHeaderState();
@@ -21,12 +23,14 @@ class _ProfileHeaderState extends State<ProfileHeader> {
   String photoUrl = '';
   bool isLoading = false;
 
+  // Initialize State for Header
   @override
   void initState() {
     super.initState();
     readLocal();
   }
 
+  // Read RAM that holds profile image and name.
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
@@ -36,6 +40,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
     setState(() {});
   }
 
+  // Update Profile Image
   Future getImage() async {
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -48,6 +53,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
     uploadFile();
   }
 
+  // Upload the updated Profile Image
   Future uploadFile() async {
     String fileName = id;
     StorageReference reference = FirebaseStorage.instance.ref().child(fileName);
@@ -93,6 +99,7 @@ class _ProfileHeaderState extends State<ProfileHeader> {
     });
   }
 
+  // UI Construct for the Profile Header
   @override
   Widget build(BuildContext context) {
     return Container(
