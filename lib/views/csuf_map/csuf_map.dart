@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
 
+// Screen of Static Image of CSUF Campus Map
 class CsufMap extends StatelessWidget {
       static const String id ="csuf_map"; 
 
+  // UI Construct
   @override
   Widget build(BuildContext context) {
     return Scaffold
@@ -30,6 +32,8 @@ class CsufMap extends StatelessWidget {
       ),
       body: Container(
         child: PhotoView(
+
+          // Static Image of CSUF Campue Map
           imageProvider: AssetImage('assets/images/CSUF Map with Parking Office-1.png'),
         ),
       ),
