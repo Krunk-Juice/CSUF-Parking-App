@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 
-
+// The drawer for the home page
 class DrawerNavigation extends StatefulWidget {
   static const String id = "drawer_navigation";
 
@@ -26,6 +26,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
   String photoUrl='';
   String id ='';
 
+  // Initialize State
  @override
   void initState() {
     super.initState();
@@ -41,6 +42,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
     setState(() {});
   }
 
+  // UI Construct
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -87,8 +89,8 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
   
   }
 
-
-Future<Null> handleSignOut()async{
+  // SignOut of application
+  Future<Null> handleSignOut()async{
     setState(() {
     });
 

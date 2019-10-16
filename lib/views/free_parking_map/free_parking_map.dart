@@ -10,7 +10,8 @@ import 'package:flutter_parking_app/services/api_key.dart';
 const _pinkHue = 350.0;
 final _placesApiClient = GoogleMapsPlaces(apiKey: googleMapsApiKey);
 
-
+// A screenshot from Google Maps with markers indicating locations of free parking.
+// Also a card list of those locations.
 class FreeParkingMap extends StatefulWidget {
   static const String id = 'free_parking_map';
   // const MapPage({@required this.title});
@@ -25,6 +26,7 @@ class _FreeParkingMapState extends State<FreeParkingMap> {
   Stream<QuerySnapshot> _freeParkingLocations;
   final Completer<GoogleMapController> _mapController = Completer();
 
+  // Initialize State
   @override
   void initState() {
     super.initState();
@@ -34,6 +36,7 @@ class _FreeParkingMapState extends State<FreeParkingMap> {
         .snapshots();
   }
 
+  // UI Construct of the container that will hold the Google Map
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,6 +91,7 @@ class _FreeParkingMapState extends State<FreeParkingMap> {
   }
 }
 
+// Google Map and Markers
 class StoreMap extends StatelessWidget {
   const StoreMap({
     Key key,
@@ -100,6 +104,7 @@ class StoreMap extends StatelessWidget {
   final LatLng initialPosition;
   final Completer<GoogleMapController> mapController;
 
+  // UI Construct of the Google Map and Markers
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
@@ -128,6 +133,7 @@ class StoreMap extends StatelessWidget {
   }
 }
 
+// List of Locations represented by the markers on Google Map
 class StoreList extends StatelessWidget {
   const StoreList({
     Key key,
@@ -138,6 +144,7 @@ class StoreList extends StatelessWidget {
   final List<DocumentSnapshot> documents;
   final Completer<GoogleMapController> mapController;
 
+  // UI Construct of the List
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -153,6 +160,7 @@ class StoreList extends StatelessWidget {
   }
 }
 
+// Individual Tiles in the List
 class StoreListTile extends StatefulWidget {
   const StoreListTile({
     Key key,
@@ -171,6 +179,7 @@ class _StoreListTileState extends State<StoreListTile> {
   // String _placePhotoUrl = '';
   // bool _disposed = false;
 
+  // Initialize State of List Tiles
   @override
   void initState() {
     super.initState();
@@ -196,6 +205,7 @@ class _StoreListTileState extends State<StoreListTile> {
     // }
   }
 
+  // UI Construct of the Tiles
   @override
   Widget build(BuildContext context) {
     return Card(
