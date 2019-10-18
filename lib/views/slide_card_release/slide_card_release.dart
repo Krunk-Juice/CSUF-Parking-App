@@ -12,6 +12,9 @@ String id = '';
 // String photoUrl = '';
 TimeOfDay leaveTime;
 
+// Releasing Screen with cards of the parking structures.
+// Select a parking structure to release your spot.
+// This will also list you in the release list. 
 class SlideCardRelease extends StatefulWidget {
   static const String id = 'slide_card_release';
 
@@ -21,7 +24,7 @@ class SlideCardRelease extends StatefulWidget {
 
 class _SlideCardReleaseState extends State<SlideCardRelease> {
 
-
+  // UI Construct for the general screen
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -110,6 +113,7 @@ class _SlideCardReleaseState extends State<SlideCardRelease> {
   }
 }
 
+// Slide Cards
 class SlideCards extends StatefulWidget {
   static const String id = "slide_card";
   @override
@@ -120,6 +124,7 @@ class _SlideCardsState extends State<SlideCards> {
   PageController pageController;
   double pageOffset = 0;
 
+  // Initialize State of the Slide Cards
   @override
   void initState() {
     super.initState();
@@ -145,6 +150,7 @@ class _SlideCardsState extends State<SlideCards> {
     super.dispose();
   }
 
+  // UI Construct of the Slide Cards structure
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -176,6 +182,7 @@ class _SlideCardsState extends State<SlideCards> {
   }
 }
 
+// Designing card interior
 class SlidingCard extends StatelessWidget {
   final String nameParking;
   final String date;
@@ -225,6 +232,7 @@ class SlidingCard extends StatelessWidget {
   }
 }
 
+// Content inside of the cards container
 class CardContent extends StatelessWidget {
   final String nameParking;
   final String date;
@@ -237,6 +245,7 @@ class CardContent extends StatelessWidget {
       @required this.offset})
       : super(key: key);
 
+  // UI Construct of the parking structure data (i.e. name)
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -288,7 +297,7 @@ class CardContent extends StatelessWidget {
     );
   }
 
-  void _handleRelease(BuildContext context) {
+void _handleRelease(BuildContext context) {
 //update release status
     Firestore.instance.collection('users').document(id).updateData(
         {'status': 'Releasing', 'parkAt': nameParking}).then((data) async {
