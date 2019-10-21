@@ -8,6 +8,7 @@ import 'package:flutter_parking_app/components/round_button.dart';
 
 SharedPreferences prefs;
 
+// Request Status Screen
 class RequestCard extends StatefulWidget {
   static const String id = "request_card";
   @override
