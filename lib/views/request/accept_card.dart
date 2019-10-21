@@ -31,6 +31,7 @@ class _AcceptCardState extends State<AcceptCard> {
   String bookerName = '';
   String bookerPhotoUrl = '';
 
+  // Initialize State Confirmation Screen
   @override
   void initState() {
     super.initState();
@@ -38,6 +39,7 @@ class _AcceptCardState extends State<AcceptCard> {
     readLocal();
   }
 
+  // Read RAM for user information.
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
