@@ -138,10 +138,10 @@ class HomeBody extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('List Releasing',
+                          Text('List of people release spots',
                               style:
                                   TextStyle(color: Colors.pink, fontSize: 15)),
-                          Text('Available',
+                          Text('List Releaser',
                               style: TextStyle(
                                   // color: Colors.black,
                                   fontWeight: FontWeight.w700,
@@ -172,10 +172,10 @@ class HomeBody extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('Free Parkings',
+                          Text('4 Locations',
                               style: TextStyle(
                                   color: Colors.purpleAccent, fontSize: 15)),
-                          Text('4 Locations',
+                          Text('Free Parkings',
                               style: TextStyle(
                                   // color: Colors.black,
                                   fontWeight: FontWeight.w700,
