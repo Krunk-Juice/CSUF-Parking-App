@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences prefs;
 
+// Screen with list of users you are swaping spots with
 class Swap extends StatefulWidget {
   static const String id = "swap";
 
@@ -22,12 +23,14 @@ class _SwapState extends State<Swap> {
   
   Firestore _firestore = Firestore.instance;
 
+  // Initialize State of 
   @override
   initState() {
     super.initState();
     readLocal();
   }
 
+  // Read RAM for user information.
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
@@ -38,6 +41,7 @@ class _SwapState extends State<Swap> {
     setState(() {});
   }
 
+  // UI Construct of the Swap List Screen
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,6 +128,7 @@ class _SwapState extends State<Swap> {
   }
 }
 
+// The Items that show up on the list.
 class SwapItem extends StatelessWidget {
   final String swaperName;
   final String swaperId;
@@ -137,6 +142,7 @@ class SwapItem extends StatelessWidget {
       @required this.swaperPhotoUrl})
       : super(key: key);
 
+  // UI Construct of the List Items
   @override
   Widget build(BuildContext context) {
     return Padding(
