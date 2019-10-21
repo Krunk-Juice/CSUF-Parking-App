@@ -7,6 +7,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 SharedPreferences prefs;
 String status = '';
+
+// If user state is releasing
+// Cancel Screen for user in release state
 class CancelStatus extends StatefulWidget {
   static const String id = "cancel_status";
   @override
@@ -23,6 +26,7 @@ class _CancelStatusState extends State<CancelStatus> {
   // String releaserName = '';
   // String releaserPhotoUrl = '';
 
+  // Initialize State of Cancel Screen
   @override
   void initState() {
     super.initState();
@@ -30,6 +34,7 @@ class _CancelStatusState extends State<CancelStatus> {
     readLocal();
   }
 
+  // Read RAM for user information.
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
@@ -45,6 +50,7 @@ class _CancelStatusState extends State<CancelStatus> {
     setState(() {});
   }
 
+  // UI Construct of Cancel Screen
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -166,8 +172,7 @@ class _CancelStatusState extends State<CancelStatus> {
         )));
   }
 
-  
-
+  // Update User State from Releasing to Relaxing
   void _handleCancel(BuildContext context) {
 //update status
     

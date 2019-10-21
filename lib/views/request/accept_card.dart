@@ -9,6 +9,10 @@ import 'package:flutter_parking_app/components/round_button.dart';
 
 SharedPreferences prefs;
 
+// This screen shows up after you have selected a user 
+// to release your spot to. Showing the users name and
+// photo with the options to accept or reject the requester
+// Confirmation Screen
 class AcceptCard extends StatefulWidget {
   static const String id = "accept_card";
   @override
@@ -54,6 +58,7 @@ class _AcceptCardState extends State<AcceptCard> {
     setState(() {});
   }
 
+  // UI Construct of the Confirmation Screen
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,6 +180,7 @@ class _AcceptCardState extends State<AcceptCard> {
   //   );
   // }
 
+  // You reject the requesting user
   void _handleReject(BuildContext context) async {
 //update status
 
@@ -196,6 +202,7 @@ class _AcceptCardState extends State<AcceptCard> {
     }).catchError((err) => print(err));
   }
 
+  // You accept the requesting user
   void _handleAccept(BuildContext context) async {
 //update status
 

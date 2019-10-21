@@ -28,6 +28,7 @@ class _ListReleaseState extends State<ListRelease> {
     readLocal();
   }
 
+  // Read RAM for user information.
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
