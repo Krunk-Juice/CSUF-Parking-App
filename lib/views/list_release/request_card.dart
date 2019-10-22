@@ -8,6 +8,7 @@ import 'package:flutter_parking_app/components/round_button.dart';
 
 SharedPreferences prefs;
 
+// Request Status Screen
 class RequestCard extends StatefulWidget {
   static const String id = "request_card";
   @override
@@ -24,6 +25,7 @@ class _RequestCardState extends State<RequestCard> {
   String releaserName = '';
   String releaserPhotoUrl = '';
 
+  // Initialize State of Request Screen
   @override
   void initState() {
     super.initState();
@@ -31,6 +33,7 @@ class _RequestCardState extends State<RequestCard> {
     readLocal();
   }
 
+  // Read RAM for user information.
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
@@ -51,6 +54,7 @@ class _RequestCardState extends State<RequestCard> {
     setState(() {});
   }
 
+  // UI Construct of the Request Screen
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -182,6 +186,7 @@ class _RequestCardState extends State<RequestCard> {
     );
   }
 
+  // Update User State from Relaxing to Requesting
   void _handleRequest(BuildContext context) {
 //update release status
     Firestore.instance.collection('users').document(id).updateData({

@@ -29,6 +29,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String errorMessage;
   String phoneNumber;
 
+  // Initialize State
   @override
   void initState() {
     errorMessage = "";
@@ -36,12 +37,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     super.initState();
   }
 
+  // UI Construct
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Colors.white,
       body: ModalProgressHUD(
-              child: Padding(
+          child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           child: Form(
             key: _key,
@@ -50,19 +52,25 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+
                 Flexible(
-                                child: Hero(
-                    tag: 'logo',
-                    child: Container(
-                      height: 200.0,
-                      child: Image.asset(
-                          'assets/images/CSUF Parking Swap Big Car.png'),
-                    ),
+                  // Flutter Hero Widget https://flutter.dev/docs/development/ui/animations/hero-animations
+                child: Hero(
+                  tag: 'logo',
+                  child: Container(
+                    height: 200.0,
+                    child: Image.asset(
+                     'assets/images/CSUF Parking Swap Big Car.png'),
+                  ),
                   ),
                 ),
+
+                // Spacer
                 SizedBox(
                   height: 48.0,
                 ),
+
+                // User Name Text Field
                 TextFormField(
                   textAlign: TextAlign.center,
                   validator: validateName,
@@ -72,9 +80,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   decoration: kTextFeildDecoration.copyWith(
                       hintText: 'Enter your username'),
                 ),
+
+                // Spacer
                 SizedBox(
                   height: 8.0,
                 ),
+
+                // Email Text Field
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   textAlign: TextAlign.center,
@@ -85,10 +97,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   decoration:
                       kTextFeildDecoration.copyWith(hintText: 'Enter your email'),
                 ),
+
+                // Spacer
                 SizedBox(
                   height: 8.0,
                 ),
-                 TextFormField(
+
+                // Phone Number Text Field 
+                TextFormField(
                   keyboardType: TextInputType.phone,
                   textAlign: TextAlign.center,
                   validator: validatePhone,
@@ -98,9 +114,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   decoration:
                       kTextFeildDecoration.copyWith(hintText: 'Enter your phone number'),
                 ),
+
+                // Spacer
                 SizedBox(
                   height: 8.0,
                 ),
+
+                // Password Text Field
                 TextFormField(
                   textAlign: TextAlign.center,
                   obscureText: true,
@@ -111,14 +131,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   decoration: kTextFeildDecoration.copyWith(
                       hintText: 'Enter your password'),
                 ),
+
+                // Spacer
                 SizedBox(
                   height: 24.0,
                 ),
+
+                // Register Button
                 RoundedButton(
                   colour: Colors.blueAccent,
                   title: 'Register',
                   onPressed: _sendToServer,
-                )
+                ),
               ],
             ),
           ),
@@ -131,8 +155,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
-
-String validatePhone(String value) {
+  // Phone Validation Check
+  String validatePhone(String value) {
     Pattern pattern =
         r'^(?:[+0]9)?[0-9]{10}$';
     RegExp regex = new RegExp(pattern);
@@ -142,6 +166,7 @@ String validatePhone(String value) {
       return null;
   }
 
+  // Email Validation Check
   String validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -152,6 +177,7 @@ String validatePhone(String value) {
       return null;
   }
 
+  // Name Validation Check
   String validateName(String value) {
     if (value.length < 3)
       return 'Name must be more than 2 charater';
@@ -159,6 +185,7 @@ String validatePhone(String value) {
       return null;
   }
 
+  // Password Validation Check
   String validatePassword(String value) {
     if (value.length < 8)
       return 'Password must be at least 8 characters.';
@@ -174,7 +201,7 @@ String validatePhone(String value) {
       });
 
     if (_key.currentState.validate()) {
-      // No any error in validation
+      // No error in validation
       _key.currentState.save();
 
       try {

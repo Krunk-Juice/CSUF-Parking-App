@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+
+// Display Webpage showing parking structure space data
 class ParkingStatus extends StatefulWidget {
   static const String id = "parking_status";
 
@@ -14,13 +16,15 @@ class _ParkingStatusState extends State<ParkingStatus> {
   Completer<WebViewController> _controller = Completer<WebViewController>();
   bool _isLoading;
 
-@override
-void initState() {
+  // Initialize State
+  @override
+  void initState() {
     
     super.initState();
     _isLoading = true;
   }
 
+  // UI Construct
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +42,7 @@ void initState() {
       body: Stack(
         children: <Widget>[
           
+          // View Static Webpage
            WebView(
           initialUrl:
               'https://parking.fullerton.edu/parkinglotcounts/mobile.aspx',
@@ -51,6 +56,10 @@ void initState() {
             });
           },
         ),
+
+        // Handles if the webpage did not load.
+        // If the webpage loads, position the image to the center.
+        // If the webpage does not load, load a transparent page.
         _isLoading? Container(
                   alignment: FractionalOffset.center,
                   child: CircularProgressIndicator(),

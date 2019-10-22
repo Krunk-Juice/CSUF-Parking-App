@@ -3,6 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+// Body of the Profile Screen
+// Displays user information.
+// Edit button that allows user to edit their profile information.
 class ProfileBody extends StatefulWidget {
   @override
   _ProfileBodyState createState() => _ProfileBodyState();
@@ -21,11 +24,14 @@ class _ProfileBodyState extends State<ProfileBody> {
   String nickname ='';
   String email ='';
 
+  // Initialize State of Profile Body
   @override
   void initState() {
     super.initState();
     readLocal();
   }
+
+  // Read RAM for user information.
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id')??'';
@@ -39,7 +45,10 @@ class _ProfileBodyState extends State<ProfileBody> {
     // Force refresh input
     setState(() {});
   }
-void handleUpdateData() {
+
+  // If user updates their profile information, this updates 
+  // the user's cloud's information.
+  void handleUpdateData() {
     // focusNodeNickname.unfocus();
     // focusNodeAboutMe.unfocus();
 
@@ -70,6 +79,8 @@ void handleUpdateData() {
       Fluttertoast.showToast(msg: err.toString());
     });
   }
+
+  // UI Construct of Profile Screen's Body
   @override
   Widget build(BuildContext context) {
     /* Information Section */
@@ -324,6 +335,7 @@ void handleUpdateData() {
             )));
   }
 
+  // Free resources held by FocusNode.
   @override
   void dispose() {
     // Clean up the controller when the Widget is disposed.
@@ -331,6 +343,7 @@ void handleUpdateData() {
     super.dispose();
   }
 
+  // Edit button for allowing users to update their profile.
   _getEditIcon() {
     return GestureDetector(
         child: CircleAvatar(
@@ -349,6 +362,10 @@ void handleUpdateData() {
         });
   }
 
+  // When the user's editing their profile information
+  // These "Action Buttons" will appear as
+  // "Confirm" Button
+  // "Cancel" Button
   _getActionButtons() {
     return Padding(
       padding: EdgeInsets.only(left: 25, right: 25, top: 45),

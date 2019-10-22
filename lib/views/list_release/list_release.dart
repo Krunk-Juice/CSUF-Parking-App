@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences prefs;
 
+// Screen that shows a list of users releasing their spot
 class ListRelease extends StatefulWidget {
   static const String id = "list_release";
 
@@ -27,6 +28,7 @@ class _ListReleaseState extends State<ListRelease> {
     readLocal();
   }
 
+  // Read RAM for user information.
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
@@ -37,6 +39,7 @@ class _ListReleaseState extends State<ListRelease> {
     setState(() {});
   }
 
+  // UI Construct of the general screen
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,6 +111,7 @@ class _ListReleaseState extends State<ListRelease> {
   }
 }
 
+// Container holding information of users releasing 
 class ReleaseItem extends StatelessWidget {
   final String releaserName;
   final String releaserId;
@@ -124,6 +128,7 @@ class ReleaseItem extends StatelessWidget {
       @required this.releaserPhotoUrl})
       : super(key: key);
 
+  // UI Construct of the Container
   @override
   Widget build(BuildContext context) {
     return Padding(

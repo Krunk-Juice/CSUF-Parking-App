@@ -24,17 +24,16 @@ void getCurrentUser()async
 {
   try {
     final user = await _auth.currentUser();
- if(user != null)
- {
-   Navigator.pushNamed(context, Home.id);
-
- }
+    if(user != null)
+    {
+    Navigator.pushNamed(context, Home.id);
+    }
   } catch (e) {
     print(e);
   }
- 
 }
 
+  // Initialize User State
   @override
   void initState() {
     super.initState();
@@ -42,7 +41,7 @@ void getCurrentUser()async
     getCurrentUser();
   }
 
- 
+  // UI Construct
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,33 +52,60 @@ void getCurrentUser()async
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Column(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              
               children: <Widget>[
+
+                // Flutter Hero Widget https://flutter.dev/docs/development/ui/animations/hero-animations
                 Hero(
                   tag: 'logo',
                   child: Container(
                     child: Image.asset('assets/images/CSUF Parking Swap Big Car.png'),
-                    height: 60.0,
+                    height: 150.0,
                   ),
                 ),
-                TyperAnimatedTextKit(
-                  text: ['CSUF SWAP'],
+                // TyperAnimatedTextKit(
+                //   text: ['CSUF SWAP'],
+                //   textStyle: TextStyle(
+                //     fontSize: 45.0,
+                //     fontWeight: FontWeight.w900,
+                //     color: Colors.blueAccent,
+                //   ),
+                // ),
+
+                // Spacer
+                SizedBox(
+                  width: 22.5,
+                ),
+
+                // Animated Text Kit https://pub.dev/packages/animated_text_kit
+                RotateAnimatedTextKit(
+                  text:["CSUF", "SWAP"],
                   textStyle: TextStyle(
-                    fontSize: 45.0,
+                    fontSize: 67.5,
                     fontWeight: FontWeight.w900,
                     color: Colors.blueAccent,
                   ),
+                  textAlign: TextAlign.justify,
+                  alignment: AlignmentDirectional.topStart,
                 ),
               ],
             ),
+
+            // Spacer
             SizedBox(
               height: 48.0,
             ),
+            
+            // Login Button
             RoundedButton(
               colour: Colors.lightBlueAccent,
               title: 'Login',
               onPressed: () => Navigator.pushNamed(context, LoginScreen.id),
             ),
+
+            // Register Button
             RoundedButton(
               colour: Colors.blueAccent,
               title: 'Register',

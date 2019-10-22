@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 SharedPreferences prefs;
 
+// Confirmation Screen
 class ContactCard extends StatefulWidget {
   static const String id = "contact_card";
   @override
@@ -29,6 +30,7 @@ class _ContactCardState extends State<ContactCard> {
   String swaperPhotoUrl = '';
   String swaperPhoneNumber = '';
 
+  // Initialize State Confirmation Screen
   @override
   void initState() {
     super.initState();
@@ -36,6 +38,7 @@ class _ContactCardState extends State<ContactCard> {
     readLocal();
   }
 
+  // Read RAM for user information.
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
@@ -61,6 +64,7 @@ class _ContactCardState extends State<ContactCard> {
     setState(() {});
   }
 
+  // UI Construct of the Confirmation Screen
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,6 +182,7 @@ class _ContactCardState extends State<ContactCard> {
         )));
   }
 
+  // You complete the swap and exit the screen
   Future _handleFinish(BuildContext context) {
     return showDialog(
       context: context,
@@ -205,10 +210,12 @@ class _ContactCardState extends State<ContactCard> {
     );
   }
 
+  // Opens calling screen
   void _handleCall() async {
     _launched = _makePhoneCallAndTextMessage('tel:$swaperPhoneNumber');
   }
 
+  // Opens messaging screen
   void _handleMessage() async {
     _launched = _makePhoneCallAndTextMessage('sms:$swaperPhoneNumber');
   }

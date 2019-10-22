@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences prefs;
 
+// Screen that shows a list of users requesting your spot
 class Request extends StatefulWidget {
   static const String id = "request";
 
@@ -22,12 +23,14 @@ class _RequestState extends State<Request> {
   
   Firestore _firestore = Firestore.instance;
 
+  // Initialize State of Request List Screen
   @override
   initState() {
     super.initState();
     readLocal();
   }
 
+  // Read RAM for user information.
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
@@ -38,6 +41,7 @@ class _RequestState extends State<Request> {
     setState(() {});
   }
 
+  // UI Construct of the Request List Screen
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,6 +112,7 @@ class _RequestState extends State<Request> {
   }
 }
 
+// The Items that show up on the list.
 class RequestItem extends StatelessWidget {
   final String bookerName;
   final String bookerId;
@@ -121,6 +126,7 @@ class RequestItem extends StatelessWidget {
       @required this.bookerPhotoUrl})
       : super(key: key);
 
+  // UI Construct of the List Items
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -25,15 +25,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, // this removes the debug banner
-      title: 'Parking App',
+
+      // Removes Debug Banner
+      debugShowCheckedModeBanner: false,
+
+      /* NOTE: Universal Theme tested and supported on Android Q. */
+      // Default Theme
       theme: ThemeData(
         brightness: Brightness.light,
         primaryColor: Colors.blue,
       ),
+
+      // Dark Theme
       darkTheme: ThemeData(
         brightness: Brightness.dark,
       ),
+
+      // Screen Routes
       initialRoute: 'welcome_screen',
       routes: {
         'welcome_screen': (context) => WelcomeScreen(),

@@ -1,5 +1,6 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
+
 export "FLUTTER_ROOT=/home/alex/mobile-development/flutter"
 export "FLUTTER_APPLICATION_PATH=/home/alex/mobile-development/CSUF-Parking-App"
 export "FLUTTER_TARGET=lib/main.dart"
