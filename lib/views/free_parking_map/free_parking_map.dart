@@ -214,8 +214,10 @@ class _StoreListTileState extends State<StoreListTile> {
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       
       child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 15),
         title: Text(widget.document['name'],style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
         subtitle: Text(widget.document['address']),
+        isThreeLine: true,
         leading: Container(
           child: 
           // _placePhotoUrl.isNotEmpty
