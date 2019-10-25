@@ -109,9 +109,7 @@ class _HomeState extends State<Home> {
               
               // Each item inside the collection
               for (var item in doc) {
-                // final firestoreName = item.data['nickname'];
-                // final firesPhotoUrl = item.data['photoUrl'];
-                // final firestoreStatus = item.data['status'];
+               
                 final firestoreId = item.data['id'];
 
                 // Set local variables acquired from RAM

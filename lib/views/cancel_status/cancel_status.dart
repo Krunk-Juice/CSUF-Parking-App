@@ -20,7 +20,6 @@ class _CancelStatusState extends State<CancelStatus> {
   String id = '';
   String nickname = '';
   String photoUrl = '';
-  
 
   String releaserId = '';
   // String releaserName = '';
@@ -37,15 +36,18 @@ class _CancelStatusState extends State<CancelStatus> {
   // Read RAM for user information.
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
-    id = prefs.getString('id') ?? '';
-    nickname = prefs.getString('nickname') ?? '';
-    photoUrl = prefs.getString('photoUrl') ?? '';
+    // id = prefs.getString('id') ?? '';
     status = prefs.getString('status') ?? '';
 
-    releaserId = prefs.getString('releaserId') ?? '';
-    // releaserName = prefs.getString('releaserName') ?? '';
-    // releaserPhotoUrl = prefs.getString('releaserPhotoUrl') ?? '';
-
+    //If user is requesting then show the spot holder name and image
+    if (status == "Releasing") {
+      nickname = prefs.getString('nickname') ?? '';
+      photoUrl = prefs.getString('photoUrl') ?? '';
+    } else {
+      nickname = prefs.getString('releaserName') ?? '';
+      photoUrl = prefs.getString('releaserPhotoUrl') ?? '';
+    }
+     releaserId = prefs.getString('releaserId') ?? '';
     // Force refresh input
     setState(() {});
   }
@@ -60,17 +62,15 @@ class _CancelStatusState extends State<CancelStatus> {
           leading: IconButton(
             // color: Colors.black,
             onPressed: () => Navigator.of(context).pop(),
-            icon: Icon(Icons.arrow_back, 
-            // color: Colors.black,
+            icon: Icon(
+              Icons.arrow_back,
+              // color: Colors.black,
             ),
           ),
           title: Text('Update',
-              style:
-                  TextStyle(
-                    // color: Colors.black, 
-                    fontWeight: FontWeight.w700
-                  )
-          ),
+              style: TextStyle(
+                  // color: Colors.black,
+                  fontWeight: FontWeight.w700)),
           centerTitle: true,
         ),
         body: Container(
@@ -175,16 +175,18 @@ class _CancelStatusState extends State<CancelStatus> {
   // Update User State from Releasing to Relaxing
   void _handleCancel(BuildContext context) {
 //update status
-    
-    if(status == 'Requesting')
-    {
-    Firestore.instance.collection('requests').document(releaserId).updateData({
-      'turnOn': false,
-    });
-    
-    Firestore.instance.collection('users').document(releaserId).updateData({
-      'status': 'Releasing',
-    });
+
+    if (status == 'Requesting') {
+      Firestore.instance
+          .collection('requests')
+          .document(releaserId)
+          .updateData({
+        'turnOn': false,
+      });
+
+      Firestore.instance.collection('users').document(releaserId).updateData({
+        'status': 'Releasing',
+      });
     }
 
     // if(status == 'Getting Request')
@@ -195,20 +197,15 @@ class _CancelStatusState extends State<CancelStatus> {
     // Firestore.instance.collection('users').document().updateData({
     //   'status': 'Releasing',
     // });
-    
+
     // }
-    
-    
+
     Firestore.instance.collection('users').document(id).updateData({
       'status': 'Relaxing',
     }).then((data) async {
-      
       await prefs.setString('status', 'Relaxing');
       Navigator.pushNamed(context, Home.id);
       Fluttertoast.showToast(msg: "Update success");
-      
     }).catchError((err) => print(err));
-
-    
   }
 }
