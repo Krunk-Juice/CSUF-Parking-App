@@ -53,7 +53,7 @@ class _ListReleaseState extends State<ListRelease> {
           // color: Colors.black,
           ),
         ),
-        title: Text('List Spot Holder Releasing Spot',
+        title: Text('List of Users Releasing Spot',
             style: TextStyle(
               // color: Colors.black, 
               fontWeight: FontWeight.w700

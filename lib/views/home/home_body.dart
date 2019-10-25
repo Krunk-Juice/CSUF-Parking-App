@@ -94,7 +94,7 @@ class HomeBody extends StatelessWidget {
                               // color: Colors.black,
                               fontWeight: FontWeight.w700,
                               fontSize: 24.0)),
-                      Text('Zoom In and Out Map',
+                      Text('Zoom In & Out Map',
                           style: TextStyle(color: Colors.teal)),
                     ]),
               ),
@@ -108,7 +108,8 @@ class HomeBody extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Material(
-                          color: Colors.amber,
+                          //color: Colors.amber,
+                          color: Color(0xffff8400),
                           shape: CircleBorder(),
                           child: Padding(
                             padding: EdgeInsets.all(16.0),
@@ -121,6 +122,8 @@ class HomeBody extends StatelessWidget {
                               // color: Colors.black,
                               fontWeight: FontWeight.w700,
                               fontSize: 20.0)),
+                      Text('Parking Space Data',
+                          style: TextStyle(color: Color(0xffff8400))),
                       
                     ]),
               ),
@@ -138,10 +141,10 @@ class HomeBody extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('List of people release spots',
+                          Text('Users releasing spots',
                               style:
                                   TextStyle(color: Colors.pink, fontSize: 15)),
-                          Text('List Releaser',
+                          Text('List Release',
                               style: TextStyle(
                                   // color: Colors.black,
                                   fontWeight: FontWeight.w700,
@@ -172,10 +175,10 @@ class HomeBody extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('4 Locations',
+                          Text('4 Parking Locations',
                               style: TextStyle(
                                   color: Colors.purpleAccent, fontSize: 15)),
-                          Text('Free Parkings',
+                          Text('Free Parking',
                               style: TextStyle(
                                   // color: Colors.black,
                                   fontWeight: FontWeight.w700,
