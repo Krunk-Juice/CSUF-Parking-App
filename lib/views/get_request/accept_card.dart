@@ -7,29 +7,36 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_parking_app/components/round_button.dart';
 
+
 SharedPreferences prefs;
 
 // This screen shows up after you have selected a user 
 // to release your spot to. Showing the users name and
 // photo with the options to accept or reject the requester
 // Confirmation Screen
+
+
 class AcceptCard extends StatefulWidget {
-  static const String id = "accept_card";
+  
+  AcceptCard({this.bookerId,this.bookerName,this.bookerPhotoUrl});
+
+  final String bookerId;
+  final String bookerName;
+  final String bookerPhotoUrl;
+  
+
   @override
   _AcceptCardState createState() => _AcceptCardState();
 }
 
 class _AcceptCardState extends State<AcceptCard> {
-  final db = Firestore.instance;
 
   String id = '';
   String nickname = '';
   String photoUrl = '';
   // String status = '';
 
-  String bookerId = '';
-  String bookerName = '';
-  String bookerPhotoUrl = '';
+  
 
   // Initialize State Confirmation Screen
   @override
@@ -45,44 +52,14 @@ class _AcceptCardState extends State<AcceptCard> {
     id = prefs.getString('id') ?? '';
     nickname = prefs.getString('nickname') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
-    // status = prefs.getString('status') ?? '';
 
-    bookerId = prefs.getString('bookerId') ?? '';
-    bookerName = prefs.getString('bookerName') ?? '';
-    bookerPhotoUrl = prefs.getString('bookerPhotoUrl') ?? '';
-// Firestore.instance.collection('users').document(bookerId).get().then(
-//           (DocumentSnapshot snapshot){
-            
-//               bookerName = snapshot.data['nickname'].toString(); 
-//               bookerPhotoUrl = snapshot.data['photoUrl'].toString();
-//               });
-    // Force refresh input
     setState(() {});
   }
 
   // UI Construct of the Confirmation Screen
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-          // backgroundColor: Colors.transparent,
-          leading: IconButton(
-            // color: Colors.black,
-            onPressed: () => Navigator.of(context).pop(),
-            icon: Icon(Icons.arrow_back, 
-            // color: Colors.black,
-            ),
-          ),
-          title: Text('Requester',
-              style:
-                  TextStyle(// color: Colors.black, 
-                  fontWeight: FontWeight.w700
-                  )
-          ),
-          centerTitle: true,
-        ),
-        body: Container(
+    return  Container(
             //color: Colors.blueGrey,
             child: Column(
           children: <Widget>[
@@ -112,14 +89,14 @@ class _AcceptCardState extends State<AcceptCard> {
                                     color: Colors.blue,
                                     borderRadius: BorderRadius.circular(24.0),
                                     child: ClipOval(
-                                      child: bookerPhotoUrl == null
+                                      child: widget.bookerPhotoUrl == null
                                           ? Icon(
                                               Icons.account_circle,
                                               size: 90.0,
                                               color: Colors.grey,
                                             )
                                           : CachedNetworkImage(
-                                              imageUrl: bookerPhotoUrl,
+                                              imageUrl: widget.bookerPhotoUrl,
                                               width: 50.0,
                                               height: 50.0,
                                             ),
@@ -134,7 +111,7 @@ class _AcceptCardState extends State<AcceptCard> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(bookerName,
+                                Text(widget.bookerName,
                                     style: TextStyle(
                                         fontSize: 30,
                                         fontWeight: FontWeight.normal,
@@ -163,30 +140,16 @@ class _AcceptCardState extends State<AcceptCard> {
               ],
             )
           ],
-        )));
+    ));
   }
 
-  // Future _handleError(BuildContext context) {
-  //   return showDialog(
-  //     context: context,
-  //     builder: (context) => new AlertDialog(
-  //       title: new Text('Check your status'),
-  //       content: new Text('Can not accpect request while giving'),
-  //       actions: <Widget>[
-  //         new FlatButton(
-  //           onPressed: () => Navigator.pushNamed(context, Home.id),
-  //           child: new Text('OK'),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  
 
   // You reject the requesting user
   void _handleReject(BuildContext context) async {
 //update status
 
-    Firestore.instance.collection('users').document(bookerId).updateData({
+    Firestore.instance.collection('users').document(widget.bookerId).updateData({
       'status': 'Relaxing',
     });
 
@@ -208,7 +171,7 @@ class _AcceptCardState extends State<AcceptCard> {
   void _handleAccept(BuildContext context) async {
 //update status
 
-    Firestore.instance.collection('users').document(bookerId).updateData({
+    Firestore.instance.collection('users').document(widget.bookerId).updateData({
       'status': 'Swaping',
     });
 
@@ -224,9 +187,9 @@ class _AcceptCardState extends State<AcceptCard> {
       'releaserId': id,
       'releaserName': nickname,
       'releaserPhotoUrl': photoUrl,
-      'bookerId': bookerId,
-      'bookerName': bookerName,
-      'bookerPhotoUrl': bookerPhotoUrl,
+      'bookerId': widget.bookerId,
+      'bookerName': widget.bookerName,
+      'bookerPhotoUrl': widget.bookerPhotoUrl,
       'turnOn': true,
     }).then((data) async {
       Navigator.pushNamed(context, Home.id);

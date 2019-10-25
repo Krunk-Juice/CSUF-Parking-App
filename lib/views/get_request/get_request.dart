@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_parking_app/views/swap/contact_card.dart';
+import 'package:flutter_parking_app/views/get_request/accept_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences prefs;
 
-// Screen with list of users you are swaping spots with
-class Swap extends StatefulWidget {
-  static const String id = "swap";
+// Screen that shows a list of users requesting your spot
+class GetRequest extends StatefulWidget {
+  static const String id = "get_request";
 
   @override
-  _SwapState createState() => _SwapState();
+  _GetRequestState createState() => _GetRequestState();
 }
 
-class _SwapState extends State<Swap> {
+class _GetRequestState extends State<GetRequest> {
+  // FirebaseUser currentUser;
   bool isLoading = false;
   String id = '';
-  String swaperId = '';
-  String swaperName = '';
-  String swaperPhotoUrl = '';
+  String bookerId = '';
+  String bookerName = '';
+  String bookerPhotoUrl = '';
 
   Firestore _firestore = Firestore.instance;
 
-  // Initialize State of
+  // Initialize State of Request List Screen
   @override
   initState() {
     super.initState();
@@ -34,12 +34,12 @@ class _SwapState extends State<Swap> {
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
-
+    // nickname = prefs.getString('nickname') ?? '';
     // Force refresh input
     setState(() {});
   }
 
-  // UI Construct of the Swap List Screen
+  // UI Construct of the Request List Screen
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,47 +51,35 @@ class _SwapState extends State<Swap> {
           onPressed: () => Navigator.of(context).pop(),
           icon: Icon(
             Icons.arrow_back,
-            // color: Colors.black,
+            //color: Colors.black,
           ),
         ),
-        title: Text('Swaping',
+        title: Text('Person Requests Your Spot',
             style: TextStyle(
                 // color: Colors.black,
                 fontWeight: FontWeight.w700)),
         centerTitle: true,
       ),
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            StreamBuilder(
-              stream: _firestore.collection('swaps').snapshots(),
+      body:StreamBuilder(
+              stream: _firestore.collection('requests').snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final doc = snapshot.data.documents;
-                  // List<SwapItem> swapWidgets = [];
+                  
                   for (var item in doc) {
                     final releaserId = item.data['releaserId'];
-                    final bookerId = item.data['bookerId'];
                     final turnOn = item.data['turnOn'];
 
                     if (releaserId == id && turnOn) {
-                      swaperId = bookerId;
-                      swaperName = item.data['bookerName'];
-                      swaperPhotoUrl = item.data['bookerPhotoUrl'];
-                    }
-
-                    if (bookerId == id && turnOn) {
-                      swaperId = releaserId;
-                      swaperName = item.data['releaserName'];
-                      swaperPhotoUrl = item.data['releaserPhotoUrl'];
+                    bookerId = item.data['bookerId'];
+                    bookerName = item.data['bookerName'];
+                    bookerPhotoUrl = item.data['bookerPhotoUrl'];
                     }
                   }
-                  return ContactCard(
-                    swaperId: swaperId,
-                    swaperName: swaperName,
-                    swaperPhotoUrl: swaperPhotoUrl,
+                  return AcceptCard(
+                    bookerId: bookerId,
+                    bookerName: bookerName,
+                    bookerPhotoUrl: bookerPhotoUrl,
                   );
                 } else {
                   return Center(
@@ -101,9 +89,10 @@ class _SwapState extends State<Swap> {
                 }
               },
             ),
-          ],
-        ),
-      ),
+          
+        
+      
     );
   }
 }
+
