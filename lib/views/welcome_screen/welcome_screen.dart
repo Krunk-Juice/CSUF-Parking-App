@@ -52,6 +52,10 @@ void getCurrentUser()async
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+
+            FittedBox(
+            fit: BoxFit.fitWidth,
+            child:
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               
@@ -90,7 +94,34 @@ void getCurrentUser()async
                   textAlign: TextAlign.justify,
                   alignment: AlignmentDirectional.topStart,
                 ),
+
+                // FittedBox(
+                //   fit: BoxFit.fitWidth,
+                // child: 
+
+                  // Column(
+                  //   children: <Widget>[
+                  //     Text(
+                  //       "CSUF",
+                  //       style: TextStyle(
+                  //         fontSize: 67.5, 
+                  //         fontWeight: FontWeight.w900, 
+                  //         color: Colors.blueAccent,
+                  //       ),
+                  //     ),
+                  //     Text(
+                  //       "SWAP",
+                  //       style: TextStyle(
+                  //         fontSize: 67.5, 
+                  //         fontWeight: FontWeight.w900, 
+                  //         color: Colors.blueAccent,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                // ),
               ],
+            ),
             ),
 
             // Spacer
