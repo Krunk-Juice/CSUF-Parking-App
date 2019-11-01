@@ -74,7 +74,13 @@ class HomeBody extends StatelessWidget {
             _buildTile(
               Padding(
                 padding: const EdgeInsets.all(24.0),
-                child: Column(
+                child: 
+                
+                  FittedBox(
+                  fit: BoxFit.contain,
+                  child:
+
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -95,13 +101,20 @@ class HomeBody extends StatelessWidget {
                       Text('Zoom In & Out Map',
                           style: TextStyle(color: Colors.teal)),
                     ]),
+                  )
               ),
               onTap: () => Navigator.pushNamed(context, CsufMap.id),
             ),
             _buildTile(
               Padding(
                 padding: const EdgeInsets.all(24.0),
-                child: Column(
+                child: 
+
+                  FittedBox(
+                  fit: BoxFit.contain,
+                  child:
+
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -115,6 +128,7 @@ class HomeBody extends StatelessWidget {
                                 color: Colors.white, size: 30.0),
                           )),
                       Padding(padding: EdgeInsets.only(bottom: 16.0)),
+
                       Text('Parking Status',
                           style: TextStyle(
                               // color: Colors.black,
@@ -124,6 +138,7 @@ class HomeBody extends StatelessWidget {
                           style: TextStyle(color: Color(0xffff8400))),
                       
                     ]),
+                  )
               ),
               onTap: () => Navigator.pushNamed(context, ParkingStatus.id),
               // Navigator.pushNamed(context, ListRequest.id),
