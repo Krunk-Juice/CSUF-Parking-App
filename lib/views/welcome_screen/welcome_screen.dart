@@ -52,6 +52,10 @@ void getCurrentUser()async
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+
+            FittedBox(
+            fit: BoxFit.fitWidth,
+            child:
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               
@@ -91,6 +95,7 @@ void getCurrentUser()async
                   alignment: AlignmentDirectional.topStart,
                 ),
               ],
+            ),
             ),
 
             // Spacer
