@@ -26,8 +26,6 @@ Follow effective dart style
 
 ## Demo and ScreenShots
 
-<img src="gif/showcase.gif" width="300"  />
-
 <img src="screenshots/Screenshot_20190923-014007.jpg" width="300em" /> <img src="screenshots/Screenshot_20190923-014014.jpg" width="300em"  /> 
 
 <img src="screenshots/Screenshot_20190923-014114.jpg" width="300em" /> <img src="screenshots/Screenshot_20190923-014128.jpg" width="300em"  /> 
