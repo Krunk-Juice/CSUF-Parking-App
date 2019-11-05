@@ -36,7 +36,7 @@ class _CancelStatusState extends State<CancelStatus> {
   // Read RAM for user information.
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
-    // id = prefs.getString('id') ?? '';
+    id = prefs.getString('id') ?? '';
     status = prefs.getString('status') ?? '';
 
     //If user is requesting then show the spot holder name and image
