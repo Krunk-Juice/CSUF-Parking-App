@@ -165,7 +165,8 @@ class ReleaseItem extends StatelessWidget {
                             padding: EdgeInsets.all(24.0),
                             child: 
                             
-                            FittedBox(fit: BoxFit.contain, child:
+                            FittedBox(fit: BoxFit.contain, 
+                              alignment: Alignment(-1.0, 0.0), child:
 
                             Row(children: <Widget>[
                             
@@ -179,6 +180,8 @@ class ReleaseItem extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
 
+                                    SizedBox(height: 56,),
+
                                     FittedBox(fit: BoxFit.contain, child:
                                     Row(children: <Widget>[
 
@@ -191,7 +194,7 @@ class ReleaseItem extends StatelessWidget {
                                     ],)
                                     ),        
 
-                                    SizedBox(height: 18,), 
+                                    SizedBox(height: 12,), 
 
                                     FittedBox(fit: BoxFit.contain, child:
                                     
@@ -232,7 +235,7 @@ class ReleaseItem extends StatelessWidget {
                                   
                                     
 
-                                SizedBox(height: 48,),
+                                SizedBox(height: 12,),
 
                                 Row(
                                       mainAxisAlignment:
