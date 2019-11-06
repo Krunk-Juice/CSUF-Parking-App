@@ -207,8 +207,11 @@ class SlidingCard extends StatelessWidget {
         margin: EdgeInsets.only(left: 8, right: 8, bottom: 24),
         elevation: 8,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+        child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: <Widget>[
+            Expanded(child: 
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
               child: Image.asset(
@@ -217,6 +220,7 @@ class SlidingCard extends StatelessWidget {
                 alignment: Alignment(-offset.abs(), 0),
                 fit: BoxFit.none,
               ),
+            ),
             ),
             SizedBox(height: 8),
             Expanded(
@@ -227,6 +231,7 @@ class SlidingCard extends StatelessWidget {
               ),
             ),
           ],
+        ),
         ),
       ),
     );
@@ -292,7 +297,7 @@ class CardContent extends StatelessWidget {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
