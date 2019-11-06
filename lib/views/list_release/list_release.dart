@@ -179,7 +179,8 @@ class ReleaseItem extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-
+                                    
+                                    // spacing above the text display in cards
                                     SizedBox(height: 56,),
 
                                     FittedBox(fit: BoxFit.contain, child:
