@@ -246,6 +246,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             'bookerName': null,
             'bookerPhotoUrl': null,
             'turnOn':false,
+            'swapLocation':null,
             
           });
 
@@ -255,6 +256,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
            await prefs.setString('email', email);
            await prefs.setString('nickname', nickname);
            await prefs.setString('photoUrl', null);
+           await prefs.setString('parkAt', null);
            
           Navigator.pushNamed(context, Home.id);
           Fluttertoast.showToast(msg: "Sign up success");

@@ -8,6 +8,7 @@ import 'dart:io';
 
 SharedPreferences prefs;
 String id = '';
+
 // String nickname = '';
 // String photoUrl = '';
 TimeOfDay leaveTime;
@@ -159,19 +160,19 @@ class _SlideCardsState extends State<SlideCards> {
         controller: pageController,
         children: <Widget>[
           SlidingCard(
-            nameParking: 'Nutwood',
+            nameParking: 'Nutwood Parking Structure',
             date: '',
             assetName: 'nutwood.png',
             offset: pageOffset,
           ),
           SlidingCard(
-            nameParking: 'State College',
+            nameParking: 'State College Parking Structure',
             date: '',
             assetName: 'state_college.png',
             offset: pageOffset - 1,
           ),
           SlidingCard(
-            nameParking: 'Eastside',
+            nameParking: 'Eastside Parking Structure',
             date: '',
             assetName: 'eastside.png',
             offset: pageOffset - 2,
@@ -302,7 +303,8 @@ void _handleRelease(BuildContext context) {
     Firestore.instance.collection('users').document(id).updateData(
         {'status': 'Releasing', 'parkAt': nameParking}).then((data) async {
       await prefs.setString('status', 'Releasing');
-
+      await prefs.setString('parkAt', nameParking);
+      print('--------HERE name parking of slide_card_release: $nameParking');
       Fluttertoast.showToast(msg: "Update success");
       Navigator.pushNamed(context, Home.id);
     }).catchError((err) => print(err));
@@ -325,5 +327,5 @@ void _handleRelease(BuildContext context) {
     //     .catchError((err) => print(err));
   }
 
-  //TODO:create time picker for time leaving
+  
 }

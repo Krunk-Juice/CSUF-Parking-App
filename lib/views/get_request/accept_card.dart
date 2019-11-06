@@ -35,6 +35,7 @@ class _AcceptCardState extends State<AcceptCard> {
   String nickname = '';
   String photoUrl = '';
   // String status = '';
+  String parkAt = '';
 
   
 
@@ -52,6 +53,8 @@ class _AcceptCardState extends State<AcceptCard> {
     id = prefs.getString('id') ?? '';
     nickname = prefs.getString('nickname') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
+    parkAt = prefs.getString('parkAt')??'';
+    print('--------------HERE parkAt of accept card: $parkAt');
 
     setState(() {});
   }
@@ -191,6 +194,8 @@ class _AcceptCardState extends State<AcceptCard> {
       'bookerName': widget.bookerName,
       'bookerPhotoUrl': widget.bookerPhotoUrl,
       'turnOn': true,
+      'swapLocation':parkAt,
+
     }).then((data) async {
       Navigator.pushNamed(context, Home.id);
       Fluttertoast.showToast(msg: "Update success");

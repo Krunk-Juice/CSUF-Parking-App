@@ -20,6 +20,8 @@ class _SwapState extends State<Swap> {
   String swaperId = '';
   String swaperName = '';
   String swaperPhotoUrl = '';
+  String swapLocation = '';
+  String parkAt ='';
 
   Firestore _firestore = Firestore.instance;
 
@@ -75,23 +77,28 @@ class _SwapState extends State<Swap> {
                     final releaserId = item.data['releaserId'];
                     final bookerId = item.data['bookerId'];
                     final turnOn = item.data['turnOn'];
-
+                    
+                    
                     if (releaserId == id && turnOn) {
                       swaperId = bookerId;
                       swaperName = item.data['bookerName'];
                       swaperPhotoUrl = item.data['bookerPhotoUrl'];
+                      swapLocation = item.data['swapLocation'];
                     }
 
                     if (bookerId == id && turnOn) {
                       swaperId = releaserId;
                       swaperName = item.data['releaserName'];
-                      swaperPhotoUrl = item.data['releaserPhotoUrl'];
+                      swaperPhotoUrl = item.data['releaserPhotoUrl'];               
+                      swapLocation = item.data['swapLocation'];
                     }
                   }
+                  
                   return ContactCard(
                     swaperId: swaperId,
                     swaperName: swaperName,
                     swaperPhotoUrl: swaperPhotoUrl,
+                    swapLocation: swapLocation,
                   );
                 } else {
                   return Center(
@@ -106,4 +113,23 @@ class _SwapState extends State<Swap> {
       ),
     );
   }
+
+  // void setLocation(String mId)
+  // {
+  //   print("user id to get parkAt: $mId");
+  //     Firestore.instance
+  //       .collection('users')
+  //       .document(mId)
+  //       .get()
+  //       .then((DocumentSnapshot snapshot) {
+  //         setState(() {
+  //           parkAt = snapshot.data['parkAt'];
+      
+  //         });
+      
+  //   });
+  // }
+
+  
+
 }
