@@ -178,36 +178,24 @@ class ReleaseItem extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
+
+                                    FittedBox(fit: BoxFit.contain, child:
+                                    Row(children: <Widget>[
+
                                     Text(releaserName,
                                         style: TextStyle(fontSize: 34.0,
                                             color: Colors.blueAccent)),
 
-                                    SizedBox(height: 10,), 
-                                  
+                                    SizedBox(width: 162),
+                                    
+                                    ],)
+                                    ),        
+
+                                    SizedBox(height: 18,), 
+
+                                    FittedBox(fit: BoxFit.contain, child:
+                                    
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(
-                                            releaserParking != null
-                                                ? releaserParking
-                                                : 'Not Available',
-                                            style: TextStyle(
-                                                // color: Colors.black,
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 34.0)),
-                                        Icon(Icons.directions,
-                                            color: Colors.blue, size: 24.0),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-
-                                SizedBox(height: 10,),
-
-                                Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
@@ -231,12 +219,44 @@ class ReleaseItem extends StatelessWidget {
                                         ),
                                       ),
                                     ),
+                                  
+                                    SizedBox(width: 162,),
+                                  
                                   ],
                                 ),
+
+                                ),
+
                               ],
                             ),
+                                  
+                                    
 
-                            SizedBox(width: 168,),
+                                SizedBox(height: 48,),
+
+                                Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                            releaserParking != null
+                                                ? releaserParking
+                                                : 'Not Available',
+                                            style: TextStyle(
+                                                // color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 56.0)),
+                                                SizedBox(width: 2),
+                                        Icon(Icons.directions,
+                                            color: Colors.blue, size: 24.0),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+
+                            // SizedBox(width: 168,),
 
                           ],),
                           ),
