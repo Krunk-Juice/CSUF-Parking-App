@@ -163,7 +163,13 @@ class ReleaseItem extends StatelessWidget {
                           },
                           child: Padding(
                             padding: EdgeInsets.all(24.0),
-                            child: Column(
+                            child: 
+                            
+                            FittedBox(fit: BoxFit.contain, child:
+
+                            Row(children: <Widget>[
+                            
+                            Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
@@ -173,8 +179,11 @@ class ReleaseItem extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(releaserName,
-                                        style: TextStyle(
+                                        style: TextStyle(fontSize: 34.0,
                                             color: Colors.blueAccent)),
+
+                                    SizedBox(height: 10,), 
+                                  
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -196,11 +205,13 @@ class ReleaseItem extends StatelessWidget {
                                   ],
                                 ),
 
+                                SizedBox(height: 10,),
+
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
-                                    Text('Release at', style: TextStyle()),
+                                    Text('Release at', style: TextStyle(fontSize: 34.0)),
                                     Padding(
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 4.0),
@@ -215,6 +226,7 @@ class ReleaseItem extends StatelessWidget {
                                                   ? releaserLeavingTime
                                                   : 'Not Available',
                                               style: TextStyle(
+                                                  fontSize: 34.0,
                                                   color: Colors.white)),
                                         ),
                                       ),
@@ -223,6 +235,12 @@ class ReleaseItem extends StatelessWidget {
                                 ),
                               ],
                             ),
+
+                            SizedBox(width: 168,),
+
+                          ],),
+                          ),
+
                           ),
                         ),
                       ),
