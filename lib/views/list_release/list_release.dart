@@ -168,7 +168,7 @@ class ReleaseItem extends StatelessWidget {
                             FittedBox(fit: BoxFit.contain, 
                               alignment: Alignment(-1.0, 0.0), child:
 
-                            Row(children: <Widget>[
+                            // Row(children: <Widget>[
                             
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -262,7 +262,7 @@ class ReleaseItem extends StatelessWidget {
 
                             // SizedBox(width: 168,),
 
-                          ],),
+                          // ],),
                           ),
 
                           ),
