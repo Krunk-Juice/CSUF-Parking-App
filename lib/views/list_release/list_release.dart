@@ -261,8 +261,8 @@ class ReleaseItem extends StatelessWidget {
                                 ),
 
                             // SizedBox(width: 168,),
-
                           // ],),
+
                           ),
 
                           ),
