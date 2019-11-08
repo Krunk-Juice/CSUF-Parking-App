@@ -270,6 +270,16 @@ class ReleaseItem extends StatelessWidget {
                       ),
                     ),
 
+                    InkWell(
+                      onTap: () {
+                            //set prefs for releaser
+                            prefs.setString('releaserId', releaserId);
+                            prefs.setString('releaserName', releaserName);
+                            prefs.setString('releaserPhotoUrl', releaserPhotoUrl);
+                            Navigator.pushNamed(context, RequestCard.id);
+                          },
+                      child:
+
                     Align(
                       alignment: Alignment.topRight,
                       child: Padding(
@@ -297,6 +307,9 @@ class ReleaseItem extends StatelessWidget {
                         ),
                       ),
                     ),
+
+                    ),
+
                   ],
                 )),
           ),
