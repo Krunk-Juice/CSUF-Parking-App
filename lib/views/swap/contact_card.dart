@@ -118,6 +118,7 @@ class _ContactCardState extends State<ContactCard> {
                         ))
                   ],
                 )),
+
             SizedBox(
               height: 20,
             ),
@@ -130,6 +131,8 @@ class _ContactCardState extends State<ContactCard> {
               height: 10,
             ),
             /* Button Container */
+
+            FittedBox(fit: BoxFit.fitWidth, child:
             Row(
               children: <Widget>[
                 RoundedButton(
@@ -147,6 +150,9 @@ class _ContactCardState extends State<ContactCard> {
                 ),
               ],
             ),
+
+            ),
+
             SizedBox(
               height: 10,
             ),
@@ -155,6 +161,7 @@ class _ContactCardState extends State<ContactCard> {
               title: 'Finish',
               onPressed: () => _handleFinish(context),
             )
+
           ],
         ),
         FutureBuilder<void>(future: _launched, builder: _launchStatus),

@@ -49,15 +49,16 @@ class _ListReleaseState extends State<ListRelease> {
         leading: IconButton(
           // color: Colors.black,
           onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(
-            Icons.arrow_back,
-            // color: Colors.black,
+          icon: Icon(Icons.arrow_back, 
+          // color: Colors.black,
           ),
         ),
         title: Text('List of Users Releasing Spot',
             style: TextStyle(
-                // color: Colors.black,
-                fontWeight: FontWeight.w700)),
+              // color: Colors.black, 
+              fontWeight: FontWeight.w700
+            )
+        ),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -110,7 +111,7 @@ class _ListReleaseState extends State<ListRelease> {
   }
 }
 
-// Container holding information of users releasing
+// Container holding information of users releasing 
 class ReleaseItem extends StatelessWidget {
   final String releaserName;
   final String releaserId;
@@ -130,66 +131,190 @@ class ReleaseItem extends StatelessWidget {
   // UI Construct of the Container
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical:15.0, horizontal: 5.0),
-      // margin: EdgeInsets.symmetric(vertical: 20,horizontal: 5),
-      child: Card(
-        elevation: 10.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        
-        child: InkWell(
-          splashColor: Colors.blueAccent,
-          
-          onTap: () {
-            //set prefs for releaser
-            prefs.setString('releaserId', releaserId);
-            prefs.setString('releaserName', releaserName);
-            prefs.setString('releaserPhotoUrl', releaserPhotoUrl);
-            Navigator.pushNamed(context, RequestCard.id);
-          },
-          child: Row(
-            children: <Widget>[
-              (releaserPhotoUrl == null)
-                   ? Material(
-                              color: Colors.blueAccent,
-                              shape: CircleBorder(),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Icon(Icons.account_circle,
-                                    color: Colors.white, size: 30.0),
-                              ))
-                          : Material(
-                              shape: CircleBorder(),
-                              elevation: 14,
-                              shadowColor: Colors.black,
-                              
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage(releaserPhotoUrl),
-                                radius: 30,
-                              )),
-              SizedBox(
-                width: 10,
-              ),
-              Column(
-                children: <Widget>[
-                  Text(
-                    releaserName,
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
-                  ),
-                  Text(
-                    releaserParking,
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+    return Padding(
+      padding: EdgeInsets.only(top: 6.0,
+      bottom: 10.0,
       ),
+      child: Stack(
+        children: <Widget>[
+          /// Item card
+          Align(
+            alignment: Alignment.topCenter,
+            child: SizedBox.fromSize(
+                size: Size.fromHeight(172.0),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: <Widget>[
+                    /// Item description inside a material
+                    Container(
+                      margin: EdgeInsets.only(top: 24.0),
+                      child: Material(
+                        elevation: 14.0,
+                        borderRadius: BorderRadius.circular(12.0),
+                        shadowColor: Color(0x802196F3),
+                        // color: Colors.white,
+                        child: InkWell(
+                          onTap: () {
+                            //set prefs for releaser
+                            prefs.setString('releaserId', releaserId);
+                            prefs.setString('releaserName', releaserName);
+                            prefs.setString('releaserPhotoUrl', releaserPhotoUrl);
+                            Navigator.pushNamed(context, RequestCard.id);
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.all(24.0),
+                            child: 
+                            
+                            FittedBox(fit: BoxFit.contain, 
+                              alignment: Alignment(-1.0, 0.0), child:
 
-      
+                            // Row(children: <Widget>[
+                            
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                /// Title and rating
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    
+                                    // spacing above the text display in cards
+                                    SizedBox(height: 56,),
+
+                                    FittedBox(fit: BoxFit.contain, child:
+                                    Row(children: <Widget>[
+
+                                    Text(releaserName,
+                                        style: TextStyle(fontSize: 34.0,
+                                            color: Colors.blueAccent)),
+
+                                    SizedBox(width: 162),
+                                    
+                                    ],)
+                                    ),        
+
+                                    SizedBox(height: 12,), 
+
+                                    FittedBox(fit: BoxFit.contain, child:
+                                    
+                                    Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text('Release at', style: TextStyle(fontSize: 34.0)),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 4.0),
+                                      child: Material(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        color: Colors.green,
+                                        child: Padding(
+                                          padding: EdgeInsets.all(4.0),
+                                          child: Text(
+                                              releaserLeavingTime != null
+                                                  ? releaserLeavingTime
+                                                  : 'Not Available',
+                                              style: TextStyle(
+                                                  fontSize: 34.0,
+                                                  color: Colors.white)),
+                                        ),
+                                      ),
+                                    ),
+                                  
+                                    SizedBox(width: 162,),
+                                  
+                                  ],
+                                ),
+
+                                ),
+
+                              ],
+                            ),
+                                  
+                                    
+
+                                SizedBox(height: 12,),
+
+                                Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                            releaserParking != null
+                                                ? releaserParking
+                                                : 'Not Available',
+                                            style: TextStyle(
+                                                // color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 56.0)),
+                                                SizedBox(width: 2),
+                                        Icon(Icons.directions,
+                                            color: Colors.blue, size: 24.0),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+
+                            // SizedBox(width: 168,),
+                          // ],),
+
+                          ),
+
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    InkWell(
+                      onTap: () {
+                            //set prefs for releaser
+                            prefs.setString('releaserId', releaserId);
+                            prefs.setString('releaserName', releaserName);
+                            prefs.setString('releaserPhotoUrl', releaserPhotoUrl);
+                            Navigator.pushNamed(context, RequestCard.id);
+                          },
+                      child:
+
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 16.0),
+                        child: SizedBox.fromSize(
+                          size: Size.fromRadius(54.0),
+                          child: (releaserPhotoUrl == null)
+                              ? Material(
+                                  color: Colors.blueAccent,
+                                  shape: CircleBorder(),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Icon(Icons.account_circle,
+                                        color: Colors.white, size: 30.0),
+                                  ))
+                              : Material(
+                                  shape: CircleBorder(),
+                                  elevation: 14,
+                                  shadowColor: Colors.black,
+                                  child: CircleAvatar(
+                                    backgroundImage:
+                                        NetworkImage(releaserPhotoUrl),
+                                    radius: 30,
+                                  )),
+                        ),
+                      ),
+                    ),
+
+                    ),
+
+                  ],
+                )),
+          ),
+        ],
+      ),
     );
   }
 }
