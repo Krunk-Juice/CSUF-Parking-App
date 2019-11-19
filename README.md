@@ -26,12 +26,9 @@ Follow effective dart style
 
 ## Demo and ScreenShots
 
-<img src="screenshots/Screenshot_20190923-014007.jpg" width="300em" /> <img src="screenshots/Screenshot_20190923-014014.jpg" width="300em"  /> 
+<img src="screenshots/Screenshot_1.jpg" width="300em" /> <img src="screenshots/Screenshot_2.jpg" width="300em"  /> 
 
-<img src="screenshots/Screenshot_20190923-014114.jpg" width="300em" /> <img src="screenshots/Screenshot_20190923-014128.jpg" width="300em"  /> 
-
-<img src="screenshots/Screenshot_20190923-014136.jpg" width="300em"  /> <img src="screenshots/Screenshot_20190923-014943.jpg" width="300em" />
-
+<img src="screenshots/Screenshot_3.jpg" width="300em" /> <img src="screenshots/Screenshot_4.jpg" width="300em"  /> 
 
 ## Code Example
 
