@@ -60,11 +60,23 @@ class _ContactCardState extends State<ContactCard> {
   Widget build(BuildContext context) {
     return Container(
         //color: Colors.blueGrey,
-        child: Column(
+        child: 
+        
+        // FittedBox(fit: BoxFit.contain, child:
+        Expanded(child:
+        
+        Column(
       children: <Widget>[
+
+        // FittedBox(fit: BoxFit.contain, child:
+        Expanded(child:
+
         Column(
           children: <Widget>[
             /* Header Section */
+
+            Flexible(flex: 4, child:
+
             Container(
                 height: 350,
                 decoration: BoxDecoration(
@@ -119,54 +131,92 @@ class _ContactCardState extends State<ContactCard> {
                   ],
                 )),
 
-            SizedBox(
-              height: 20,
             ),
+
+            SizedBox(
+              height: 20.0,
+            ),
+
+            Flexible(flex: 1, child:
+            // Expanded(child:
+
             RoundedButton(
               colour: Colors.orangeAccent,
               title: 'Navigation',
               onPressed: () => _handleNavigation(),
             ),
-            SizedBox(
-              height: 10,
+
             ),
+
+            // SizedBox(
+            //   height: 5,
+            // ),
             /* Button Container */
 
-            FittedBox(fit: BoxFit.fitWidth, child:
+            // FittedBox(fit: BoxFit.fitWidth, child:
+            Flexible(flex:1, child:
+            // Expanded(child: 
+
             Row(
               children: <Widget>[
+
+                // Expanded(child:
+
                 RoundedButton(
                   colour: Colors.blueAccent,
                   title: 'Call',
                   onPressed: () => _handleCall(),
                 ),
+
+                // ),
+
                 SizedBox(
                   width: 10,
                 ),
+
+                // Expanded(child:
+
                 RoundedButton(
                   colour: Colors.greenAccent,
                   title: 'Message',
                   onPressed: () => _handleMessage(),
                 ),
+
+                // ),
+
               ],
             ),
 
             ),
 
-            SizedBox(
-              height: 10,
-            ),
+            // SizedBox(
+            //   height: 5,
+            // ),
+
+            Flexible(flex:1, child:
+            // Expanded(child:
+
             RoundedButton(
               colour: Colors.redAccent,
               title: 'Finish',
               onPressed: () => _handleFinish(context),
             )
 
+            ),
+
           ],
+
         ),
+
+        ),
+
         FutureBuilder<void>(future: _launched, builder: _launchStatus),
       ],
-    ));
+    )
+
+    ),
+    
+    );
   }
 
   // You complete the swap and exit the screen
