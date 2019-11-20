@@ -28,15 +28,15 @@ class MyApp extends StatelessWidget {
 
       /* NOTE: Universal Theme tested and supported on Android Q. */
       // Default Theme
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Colors.blue,
+      theme: ThemeData.dark().copyWith(
+        primaryColor: Color(0xFF0A0E21),
+        scaffoldBackgroundColor: Color(0xFF0A0E21),
       ),
 
       // Dark Theme
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-      ),
+      // darkTheme: ThemeData(
+      //   brightness: Brightness.dark,
+      // ),
 
       // Screen Routes
       initialRoute: 'welcome_screen',
