@@ -28,14 +28,15 @@ class _SettingsState extends State<Settings> {
           centerTitle: true,
         ),
         body: Container(
-          margin: EdgeInsets.all(16.0),
+          margin: EdgeInsets.only(left: 24.0, right: 16.0, top: 8.0, bottom: 8.0),
           //  child: Expanded(
           child: Column(
             children: <Widget>[
               Row(
                 children: <Widget>[
                   Expanded(
-                    child: Text('Notifications'),
+                    child: Text('Notifications', 
+                    style: TextStyle(fontSize: 16.0,)),
                   ),
                   Expanded(
                     child: SizedBox(
@@ -56,7 +57,8 @@ class _SettingsState extends State<Settings> {
               Row(
                 children: <Widget>[
                   Expanded(
-                    child: Text('Dark Theme'),
+                    child: Text('Dark Theme', 
+                    style: TextStyle(fontSize: 16.0,),),
                   ),
                   Expanded(
                     child: SizedBox(
