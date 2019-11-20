@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       ),
 
       // Screen Routes
-      initialRoute: 'settings',
+      initialRoute: 'welcome_screen',
       routes: {
         'welcome_screen': (context) => WelcomeScreen(),
         'register':(context) => Register(),
