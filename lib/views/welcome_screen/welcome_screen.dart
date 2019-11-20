@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/components/round_button.dart';
 import 'package:flutter_parking_app/views/home/home.dart';
-import 'package:flutter_parking_app/views/login/login_v2.dart';
-import 'package:flutter_parking_app/views/register/register_v2.dart';
+import 'package:flutter_parking_app/views/login/login.dart';
+import 'package:flutter_parking_app/views/register/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -107,7 +107,7 @@ void getCurrentUser()async
             RoundedButton(
               colour: Colors.lightBlueAccent,
               title: 'Login',
-              onPressed: () => Navigator.pushNamed(context, LoginScreen.id),
+              onPressed: () => Navigator.pushNamed(context, Login.id),
             ),
 
             // Register Button
@@ -115,7 +115,7 @@ void getCurrentUser()async
               colour: Colors.blueAccent,
               title: 'Register',
               onPressed: () =>
-                  Navigator.pushNamed(context, RegistrationScreen.id),
+                  Navigator.pushNamed(context, Register.id),
             ),
           ],
         ),
