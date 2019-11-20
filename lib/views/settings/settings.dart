@@ -23,9 +23,9 @@ class _SettingsState extends State<Settings> {
             
             ),
           ),
-          title:
-              Text('Settings', style: TextStyle(fontWeight: FontWeight.w700)),
-          centerTitle: true,
+          // title:
+          //     Text('Settings', style: TextStyle(fontWeight: FontWeight.w700)),
+          // centerTitle: true,
         ),
         body: Container(
           margin: EdgeInsets.only(left: 24.0, right: 16.0, top: 8.0, bottom: 8.0),
