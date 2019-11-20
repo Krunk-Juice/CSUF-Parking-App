@@ -8,11 +8,21 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+
+  bool darktheme = false;
+  bool notification = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          elevation: 0,
+          elevation: 0.0,
+          leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: Icon(Icons.arrow_back,
+            
+            ),
+          ),
           title:
               Text('Settings', style: TextStyle(fontWeight: FontWeight.w700)),
           centerTitle: true,
@@ -33,7 +43,13 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   Switch(
-                    value: false,
+                    value: notification,
+                    activeColor: Colors.blue,
+                    onChanged: (bool newValue) {
+                      setState(() {
+                        notification = newValue;
+                      });
+                    },
                   ),
                 ],
               ),
@@ -48,7 +64,13 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   Switch(
-                    value: true,
+                    value: darktheme,
+                    activeColor: Colors.blue,
+                    onChanged: (bool newValue) {
+                      setState(() {
+                        darktheme = newValue;
+                      });
+                    },
                   ),
                 ],
               ),
