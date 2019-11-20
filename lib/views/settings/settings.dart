@@ -18,40 +18,43 @@ class _SettingsState extends State<Settings> {
           centerTitle: true,
         ),
         body: Container(
+          margin: EdgeInsets.all(16.0),
           //  child: Expanded(
           child: Column(
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: 
               Row(
                 children: <Widget>[
-                  Text('Notifications'),
+                  Expanded(
+                    child: Text('Notifications'),
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      width: 300,
+                    ),
+                  ),
                   Switch(
                     value: false,
-                    
                   ),
-              ],),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child:
-                Expanded (
-                  child:
               Row(
                 children: <Widget>[
-                  Text('Dark Theme'),
-                  
+                  Expanded(
+                    child: Text('Dark Theme'),
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      width: 300,
+                    ),
+                  ),
                   Switch(
                     value: true,
                   ),
-              ],),
-                ),
+                ],
               ),
             ],
           ),
           // )
-        )
-    );
+        ));
   }
 }
