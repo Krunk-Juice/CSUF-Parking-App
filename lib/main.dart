@@ -14,6 +14,7 @@ import 'package:flutter_parking_app/views/register/register.dart';
 import 'package:flutter_parking_app/views/slide_card_release/slide_card_release.dart';
 import 'package:flutter_parking_app/views/swap/swap.dart';
 import 'package:flutter_parking_app/views/welcome_screen/welcome_screen.dart';
+import 'package:flutter_parking_app/views/settings/settings.dart';
 
 void main() => runApp(MyApp());
 // This widget is the root of your application.
@@ -56,7 +57,7 @@ class MyApp extends StatelessWidget {
         'request_card': (context) => RequestCard(),
         'get_request': (context) => GetRequest(),
         'swap': (context) => Swap(),
-      
+        'settings': (context) => Settings(),
       },
     );
   }
