@@ -11,7 +11,7 @@ import 'package:flutter_parking_app/views/login/login.dart';
 import 'package:flutter_parking_app/views/parking_status/parking_status.dart';
 import 'package:flutter_parking_app/views/profile/profile.dart';
 import 'package:flutter_parking_app/views/register/register.dart';
-import 'package:flutter_parking_app/views/slide_card_release/slide_card_release.dart';
+import 'package:flutter_parking_app/views/release/release.dart';
 import 'package:flutter_parking_app/views/swap/swap.dart';
 import 'package:flutter_parking_app/views/welcome_screen/welcome_screen.dart';
 import 'package:flutter_parking_app/views/settings/settings.dart';
@@ -51,7 +51,8 @@ class MyApp extends StatelessWidget {
         'parking_status':(context) => ParkingStatus(),
         'csuf_map': (context) => CsufMap(),
         'free_parking_map': (context) => FreeParkingMap(),
-        'slide_card_release': (context) => SlideCardRelease(),
+        'release': (context) => Release(),
+        'input_parking_data': (context) => WelcomeScreen(),
         'cancel_status': (context) => CancelStatus(),
         'list_release': (context) => ListRelease(),
         'request_card': (context) => RequestCard(),

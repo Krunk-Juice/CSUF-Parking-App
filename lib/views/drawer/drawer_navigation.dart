@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/main.dart';
 import 'package:flutter_parking_app/views/profile/profile.dart';
+import 'package:flutter_parking_app/views/settings/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -75,6 +76,7 @@ class _DrawerNavigationState extends State<DrawerNavigation> {
           ListTile(
             title: Text("Settings"),
             trailing: Icon(Icons.arrow_forward),
+            onTap: ()=>Navigator.pushNamed(context, Settings.id),
           ),
           ListTile(
             title: Text("Sign Out"),

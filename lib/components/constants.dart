@@ -16,6 +16,10 @@ const kTextFeildDecoration = InputDecoration(
   ),
 );
 
+const String MIN_DATETIME = '2010-05-12 05:15:20';
+const String MAX_DATETIME = '2021-11-25 22:45:10';
+const String INIT_DATETIME = '2019-08-17 18:13:15';
+
 
 const kBottomDatePickerColor = Color(0xFF0A0E21);
 const kActiveCardColor = Color(0xFF1D1E33);
