@@ -134,7 +134,7 @@ class _InputParkingDataState extends State<InputParkingData> {
     Firestore.instance
         .collection('users')
         .document(id)
-        .updateData({'status': 'Releasing', 'parkAt': widget.nameParking}).then(
+        .updateData({'status': 'Releasing', 'parkAt': widget.nameParking,'leaveAt':_dateTime.millisecondsSinceEpoch,'floor':floor}).then(
             (data) async {
       await prefs.setString('status', 'Releasing');
       await prefs.setString('parkAt', widget.nameParking);

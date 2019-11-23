@@ -223,7 +223,9 @@ class _RegisterState extends State<Register> {
             'status': 'Relaxing',
             'parkAt':null,
             'leaveAt':null,
+            'floor':null,
           });
+
           Firestore.instance
               .collection('requests')
               .document(firebaseUser.uid)
@@ -235,6 +237,7 @@ class _RegisterState extends State<Register> {
             'turnOn':false,
             
           });
+
            Firestore.instance
               .collection('swaps')
               .document(firebaseUser.uid)
@@ -247,6 +250,8 @@ class _RegisterState extends State<Register> {
             'bookerPhotoUrl': null,
             'turnOn':false,
             'swapLocation':null,
+            'leaveAt':null,
+            'floor':null,
             
           });
 
