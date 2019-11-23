@@ -6,7 +6,6 @@ import 'package:flutter_parking_app/views/free_parking_map/free_parking_map.dart
 import 'package:flutter_parking_app/views/get_request/get_request.dart';
 import 'package:flutter_parking_app/views/home/home.dart';
 import 'package:flutter_parking_app/views/list_release/list_release.dart';
-import 'package:flutter_parking_app/views/list_release/request_card.dart';
 import 'package:flutter_parking_app/views/login/login.dart';
 import 'package:flutter_parking_app/views/parking_status/parking_status.dart';
 import 'package:flutter_parking_app/views/profile/profile.dart';
@@ -55,7 +54,7 @@ class MyApp extends StatelessWidget {
         'input_parking_data': (context) => WelcomeScreen(),
         'cancel_status': (context) => CancelStatus(),
         'list_release': (context) => ListRelease(),
-        'request_card': (context) => RequestCard(),
+        
         'get_request': (context) => GetRequest(),
         'swap': (context) => Swap(),
         'settings': (context) => Settings(),

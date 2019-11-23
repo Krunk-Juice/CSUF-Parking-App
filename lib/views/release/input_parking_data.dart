@@ -50,73 +50,80 @@ class _InputParkingDataState extends State<InputParkingData> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          ReusableCard(
-            colour: kActiveCardColor,
-            cardChild: Column(
-              children: <Widget>[
-                Text(
-                  'TIME',
-                  style: kTitleTextStyle,
-                ),
-                Text(
-                  '${_dateTime.hour.toString().padLeft(2, '0')}:${_dateTime.minute.toString().padLeft(2, '0')}',
-                  style: kNumberTextStyle,
-                ),
-              ],
+          Expanded(
+                      child: ReusableCard(
+              colour: kActiveCardColor,
+              cardChild: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'TIME',
+                    style: kTitleTextStyle,
+                  ),
+                  Text(
+                    '${_dateTime.hour.toString().padLeft(2, '0')}:${_dateTime.minute.toString().padLeft(2, '0')}',
+                    style: kNumberTextStyle,
+                  ),
+                ],
+              ),
+              onPress: _showTimePicker,
             ),
-            onPress: _showTimePicker,
           ),
-          ReusableCard(
-            colour: kActiveCardColor,
-            cardChild: Column(
-              children: <Widget>[
-                Text('FLOOR', style: kTitleTextStyle),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
+          Expanded(
                       child: ReusableCard(
-                        onPress: () {
-                          setState(() {
-                            (floor>1)?floor--:errorMsg='Floor can not be lower than one';
-                          });
-                        },
-                        colour: kActiveCardColor,
-                        cardChild: IconContent(
-                          icon: FontAwesomeIcons.minus,
-                          label: '',
+              colour: kActiveCardColor,
+              cardChild: Column(
+                children: <Widget>[
+                  Text('FLOOR', style: kTitleTextStyle),
+                  Expanded(
+                                      child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          child: ReusableCard(
+                            onPress: () {
+                              setState(() {
+                                (floor>1)?floor--:errorMsg='Floor can not be lower than one';
+                              });
+                            },
+                            colour: kActiveCardColor,
+                            cardChild: IconContent(
+                              icon: FontAwesomeIcons.minus,
+                              label: '',
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      child: ReusableCard(
-                        onPress: () => null,
-                        colour: kActiveCardColor,
-                        cardChild: Text(
-                          floor.toString(),
-                          style: kNumberTextStyle,
-                          textAlign: TextAlign.center,
+                        Expanded(
+                          child: ReusableCard(
+                            onPress: () => null,
+                            colour: kActiveCardColor,
+                            cardChild: Text(
+                              floor.toString(),
+                              style: kNumberTextStyle,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      child: ReusableCard(
-                        onPress: () {
-                          setState(() {
-                            (floor<6)?floor++:errorMsg='Floor can not be greater than six';
-                          });
-                        },
-                        colour: kActiveCardColor,
-                        cardChild: IconContent(
-                          icon: FontAwesomeIcons.plus,
-                          label: '',
+                        Expanded(
+                          child: ReusableCard(
+                            onPress: () {
+                              setState(() {
+                                (floor<6)?floor++:errorMsg='Floor can not be greater than six';
+                              });
+                            },
+                            colour: kActiveCardColor,
+                            cardChild: IconContent(
+                              icon: FontAwesomeIcons.plus,
+                              label: '',
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-                Text(errorMsg,style: kErrorTextStyle,)
-              ],
+                  ),
+                  Text(errorMsg,style: kErrorTextStyle,)
+                ],
+              ),
             ),
           ),
           BottomButton(
@@ -130,6 +137,7 @@ class _InputParkingDataState extends State<InputParkingData> {
   }
 
   void _handleRelease(BuildContext context) {
+    // print(_dateTime.millisecondsSinceEpoch);
 //update release status
     Firestore.instance
         .collection('users')

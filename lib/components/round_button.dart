@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_parking_app/components/constants.dart';
 
 class RoundedButton extends StatelessWidget {
 
@@ -12,18 +13,18 @@ class RoundedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
+              padding: EdgeInsets.symmetric(vertical: 8.0),
               child: Material(
                 elevation: 5.0,
                 color: colour,
-                borderRadius: BorderRadius.circular(30.0),
+                borderRadius: BorderRadius.circular(15.0),
                 child: MaterialButton(
                   onPressed: onPressed,
                   minWidth: 200.0,
-                  height: 42.0,
+                  height: 40.0,
                   child: Text(
                     title,
-                    style: TextStyle(color: Colors.white),
+                    style: kRoundButtonTextStyle,
                   ),
                 ),
               ),

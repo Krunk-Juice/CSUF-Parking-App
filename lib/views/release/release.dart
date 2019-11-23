@@ -4,7 +4,7 @@ import 'package:flutter_parking_app/components/constants.dart';
 import 'package:flutter_parking_app/views/release/slide_card.dart';
 
 
-TimeOfDay leaveTime;
+
 
 // Releasing Screen with cards of the parking structures.
 // Select a parking structure to release your spot.
@@ -34,13 +34,15 @@ class _ReleaseState extends State<Release> {
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Text('Where did you park your car?', style: kTitleTextStyle),
-            SizedBox(height: 10,),
+            Expanded(child: SizedBox(height: 20,)),
             Expanded(
+              flex: 3,
               child: SlideCards(),
             ),
+            SizedBox(height: 10,),
             
           ],
         ),
