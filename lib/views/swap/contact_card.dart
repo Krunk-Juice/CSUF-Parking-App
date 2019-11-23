@@ -3,7 +3,6 @@ import 'package:flutter_parking_app/views/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_parking_app/components/round_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -185,7 +184,7 @@ class _ContactCardState extends State<ContactCard> {
                 await prefs.setString('status', 'Relaxing');
 
                 Navigator.pushNamed(context, Home.id);
-                Fluttertoast.showToast(msg: "Update success");
+                // Fluttertoast.showToast(msg: "Update success");
               }).catchError((err) => print(err));
             },
             child: new Text('OK'),

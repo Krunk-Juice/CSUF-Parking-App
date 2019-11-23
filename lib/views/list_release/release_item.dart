@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/components/circle_image.dart';
 import 'package:flutter_parking_app/components/constants.dart';
 import 'package:flutter_parking_app/components/reusable_card.dart';
 import 'package:flutter_parking_app/components/round_button.dart';
 import 'package:flutter_parking_app/components/round_icon_button.dart';
+import 'package:flutter_parking_app/views/home/home.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,7 +15,7 @@ class ReleaseItem extends StatefulWidget {
   final String releaserPhotoUrl;
   final String releaserParking;
   final DateTime releaserLeavingTime;
-  final Function onPressed;
+
   final int releaserFloor;
 
   ReleaseItem({
@@ -24,7 +26,7 @@ class ReleaseItem extends StatefulWidget {
     @required this.releaserId,
     @required this.releaserPhotoUrl,
     @required this.releaserFloor,
-    this.onPressed
+    
   }) : super(key: key);
 
   @override
@@ -33,6 +35,9 @@ class ReleaseItem extends StatefulWidget {
 
 class _ReleaseItemState extends State<ReleaseItem> {
   SharedPreferences prefs;
+  String id = '';
+  String nickname = '';
+  String photoUrl = '';
 
   @override
   void initState() {
@@ -42,25 +47,22 @@ class _ReleaseItemState extends State<ReleaseItem> {
 
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
+    
   }
 
   @override
   Widget build(BuildContext context) {
     return ReusableCard(
-      colour: kActiveCardColor,
+      // colour: kActiveCardColor,
       
       cardChild: Column(
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              (widget.releaserPhotoUrl == null)
-                  ? RoundIconButton(
-                      icon: FontAwesomeIcons.userTie,
-                      
-                    )
-                  : CircleImage(
+               CircleImage(
                       photoUrl: widget.releaserPhotoUrl,
+                      icon: FontAwesomeIcons.userTie,
                       
                     ),
               SizedBox(
@@ -81,23 +83,18 @@ class _ReleaseItemState extends State<ReleaseItem> {
                           '${widget.releaserLeavingTime.hour.toString().padLeft(2, '0')}:${widget.releaserLeavingTime.minute.toString().padLeft(2, '0')}',
                           style: kTimeTextStyle,
                         ),
+                        
                       ],
                     ),
                     Text(
                       widget.releaserParking,
                       style: kParkingTextStyle,
                     ),
-                    // RoundedButton(title: 'Request',colour: Colors.greenAccent,)
-                  ],
-                ),
-              )
-            ],
-          ),
-          Row(
+                     Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               Expanded(
-                flex: 2,
+                
                   child: SizedBox(
                 width: 1,
               )),
@@ -105,14 +102,53 @@ class _ReleaseItemState extends State<ReleaseItem> {
                   child: RoundedButton(
                 title: 'Request',
                 colour: Colors.green,
-                onPressed: widget.onPressed,
+                onPressed: ()=>_handleRequest( context),
               ))
             ],
           ),
+                  ],
+                ),
+              )
+            ],
+          ),
+         
         ],
       ),
     );
 
     
   }
+
+  void _handleRequest(BuildContext context) async {
+//update release status
+    setState(() {
+      id = prefs.getString('id') ?? '';
+    nickname = prefs.getString('nickname') ?? '';
+    photoUrl = prefs.getString('photoUrl') ?? '';
+    });
+
+    
+    await prefs.setString('releaserId', widget.releaserId);
+    
+    Firestore.instance.collection('users').document(id).updateData({
+      'status': 'Requesting',
+    });
+
+    Firestore.instance.collection('users').document(widget.releaserId).updateData({
+      'status': 'Getting Request',
+    });
+    
+
+    Firestore.instance.collection('requests').document(widget.releaserId).updateData({
+      'releaserId': widget.releaserId,
+      'bookerId': id,
+      'bookerName': nickname,
+      'bookerPhotoUrl': photoUrl,
+      'turnOn':true,
+    });
+    Navigator.pushNamed(context, Home.id);
+    
+  }
+
+  
 }

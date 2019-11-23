@@ -12,9 +12,7 @@ class RoundedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
-              child: Material(
+    return  Material(
                 elevation: 5.0,
                 color: colour,
                 borderRadius: BorderRadius.circular(15.0),
@@ -27,7 +25,7 @@ class RoundedButton extends StatelessWidget {
                     style: kRoundButtonTextStyle,
                   ),
                 ),
-              ),
-            );
+              )
+            ;
   }
 }

@@ -34,10 +34,12 @@ class _ReleaseState extends State<Release> {
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Where did you park your car?', style: kTitleTextStyle),
-            Expanded(child: SizedBox(height: 20,)),
+            SizedBox(height: 10,),
+            Expanded(
+            child: Text('Where did you park your car?', style: kTitleTextStyle)),
+            
             Expanded(
               flex: 3,
               child: SlideCards(),

@@ -19,8 +19,6 @@ class _ListReleaseState extends State<ListRelease> {
   // FirebaseUser currentUser;
   bool isLoading = false;
   String id = '';
-  String nickname = '';
-  String photoUrl = '';
   Firestore _firestore = Firestore.instance;
   String releaserId='';
 
@@ -34,8 +32,6 @@ class _ListReleaseState extends State<ListRelease> {
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
-    nickname = prefs.getString('nickname') ?? '';
-    photoUrl = prefs.getString('photoUrl') ?? '';
 
     // Force refresh input
     setState(() {});
@@ -89,7 +85,7 @@ class _ListReleaseState extends State<ListRelease> {
                             DateTime.fromMillisecondsSinceEpoch(
                                 item.data['leaveAt']),
                         releaserFloor: item.data['floor'],
-                        onPressed:()=>_handleRequest(context),
+                        
                       );
                       releaserWidgets.add(releaserWidget);
                     }
@@ -115,27 +111,7 @@ class _ListReleaseState extends State<ListRelease> {
 
 
 
-void _handleRequest(BuildContext context) {
-//update release status
-    Firestore.instance.collection('users').document(id).updateData({
-      'status': 'Requesting',
-    });
 
-    Firestore.instance.collection('users').document(releaserId).updateData({
-      'status': 'Getting Request',
-    });
-    
-
-    Firestore.instance.collection('requests').document(releaserId).updateData({
-      'releaserId': releaserId,
-      'bookerId': id,
-      'bookerName': nickname,
-      'bookerPhotoUrl': photoUrl,
-      'turnOn':true,
-    });
-    Navigator.pushNamed(context, Home.id);
-    
-  }
 
 }
 

@@ -109,7 +109,9 @@ void getCurrentUser()async
               title: 'Login',
               onPressed: () => Navigator.pushNamed(context, Login.id),
             ),
-
+            SizedBox(
+              height: 20.0,
+            ),
             // Register Button
             RoundedButton(
               colour: Colors.blueAccent,

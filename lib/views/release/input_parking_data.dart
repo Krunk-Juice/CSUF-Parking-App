@@ -1,3 +1,4 @@
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flutter_parking_app/components/bottom_button.dart';
@@ -52,7 +53,7 @@ class _InputParkingDataState extends State<InputParkingData> {
         children: <Widget>[
           Expanded(
                       child: ReusableCard(
-              colour: kActiveCardColor,
+              // colour: kActiveCardColor,
               cardChild: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -71,7 +72,7 @@ class _InputParkingDataState extends State<InputParkingData> {
           ),
           Expanded(
                       child: ReusableCard(
-              colour: kActiveCardColor,
+              // colour: kActiveCardColor,
               cardChild: Column(
                 children: <Widget>[
                   Text('FLOOR', style: kTitleTextStyle),
@@ -86,7 +87,7 @@ class _InputParkingDataState extends State<InputParkingData> {
                                 (floor>1)?floor--:errorMsg='Floor can not be lower than one';
                               });
                             },
-                            colour: kActiveCardColor,
+                            // colour: kActiveCardColor,
                             cardChild: IconContent(
                               icon: FontAwesomeIcons.minus,
                               label: '',
@@ -96,7 +97,7 @@ class _InputParkingDataState extends State<InputParkingData> {
                         Expanded(
                           child: ReusableCard(
                             onPress: () => null,
-                            colour: kActiveCardColor,
+                            // colour: kActiveCardColor,
                             cardChild: Text(
                               floor.toString(),
                               style: kNumberTextStyle,
@@ -111,7 +112,7 @@ class _InputParkingDataState extends State<InputParkingData> {
                                 (floor<6)?floor++:errorMsg='Floor can not be greater than six';
                               });
                             },
-                            colour: kActiveCardColor,
+                            // colour: kActiveCardColor,
                             cardChild: IconContent(
                               icon: FontAwesomeIcons.plus,
                               label: '',
@@ -127,7 +128,7 @@ class _InputParkingDataState extends State<InputParkingData> {
             ),
           ),
           BottomButton(
-            color: Colors.orangeAccent,
+            color: Colors.greenAccent,
             title: 'FINISH',
             onPressed: () => _handleRelease(context),
           ),
@@ -163,7 +164,7 @@ class _InputParkingDataState extends State<InputParkingData> {
       dateFormat: _format,
       pickerMode: DateTimePickerMode.time, // show TimePicker
       pickerTheme: DateTimePickerTheme(
-        backgroundColor: kBottomDatePickerColor,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark ?kBottomDatePickerDarkColor:kBottomDatePickerColor,
         itemTextStyle: kDatePickerTextStyle,
         confirm:
             Text('Done', style: TextStyle(fontSize: 30.0, color: Colors.red)),
