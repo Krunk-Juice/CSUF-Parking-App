@@ -23,8 +23,8 @@ const String INIT_DATETIME = '2019-08-17 08:30:00';
 
 const kBottomDatePickerDarkColor = Color(0xFF0A0E21);
 const kBottomDatePickerColor = Colors.white;
-// const kActiveCardColor = Color(0xFF1D1E33);
-// const kInactiveCardColor = Color(0xFF111328);
+// const kDarkCardColor = Color(0xFF1D1E33);
+// const kCardColor = Color(0xFF111328);
 // const kBottomContainerColor = Color(0xFFEB1555);
 
 const kHintTextStyle = TextStyle(fontSize: 30.0,color: Colors.grey);

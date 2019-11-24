@@ -261,8 +261,8 @@ class _RegisterState extends State<Register> {
            await prefs.setString('id', firebaseUser.uid);
            await prefs.setString('email', email);
            await prefs.setString('nickname', nickname);
-           await prefs.setString('photoUrl', null);
-           await prefs.setString('parkAt', null);
+           
+           
            
            
           Navigator.pushNamed(context, Home.id);

@@ -114,21 +114,7 @@ class _SwapState extends State<Swap> {
     );
   }
 
-  // void setLocation(String mId)
-  // {
-  //   print("user id to get parkAt: $mId");
-  //     Firestore.instance
-  //       .collection('users')
-  //       .document(mId)
-  //       .get()
-  //       .then((DocumentSnapshot snapshot) {
-  //         setState(() {
-  //           parkAt = snapshot.data['parkAt'];
-      
-  //         });
-      
-  //   });
-  // }
+  
 
   
 

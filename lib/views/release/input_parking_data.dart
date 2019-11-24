@@ -20,7 +20,7 @@ class InputParkingData extends StatefulWidget {
 }
 
 class _InputParkingDataState extends State<InputParkingData> {
-  SharedPreferences prefs;
+  
   String id = '';
   int floor = 1;
   String _format = 'HH:mm';
@@ -31,15 +31,11 @@ class _InputParkingDataState extends State<InputParkingData> {
   @override
   void initState() {
     super.initState();
-    readLocal();
+    _dateTime = DateTime.parse(INIT_DATETIME);
+    
   }
 
-  void readLocal() async {
-    prefs = await SharedPreferences.getInstance();
-    id = prefs.getString('id') ?? '';
-    setState(() {});
-    _dateTime = DateTime.parse(INIT_DATETIME);
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -137,16 +133,21 @@ class _InputParkingDataState extends State<InputParkingData> {
     );
   }
 
-  void _handleRelease(BuildContext context) {
+  void _handleRelease(BuildContext context) async {
     // print(_dateTime.millisecondsSinceEpoch);
 //update release status
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+    id = prefs.getString('id') ?? '';
+    
     Firestore.instance
         .collection('users')
         .document(id)
         .updateData({'status': 'Releasing', 'parkAt': widget.nameParking,'leaveAt':_dateTime.millisecondsSinceEpoch,'floor':floor}).then(
             (data) async {
+              
       await prefs.setString('status', 'Releasing');
       await prefs.setString('parkAt', widget.nameParking);
+      await prefs.setInt('floor', floor);
 
       Navigator.pushNamed(context, Home.id);
     }).catchError((err) => print(err));
