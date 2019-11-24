@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_parking_app/views/swap/contact_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,11 +16,14 @@ class Swap extends StatefulWidget {
 class _SwapState extends State<Swap> {
   bool isLoading = false;
   String id = '';
+  String releaserId = '';
   String swaperId = '';
   String swaperName = '';
   String swaperPhotoUrl = '';
   String swapLocation = '';
-  String parkAt ='';
+  String parkAt = '';
+  DateTime timeSwap;
+  int floor = 0;
 
   Firestore _firestore = Firestore.instance;
 
@@ -36,6 +38,7 @@ class _SwapState extends State<Swap> {
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
+    releaserId = prefs.getString('releaserId') ?? '';
 
     // Force refresh input
     setState(() {});
@@ -74,32 +77,33 @@ class _SwapState extends State<Swap> {
                   final doc = snapshot.data.documents;
                   // List<SwapItem> swapWidgets = [];
                   for (var item in doc) {
-                    final releaserId = item.data['releaserId'];
+                    final releaserIdSwap = item.data['releaserId'];
                     final bookerId = item.data['bookerId'];
-                    final turnOn = item.data['turnOn'];
-                    
-                    
-                    if (releaserId == id && turnOn) {
-                      swaperId = bookerId;
-                      swaperName = item.data['bookerName'];
-                      swaperPhotoUrl = item.data['bookerPhotoUrl'];
-                      swapLocation = item.data['swapLocation'];
-                    }
+                    // final turnOn = item.data['turnOn'];
 
-                    if (bookerId == id && turnOn) {
-                      swaperId = releaserId;
-                      swaperName = item.data['releaserName'];
-                      swaperPhotoUrl = item.data['releaserPhotoUrl'];               
-                      swapLocation = item.data['swapLocation'];
+                    if (id == releaserIdSwap) {
+                      return ContactCard(
+                        swaperId: bookerId,
+                        swaperName: item.data['bookerName'],
+                        swaperPhotoUrl: item.data['bookerPhotoUrl'],
+                        swapLocation: item.data['swapLocation'],
+                        floor: item.data['floor'],
+                        timeSwap: DateTime.fromMillisecondsSinceEpoch(
+                            item.data['timeSwap']),
+                      );
+                      
+                    } else  if(releaserId == releaserIdSwap){
+                      return ContactCard(
+                        swaperId: releaserId,
+                        swaperName: item.data['releaserName'],
+                        swaperPhotoUrl: item.data['releaserPhotoUrl'],
+                        swapLocation: item.data['swapLocation'],
+                        floor: item.data['floor'],
+                        timeSwap: DateTime.fromMillisecondsSinceEpoch(
+                            item.data['timeSwap']),
+                      );
                     }
                   }
-                  
-                  return ContactCard(
-                    swaperId: swaperId,
-                    swaperName: swaperName,
-                    swaperPhotoUrl: swaperPhotoUrl,
-                    swapLocation: swapLocation,
-                  );
                 } else {
                   return Center(
                       child: Container(
@@ -113,23 +117,4 @@ class _SwapState extends State<Swap> {
       ),
     );
   }
-
-  // void setLocation(String mId)
-  // {
-  //   print("user id to get parkAt: $mId");
-  //     Firestore.instance
-  //       .collection('users')
-  //       .document(mId)
-  //       .get()
-  //       .then((DocumentSnapshot snapshot) {
-  //         setState(() {
-  //           parkAt = snapshot.data['parkAt'];
-      
-  //         });
-      
-  //   });
-  // }
-
-  
-
 }

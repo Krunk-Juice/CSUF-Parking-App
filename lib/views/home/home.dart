@@ -22,6 +22,7 @@ class _HomeState extends State<Home> {
   String nickname = '';
   String photoUrl = '';
   String status = '';
+  
 
   // Initialize State
   @override
@@ -46,9 +47,10 @@ class _HomeState extends State<Home> {
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
-    nickname = prefs.getString('nickname') ?? '';
-    photoUrl = prefs.getString('photoUrl') ?? '';
-    status = prefs.getString('status') ?? '';
+    // nickname = prefs.getString('nickname') ?? '';
+    // photoUrl = prefs.getString('photoUrl') ?? '';
+    // status = prefs.getString('status') ?? '';
+    
     // Force refresh input
     setState(() {});
   }
@@ -86,19 +88,10 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         endDrawer: DrawerNavigation(),
         appBar: AppBar(
-          iconTheme: IconThemeData(
-            // color: Colors.green
-            color: Colors.white,
-            ),
-          elevation: 2.0,
-          // backgroundColor: Colors.white,
-          title: Text('Dashboard',
-              style: TextStyle(
-                  // color: Colors.black,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 30.0)),
-          centerTitle: true,
-        ),
+            title: Center(child: Text('')),
+          
+            leading: new Container(), //hide back arrow
+          ),
         body: StreamBuilder(
           stream: _firestore.collection('users').snapshots(),
           builder: (context, snapshot) {
@@ -123,9 +116,11 @@ class _HomeState extends State<Home> {
                 }
               }
               return HomeBody(
+                id: id,
                 name: nickname,
                 photoUrl: photoUrl,
                 status: status,
+                
               );
             } else {
               return Center(

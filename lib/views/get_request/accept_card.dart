@@ -1,14 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/views/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_parking_app/components/round_button.dart';
 
 
-SharedPreferences prefs;
+
 
 // This screen shows up after you have selected a user 
 // to release your spot to. Showing the users name and
@@ -34,30 +32,11 @@ class _AcceptCardState extends State<AcceptCard> {
   String id = '';
   String nickname = '';
   String photoUrl = '';
-  // String status = '';
+  int floor = 0;
   String parkAt = '';
-
+  String leaveAt ='';
   
 
-  // Initialize State Confirmation Screen
-  @override
-  void initState() {
-    super.initState();
-
-    readLocal();
-  }
-
-  // Read RAM for user information.
-  void readLocal() async {
-    prefs = await SharedPreferences.getInstance();
-    id = prefs.getString('id') ?? '';
-    nickname = prefs.getString('nickname') ?? '';
-    photoUrl = prefs.getString('photoUrl') ?? '';
-    parkAt = prefs.getString('parkAt')??'';
-    print('--------------HERE parkAt of accept card: $parkAt');
-
-    setState(() {});
-  }
 
   // UI Construct of the Confirmation Screen
   @override
@@ -133,7 +112,7 @@ class _AcceptCardState extends State<AcceptCard> {
                   onPressed:()=> _handleAccept(context),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 RoundedButton(
                   colour: Colors.redAccent,
@@ -163,16 +142,25 @@ class _AcceptCardState extends State<AcceptCard> {
     Firestore.instance.collection('users').document(id).updateData({
       'status': 'Releasing',
     }).then((data) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('status', 'Releasing');
       
       Navigator.pushNamed(context, Home.id);
-      Fluttertoast.showToast(msg: "Update success");
+      
     }).catchError((err) => print(err));
   }
 
   // You accept the requesting user
   void _handleAccept(BuildContext context) async {
 //update status
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    id = prefs.getString('id') ?? '';
+    nickname = prefs.getString('nickname') ?? '';
+    photoUrl = prefs.getString('photoUrl') ?? '';
+    parkAt = prefs.getString('parkAt')??'';
+    floor = prefs.getInt('floor')??0;
+    leaveAt = prefs.getString('leaveAt')??'';
+    
 
     Firestore.instance.collection('users').document(widget.bookerId).updateData({
       'status': 'Swaping',
@@ -195,10 +183,11 @@ class _AcceptCardState extends State<AcceptCard> {
       'bookerPhotoUrl': widget.bookerPhotoUrl,
       'turnOn': true,
       'swapLocation':parkAt,
+      'floor': floor,
+      'timeSwap': int.parse(leaveAt),
 
     }).then((data) async {
       Navigator.pushNamed(context, Home.id);
-      Fluttertoast.showToast(msg: "Update success");
     }).catchError((err) => print(err));
   }
 }

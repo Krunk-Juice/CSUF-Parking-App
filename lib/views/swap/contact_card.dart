@@ -1,24 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_parking_app/components/circle_image.dart';
+import 'package:flutter_parking_app/components/constants.dart';
+import 'package:flutter_parking_app/components/icon_content.dart';
+import 'package:flutter_parking_app/components/reusable_card.dart';
 import 'package:flutter_parking_app/views/home/home.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter_parking_app/components/round_button.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+
+
+
+
+
 
 SharedPreferences prefs;
 
 // Confirmation Screen
 class ContactCard extends StatefulWidget {
   ContactCard(
-      {this.swaperId, this.swaperName, this.swaperPhotoUrl, this.swapLocation});
+      {this.swaperId, this.swaperName, this.swaperPhotoUrl, this.swapLocation,this.floor,this.timeSwap});
 
   final String swaperId;
   final String swaperName;
   final String swaperPhotoUrl;
   final String swapLocation;
-
+  final DateTime timeSwap;
+  final int floor;
+  
   @override
   _ContactCardState createState() => _ContactCardState();
 }
@@ -28,6 +38,10 @@ class _ContactCardState extends State<ContactCard> {
   Future<void> _launched;
   String swaperPhoneNumber = '';
   String urlLocation = '';
+ 
+  
+  
+ 
 
   // Initialize State Confirmation Screen
   @override
@@ -42,7 +56,10 @@ class _ContactCardState extends State<ContactCard> {
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
-
+    
+    // print(widget.timeSwap);
+    
+    // print(widget.swapLocation);
     Firestore.instance
         .collection('users')
         .document(widget.swaperId)
@@ -58,115 +75,84 @@ class _ContactCardState extends State<ContactCard> {
   // UI Construct of the Confirmation Screen
   @override
   Widget build(BuildContext context) {
-    return Container(
-        //color: Colors.blueGrey,
-        child: Column(
-      children: <Widget>[
-        Column(
+    return  Expanded(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            /* Header Section */
-            Container(
-                height: 350,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [Colors.lightBlue, Colors.cyan],
-                      begin: Alignment.topLeft,
-                      end: Alignment(-0.2, 0.7)),
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        // child: Stack(fit: StackFit.loose, children: <Widget>[
-                        //   /* Container fills the full width of the device */
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Material(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(24.0),
-                                child: ClipOval(
-                                  child: widget.swaperPhotoUrl == null
-                                      ? Icon(
-                                          Icons.account_circle,
-                                          size: 90.0,
-                                          color: Colors.grey,
-                                        )
-                                      : CachedNetworkImage(
-                                          imageUrl: widget.swaperPhotoUrl,
-                                          width: 50.0,
-                                          height: 50.0,
-                                        ),
-                                ))
-                          ],
-                        )
-                        //],)
-                        ),
-                    Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(widget.swaperName,
-                                style: TextStyle(
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.white)),
-                          ],
-                        ))
-                  ],
-                )),
-
-            SizedBox(
-              height: 20,
-            ),
-            RoundedButton(
-              colour: Colors.orangeAccent,
-              title: 'Navigation',
-              onPressed: () => _handleNavigation(),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            /* Button Container */
-
-            FittedBox(fit: BoxFit.fitWidth, child:
-            Row(
-              children: <Widget>[
-                RoundedButton(
-                  colour: Colors.blueAccent,
-                  title: 'Call',
-                  onPressed: () => _handleCall(),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                RoundedButton(
-                  colour: Colors.greenAccent,
-                  title: 'Message',
-                  onPressed: () => _handleMessage(),
-                ),
-              ],
-            ),
-
-            ),
-
-            SizedBox(
-              height: 10,
-            ),
-            RoundedButton(
-              colour: Colors.redAccent,
-              title: 'Finish',
-              onPressed: () => _handleFinish(context),
-            )
-
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                widget.swaperName,
+                style: kTitleTextStyle,
+              ),
+              CircleImage(
+                icon: FontAwesomeIcons.userTie,
+                photoUrl: widget.swaperPhotoUrl,
+              ),
+              Text(
+                widget.swapLocation,
+                style: kParkingListItemTextStyle,
+              ),
+              Text(
+                'Floor: ${widget.floor.toString()}',
+                style: kResultTextStyle,
+              ),
+              Text('Schedule time: ${widget.timeSwap.hour.toString().padLeft(2, '0')}:${widget.timeSwap.minute.toString().padLeft(2, '0')}',
+              style: kTimeTextStyle,),
+              
+                ],
+              ),
+                 Row(
+                      children: <Widget>[
+                        Expanded(
+                            child: ReusableCard(
+                          onPress: _handleCall,
+                          cardChild: IconContent(
+                            icon: FontAwesomeIcons.phone,
+                            label: 'CALL',
+                          ),
+                        )),
+                        Expanded(
+                            child: ReusableCard(
+                          onPress: _handleMessage,
+                          cardChild: IconContent(
+                            icon: FontAwesomeIcons.sms,
+                            label: 'MESSAGE',
+                          ),
+                        )),
+                      ],
+                    ),
+                  
+                 Row(
+                      children: <Widget>[
+                        Expanded(
+                            child: ReusableCard(
+                          onPress: _handleNavigation,
+                          cardChild: IconContent(
+                            icon: FontAwesomeIcons.directions,
+                            label: 'NAVIGATION',
+                          ),
+                        )),
+                        Expanded(
+                            child: ReusableCard(
+                          onPress: () => _handleFinish(context),
+                          cardChild: IconContent(
+                            icon: FontAwesomeIcons.check,
+                            label: 'FINISH',
+                          ),
+                        )),
+                      ],
+                    ),
+                 
+                
+            
+            FutureBuilder<void>(future: _launched, builder: _launchStatus),
           ],
         ),
-        FutureBuilder<void>(future: _launched, builder: _launchStatus),
-      ],
-    ));
+    );
   }
 
   // You complete the swap and exit the screen
@@ -185,8 +171,10 @@ class _ContactCardState extends State<ContactCard> {
                 await prefs.setString('status', 'Relaxing');
 
                 Navigator.pushNamed(context, Home.id);
-                Fluttertoast.showToast(msg: "Update success");
+                // Fluttertoast.showToast(msg: "Update success");
               }).catchError((err) => print(err));
+
+
             },
             child: new Text('OK'),
           ),
@@ -207,9 +195,7 @@ class _ContactCardState extends State<ContactCard> {
 
   // Opens messaging screen
   void _handleNavigation() async {
-    print("this is swaplocation: ${widget.swapLocation}");
-
-    print("this is urlLocation: $urlLocation");
+    
     _launched = _evaluateUrl(urlLocation);
   }
 

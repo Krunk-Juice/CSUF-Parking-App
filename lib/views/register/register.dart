@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/components/round_button.dart';
 import 'package:flutter_parking_app/components/constants.dart';
 import 'package:flutter_parking_app/views/home/home.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -223,7 +223,10 @@ class _RegisterState extends State<Register> {
             'status': 'Relaxing',
             'parkAt':null,
             'leaveAt':null,
+            'floor':null,
           });
+          
+
           Firestore.instance
               .collection('requests')
               .document(firebaseUser.uid)
@@ -235,6 +238,7 @@ class _RegisterState extends State<Register> {
             'turnOn':false,
             
           });
+
            Firestore.instance
               .collection('swaps')
               .document(firebaseUser.uid)
@@ -247,6 +251,8 @@ class _RegisterState extends State<Register> {
             'bookerPhotoUrl': null,
             'turnOn':false,
             'swapLocation':null,
+            'timeSwap':null,
+            'floor':null,
             
           });
 
@@ -255,13 +261,14 @@ class _RegisterState extends State<Register> {
            await prefs.setString('id', firebaseUser.uid);
            await prefs.setString('email', email);
            await prefs.setString('nickname', nickname);
-           await prefs.setString('photoUrl', null);
-           await prefs.setString('parkAt', null);
+           
+           
+           
            
           Navigator.pushNamed(context, Home.id);
-          Fluttertoast.showToast(msg: "Sign up success");
+          // Fluttertoast.showToast(msg: "Sign up success");
         } else {
-          Fluttertoast.showToast(msg: "Sign up fail");
+          // Fluttertoast.showToast(msg: "Sign up fail");
         }
       } catch (e) 
       {

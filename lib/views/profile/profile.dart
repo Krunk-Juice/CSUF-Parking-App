@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_parking_app/views/home/home.dart';
 import 'package:flutter_parking_app/views/profile/profile_body.dart';
 import 'package:flutter_parking_app/views/profile/profile_header.dart';
 
@@ -15,12 +16,7 @@ class MapScreenState extends State<Profile> with SingleTickerProviderStateMixin 
   //bool _status = true;
   //final FocusNode myFocusNode = FocusNode();
 
-  // Initialize State
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+  
 
   // UI Construct (Main)
   @override
@@ -33,7 +29,7 @@ class MapScreenState extends State<Profile> with SingleTickerProviderStateMixin 
         leading: IconButton
         (
           
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.pushNamed(context, Home.id),
           icon: Icon(Icons.arrow_back, 
           // color: Colors.black,
           ),

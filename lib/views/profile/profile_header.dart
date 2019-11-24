@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -72,30 +72,30 @@ class _ProfileHeaderState extends State<ProfileHeader> {
             setState(() {
               isLoading = false;
             });
-            Fluttertoast.showToast(msg: "Upload success");
+            // Fluttertoast.showToast(msg: "Upload success");
           }).catchError((err) {
             setState(() {
               isLoading = false;
             });
-            Fluttertoast.showToast(msg: err.toString());
+            // Fluttertoast.showToast(msg: err.toString());
           });
         }, onError: (err) {
           setState(() {
             isLoading = false;
           });
-          Fluttertoast.showToast(msg: 'This file is not an image');
+          // Fluttertoast.showToast(msg: 'This file is not an image');
         });
       } else {
         setState(() {
           isLoading = false;
         });
-        Fluttertoast.showToast(msg: 'This file is not an image');
+        // Fluttertoast.showToast(msg: 'This file is not an image');
       }
     }, onError: (err) {
       setState(() {
         isLoading = false;
       });
-      Fluttertoast.showToast(msg: err.toString());
+      // Fluttertoast.showToast(msg: err.toString());
     });
   }
 

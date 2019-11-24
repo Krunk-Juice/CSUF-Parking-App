@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 // Body of the Profile Screen
 // Displays user information.
@@ -70,13 +69,11 @@ class _ProfileBodyState extends State<ProfileBody> {
         // isLoading = false;
       });
 
-      Fluttertoast.showToast(msg: "Update success");
     }).catchError((err) {
       setState(() {
         // isLoading = false;
       });
 
-      Fluttertoast.showToast(msg: err.toString());
     });
   }
 

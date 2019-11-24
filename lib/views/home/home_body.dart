@@ -1,276 +1,155 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/components/round_button.dart';
-import 'package:flutter_parking_app/views/cancel_status/cancel_status.dart';
+import 'package:flutter_parking_app/components/bottom_button.dart';
 import 'package:flutter_parking_app/views/csuf_map/csuf_map.dart';
 import 'package:flutter_parking_app/views/free_parking_map/free_parking_map.dart';
 import 'package:flutter_parking_app/views/get_request/get_request.dart';
 import 'package:flutter_parking_app/views/list_release/list_release.dart';
 import 'package:flutter_parking_app/views/parking_status/parking_status.dart';
-import 'package:flutter_parking_app/views/slide_card_release/slide_card_release.dart';
+import 'package:flutter_parking_app/views/release/release.dart';
 import 'package:flutter_parking_app/views/swap/swap.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_parking_app/components/constants.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_parking_app/components/reusable_card.dart';
+import 'package:flutter_parking_app/components/icon_content.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeBody extends StatelessWidget {
 
-  HomeBody({this.name,this.status,this.photoUrl});
+class HomeBody extends StatefulWidget {
 
+  HomeBody({this.id,this.name,this.status,this.photoUrl});
+
+  final String id;
   final String name;
   final String status;
   final String photoUrl;
+  
+
+  @override
+  _HomeBodyState createState() => _HomeBodyState();
+}
+
+class _HomeBodyState extends State<HomeBody> {
+
+
+  String releaserId = '';
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
-
-    child: StaggeredGridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 12.0,
-          mainAxisSpacing: 12.0,
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          children: <Widget>[
-            _buildTile(
-              Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Status',
-                              style: TextStyle(color: Colors.blueAccent)),
-                              
-                          Text(status,
-                              style: TextStyle(
-                                  // color: Colors.black,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 30.0))
-                        ],
-                      ),
-                      (photoUrl == null)
-                          ? Material(
-                              color: Colors.blueAccent,
-                              shape: CircleBorder(),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Icon(Icons.account_circle,
-                                    color: Colors.white, size: 30.0),
-                              ))
-                          : Material(
-                              shape: CircleBorder(),
-                              elevation: 14,
-                              shadowColor: Colors.black,
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage(photoUrl),
-                                radius: 30,
-                              )),
-                    ]),
-              ),
-              onTap: () => Null,
-            ),
-            _buildTile(
-              Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: 
+    return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
                 
-                  FittedBox(
-                  fit: BoxFit.contain,
-                  child:
-
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Material(
-                          color: Colors.teal,
-                          shape: CircleBorder(),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Icon(Icons.map,
-                                color: Colors.white, size: 30.0),
-                          )),
-                      Padding(padding: EdgeInsets.only(bottom: 16.0)),
-                      Text('CSUF Map',
-                          style: TextStyle(
-                              // color: Colors.black,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 24.0)),
-                      Text('Zoom In & Out Map',
-                          style: TextStyle(color: Colors.teal)),
-                    ]),
-                  )
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text('Hi ${widget.name} !', style: kTitleTextStyle,),
+                Text('Your status: ${widget.status}',style: kResultTextStyle,),
+                
+                
+            ],),
               ),
-              onTap: () => Navigator.pushNamed(context, CsufMap.id),
-            ),
-            _buildTile(
-              Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: 
-
-                  FittedBox(
-                  fit: BoxFit.contain,
-                  child:
-
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Material(
-                          //color: Colors.amber,
-                          color: Color(0xffff8400),
-                          shape: CircleBorder(),
-                          child: Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Icon(Icons.hearing,
-                                color: Colors.white, size: 30.0),
-                          )),
-                      Padding(padding: EdgeInsets.only(bottom: 16.0)),
-
-                      Text('Parking Status',
-                          style: TextStyle(
-                              // color: Colors.black,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20.0)),
-                      Text('Parking Space Data',
-                          style: TextStyle(color: Color(0xffff8400))),
-                      
-                    ]),
-                  )
-              ),
-              onTap: () => Navigator.pushNamed(context, ParkingStatus.id),
-              // Navigator.pushNamed(context, ListRequest.id),
-            ),
-            (status != 'Relaxing' )?SizedBox(height: 0,):_buildTile(
-              Padding(
-                padding: const EdgeInsets.all(24.0),
+              Expanded(
                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Users releasing spots',
-                              style:
-                                  TextStyle(color: Colors.pink, fontSize: 15)),
-                          Text('List Release',
-                              style: TextStyle(
-                                  // color: Colors.black,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 34.0)),
-                        ],
+                  children: <Widget>[
+                    Expanded(
+                      child: ReusableCard(
+                        onPress: () =>
+                            Navigator.pushNamed(context, CsufMap.id),
+                        // colour: kActiveCardColor,
+                        cardChild: IconContent(
+                          icon: FontAwesomeIcons.mapSigns,
+                          label: 'CSUF MAP',
+                        ),
                       ),
-                      Material(
-                          color: Colors.pinkAccent,
-                          borderRadius: BorderRadius.circular(24.0),
-                          child: Center(
-                              child: Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Icon(Icons.directions_car,
-                                color: Colors.white, size: 30.0),
-                          )))
-                    ]),
+                    ),
+                    Expanded(
+                      child: ReusableCard(
+                        onPress: () => Navigator.pushNamed(context, ParkingStatus.id),
+                        // colour: kActiveCardColor,
+                        cardChild: IconContent(
+                          icon: FontAwesomeIcons.assistiveListeningSystems,
+                          label: 'PARKING STATUS',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              onTap: () => Navigator.pushNamed(context, ListRelease.id),
-            ),
-            _buildTile(
-              Padding(
-                padding: const EdgeInsets.all(24.0),
+              Expanded(
                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('4 Parking Locations',
-                              style: TextStyle(
-                                  color: Colors.purpleAccent, fontSize: 15)),
-                          Text('Free Parking',
-                              style: TextStyle(
-                                  // color: Colors.black,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 34.0))
-                        ],
+                  children: <Widget>[
+                    (widget.status == 'Relaxing')?Expanded(
+                      child: ReusableCard(
+                        onPress: () => Navigator.pushNamed(context, ListRelease.id),
+                        // colour: kActiveCardColor,
+                        cardChild: IconContent(
+                          icon: FontAwesomeIcons.list,
+                          label: 'LIST RELEASES',
+                        ),
                       ),
-                      Material(
-                          color: Colors.purple,
-                          borderRadius: BorderRadius.circular(24.0),
-                          child: Center(
-                              child: Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Icon(Icons.explore,
-                                color: Colors.white, size: 30.0),
-                          )))
-                    ]),
+                    ):SizedBox(width: 0,),
+                    Expanded(
+                      child: ReusableCard(
+                        onPress: () => Navigator.pushNamed(context, FreeParkingMap.id),
+                        // colour: kActiveCardColor,
+                        cardChild: IconContent(
+                          icon: FontAwesomeIcons.mapMarkedAlt,
+                          label: 'FREE PARKING',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              onTap: () => Navigator.pushNamed(context, FreeParkingMap.id),
-            ),
-            _bottomButton(context),
-          ],
-          staggeredTiles: [
-            StaggeredTile.extent(2, 110.0),
-            StaggeredTile.extent(1, 180.0),
-            StaggeredTile.extent(1, 180.0),
-            (status !='Relaxing')?StaggeredTile.extent(2,0):StaggeredTile.extent(2, 110.0),
-            StaggeredTile.extent(2, 110.0),
-            StaggeredTile.extent(2, 100.0),
-          ],
-        ),
+              ( widget.status == 'Swaping')
+              ? BottomButton(onPressed: ()=>Navigator.pushNamed(context, Swap.id),title: 'SWAP',color: Colors.orangeAccent,)
+              :(widget.status =='Getting Request')
+              ?BottomButton(onPressed: ()=>Navigator.pushNamed(context, GetRequest.id),title: 'CHECK REQUEST',color: Colors.greenAccent,)
+              :(widget.status == 'Releasing' || widget.status == 'Requesting')
+              ?BottomButton(onPressed: ()=>_handleCancel( context),title: 'CANCEL STATUS',color: Colors.redAccent,)
+              :BottomButton(onPressed: ()=>Navigator.pushNamed(context, Release.id),title: 'RELEASE', color: Colors.blueAccent,),
+            ],
+          );
 
-    );
+
+
+    
   }
 
-  Widget _buildTile(Widget child, {Function() onTap}) {
-    return Material(
-        elevation: 14.0,
-        borderRadius: BorderRadius.circular(12.0),
-        shadowColor: Color(0x802196F3),
-        child: InkWell(
-            // Do onTap() if it isn't null, otherwise do print()
-            onTap: onTap != null
-                ? () => onTap()
-                : () {
-                    print('Not set yet');
-                  },
-            child: child));
-  }
+  void _handleCancel(BuildContext context) async{
+//update status
+
+    if (widget.status == 'Requesting') {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      releaserId = prefs.getString('releaserId') ?? '';
+
+      Firestore.instance
+          .collection('requests')
+          .document(releaserId)
+          .updateData({
+        'turnOn': false,
+      });
 
 
-  Widget _bottomButton(BuildContext context){
-    if ( status == 'Swaping') {
-      return RoundedButton(
-        onPressed: () => Navigator.pushNamed(context, Swap.id),
-        title: 'Check Swap',
-        colour: Colors.orangeAccent,
-      );
-    } else if(status =='Getting Request'){
-      return RoundedButton(
-        onPressed: () => Navigator.pushNamed(context, GetRequest.id),
-        title: 'Check Request',
-        colour: Colors.greenAccent,
-      );
+
+      Firestore.instance.collection('users').document(releaserId).updateData({
+        'status': 'Releasing',
+      });
     }
-    else{
+
+    
+
+    Firestore.instance.collection('users').document(widget.id).updateData({
+      'status': 'Relaxing',
+    }).then((data) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('status', 'Relaxing');
       
-      return RoundedButton(
-        onPressed: (status == 'Releasing' || status == 'Requesting')
-            ? () => Navigator.pushNamed(context, CancelStatus.id)
-            : () => Navigator.pushNamed(context, SlideCardRelease.id),
-        title: (status == 'Releasing' || status == 'Requesting')
-            ? 'Update'
-            : 'Release',
-        
-        colour: (status == 'Releasing' || status == 'Requesting')
-            ? Colors.redAccent
-            : Colors.blueAccent,
-        
-      );
-    }
+      
+    }).catchError((err) => print(err));
   }
 }
