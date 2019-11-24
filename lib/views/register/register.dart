@@ -251,7 +251,7 @@ class _RegisterState extends State<Register> {
             'bookerPhotoUrl': null,
             'turnOn':false,
             'swapLocation':null,
-            'leaveAt':null,
+            'timeSwap':null,
             'floor':null,
             
           });

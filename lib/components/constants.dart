@@ -35,11 +35,11 @@ const kNumberTextStyle = TextStyle(fontSize: 50.0,fontWeight: FontWeight.bold);
 const kLargeButtonTextStyle = TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold, color: Colors.white);
 const kTitleTextStyle = TextStyle(fontSize: 30.0);
 const kErrorTextStyle = TextStyle(fontSize: 15.0,color: Colors.red);
-const kResultTextStyle = TextStyle(color: Color(0xFF24D867), fontSize: 22.0, fontWeight: FontWeight.bold);
+const kResultTextStyle = TextStyle(color: Color(0xFF24D867), fontSize: 30.0, fontWeight: FontWeight.bold);
 
 const kTimeTextStyle = TextStyle(fontSize: 25.0,color: Colors.greenAccent);
 const kNicknameTextStyle = TextStyle(fontSize: 20.0);
-const kParkingTextStyle = TextStyle(fontSize: 20.0,);
+const kParkingListItemTextStyle = TextStyle(fontSize: 25.0,);
 const kRoundButtonTextStyle = TextStyle(fontSize: 25.0,fontWeight: FontWeight.bold);
 
 

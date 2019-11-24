@@ -3,13 +3,10 @@ import 'package:flutter_parking_app/components/circle_image.dart';
 import 'package:flutter_parking_app/components/constants.dart';
 import 'package:flutter_parking_app/components/icon_content.dart';
 import 'package:flutter_parking_app/components/reusable_card.dart';
-import 'package:flutter_parking_app/components/round_icon_button.dart';
 import 'package:flutter_parking_app/views/home/home.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_parking_app/components/round_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -23,13 +20,15 @@ SharedPreferences prefs;
 // Confirmation Screen
 class ContactCard extends StatefulWidget {
   ContactCard(
-      {this.swaperId, this.swaperName, this.swaperPhotoUrl, this.swapLocation});
+      {this.swaperId, this.swaperName, this.swaperPhotoUrl, this.swapLocation,this.floor,this.timeSwap});
 
   final String swaperId;
   final String swaperName;
   final String swaperPhotoUrl;
   final String swapLocation;
-
+  final DateTime timeSwap;
+  final int floor;
+  
   @override
   _ContactCardState createState() => _ContactCardState();
 }
@@ -39,8 +38,10 @@ class _ContactCardState extends State<ContactCard> {
   Future<void> _launched;
   String swaperPhoneNumber = '';
   String urlLocation = '';
-  int floor = 0;
-  // Color darkThemeColor;
+ 
+  
+  
+ 
 
   // Initialize State Confirmation Screen
   @override
@@ -55,8 +56,10 @@ class _ContactCardState extends State<ContactCard> {
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
-    floor = prefs.getInt('floor') ?? 0;
-
+    
+    // print(widget.timeSwap);
+    
+    // print(widget.swapLocation);
     Firestore.instance
         .collection('users')
         .document(widget.swaperId)
@@ -78,8 +81,8 @@ class _ContactCardState extends State<ContactCard> {
               crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-            
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
                 widget.swaperName,
@@ -91,15 +94,15 @@ class _ContactCardState extends State<ContactCard> {
               ),
               Text(
                 widget.swapLocation,
-                style: kParkingTextStyle,
+                style: kParkingListItemTextStyle,
               ),
               Text(
-                'Floor: ${floor.toString()}',
+                'Floor: ${widget.floor.toString()}',
                 style: kResultTextStyle,
               ),
-              SizedBox(
-                height: 10.0,
-              ),
+              Text('Schedule time: ${widget.timeSwap.hour.toString().padLeft(2, '0')}:${widget.timeSwap.minute.toString().padLeft(2, '0')}',
+              style: kTimeTextStyle,),
+              
                 ],
               ),
                  Row(
@@ -170,6 +173,8 @@ class _ContactCardState extends State<ContactCard> {
                 Navigator.pushNamed(context, Home.id);
                 // Fluttertoast.showToast(msg: "Update success");
               }).catchError((err) => print(err));
+
+
             },
             child: new Text('OK'),
           ),
@@ -190,9 +195,7 @@ class _ContactCardState extends State<ContactCard> {
 
   // Opens messaging screen
   void _handleNavigation() async {
-    print("this is swaplocation: ${widget.swapLocation}");
-
-    print("this is urlLocation: $urlLocation");
+    
     _launched = _evaluateUrl(urlLocation);
   }
 

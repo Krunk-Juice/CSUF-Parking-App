@@ -34,21 +34,14 @@ class ReleaseItem extends StatefulWidget {
 }
 
 class _ReleaseItemState extends State<ReleaseItem> {
-  SharedPreferences prefs;
+ 
   String id = '';
   String nickname = '';
   String photoUrl = '';
 
-  @override
-  void initState() {
-    super.initState();
-    readLocal();
-  }
+  
 
-  void readLocal() async {
-    prefs = await SharedPreferences.getInstance();
-    
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +71,7 @@ class _ReleaseItemState extends State<ReleaseItem> {
                     ),
                     Row(
                       children: <Widget>[
-                        Text('Release at ', style: kParkingTextStyle),
+                        Text('Release at ', style: kParkingListItemTextStyle),
                         Text(
                           '${widget.releaserLeavingTime.hour.toString().padLeft(2, '0')}:${widget.releaserLeavingTime.minute.toString().padLeft(2, '0')}',
                           style: kTimeTextStyle,
@@ -88,7 +81,7 @@ class _ReleaseItemState extends State<ReleaseItem> {
                     ),
                     Text(
                       widget.releaserParking,
-                      style: kParkingTextStyle,
+                      style: kParkingListItemTextStyle,
                     ),
                      Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -121,13 +114,13 @@ class _ReleaseItemState extends State<ReleaseItem> {
 
   void _handleRequest(BuildContext context) async {
 //update release status
-    setState(() {
-      id = prefs.getString('id') ?? '';
+   
+
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+     
+    id = prefs.getString('id') ?? '';
     nickname = prefs.getString('nickname') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
-    });
-
-    
     await prefs.setString('releaserId', widget.releaserId);
     
     Firestore.instance.collection('users').document(id).updateData({

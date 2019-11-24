@@ -1,30 +1,22 @@
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/views/home/home.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
   static const String id = "settings";
 
-  // Settings({this.context});
-  // final BuildContext context;
+  
 
   @override
   _SettingsState createState() => _SettingsState();
 }
 
 class _SettingsState extends State<Settings> {
-  SharedPreferences prefs;
+  
   bool darkTheme = false;
   bool notification = false;
 
-  @override
-  void initState() {
-    super.initState();
-    // if (Theme.of(context).brightness == Brightness.dark) {
-    //   darkTheme = true;
-    // }
-  }
+  
 
   @override
   Widget build(BuildContext context) {

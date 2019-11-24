@@ -148,6 +148,8 @@ class _InputParkingDataState extends State<InputParkingData> {
       await prefs.setString('status', 'Releasing');
       await prefs.setString('parkAt', widget.nameParking);
       await prefs.setInt('floor', floor);
+      await prefs.setString('releaserId', '');//inportant for check swap
+      await prefs.setString('leaveAt', _dateTime.millisecondsSinceEpoch.toString());
 
       Navigator.pushNamed(context, Home.id);
     }).catchError((err) => print(err));

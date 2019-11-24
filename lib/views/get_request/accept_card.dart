@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/views/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,6 +34,8 @@ class _AcceptCardState extends State<AcceptCard> {
   String photoUrl = '';
   int floor = 0;
   String parkAt = '';
+  String leaveAt ='';
+  
 
 
   // UI Construct of the Confirmation Screen
@@ -111,7 +112,7 @@ class _AcceptCardState extends State<AcceptCard> {
                   onPressed:()=> _handleAccept(context),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 RoundedButton(
                   colour: Colors.redAccent,
@@ -158,6 +159,8 @@ class _AcceptCardState extends State<AcceptCard> {
     photoUrl = prefs.getString('photoUrl') ?? '';
     parkAt = prefs.getString('parkAt')??'';
     floor = prefs.getInt('floor')??0;
+    leaveAt = prefs.getString('leaveAt')??'';
+    
 
     Firestore.instance.collection('users').document(widget.bookerId).updateData({
       'status': 'Swaping',
@@ -181,6 +184,7 @@ class _AcceptCardState extends State<AcceptCard> {
       'turnOn': true,
       'swapLocation':parkAt,
       'floor': floor,
+      'timeSwap': int.parse(leaveAt),
 
     }).then((data) async {
       Navigator.pushNamed(context, Home.id);
