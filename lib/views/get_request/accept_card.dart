@@ -130,6 +130,10 @@ class _AcceptCardState extends State<AcceptCard> {
   // You reject the requesting user
   void _handleReject(BuildContext context) async {
 //update status
+ 
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('status', 'Releasing');
+      id = prefs.getString('id') ?? '';
 
     Firestore.instance.collection('users').document(widget.bookerId).updateData({
       'status': 'Relaxing',
@@ -141,9 +145,8 @@ class _AcceptCardState extends State<AcceptCard> {
 
     Firestore.instance.collection('users').document(id).updateData({
       'status': 'Releasing',
+      
     }).then((data) async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('status', 'Releasing');
       
       Navigator.pushNamed(context, Home.id);
       
