@@ -9,18 +9,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
-
-
-
-
-
 SharedPreferences prefs;
 
 // Confirmation Screen
 class ContactCard extends StatefulWidget {
   ContactCard(
-      {this.swaperId, this.swaperName, this.swaperPhotoUrl, this.swapLocation,this.floor,this.timeSwap});
+      {this.swaperId,
+      this.swaperName,
+      this.swaperPhotoUrl,
+      this.swapLocation,
+      this.floor,
+      this.timeSwap});
 
   final String swaperId;
   final String swaperName;
@@ -28,20 +27,17 @@ class ContactCard extends StatefulWidget {
   final String swapLocation;
   final DateTime timeSwap;
   final int floor;
-  
+
   @override
   _ContactCardState createState() => _ContactCardState();
 }
 
 class _ContactCardState extends State<ContactCard> {
   String id = '';
+  String releaserId = '';
   Future<void> _launched;
   String swaperPhoneNumber = '';
   String urlLocation = '';
- 
-  
-  
- 
 
   // Initialize State Confirmation Screen
   @override
@@ -56,18 +52,25 @@ class _ContactCardState extends State<ContactCard> {
   void readLocal() async {
     prefs = await SharedPreferences.getInstance();
     id = prefs.getString('id') ?? '';
-    
+    releaserId = prefs.getString('releaserId') ?? '';
+
     // print(widget.timeSwap);
-    
+
     // print(widget.swapLocation);
+    // Firestore.instance
+    //     .collection('users')
+    //     .document(widget.swaperId)
+    //     .get()
+    //     .then((DocumentSnapshot snapshot) {
+    //   swaperPhoneNumber = snapshot.data['phone'].toString();
+    // });
+
     Firestore.instance
         .collection('users')
-        .document(widget.swaperId)
+        .document('widget.swaperId')
         .get()
-        .then((DocumentSnapshot snapshot) {
-      swaperPhoneNumber = snapshot.data['phone'].toString();
-    });
-
+        .then((DocumentSnapshot snapshot) =>
+            swaperPhoneNumber = snapshot.data['phone'].toString());
     // Force refresh input
     setState(() {});
   }
@@ -75,13 +78,13 @@ class _ContactCardState extends State<ContactCard> {
   // UI Construct of the Confirmation Screen
   @override
   Widget build(BuildContext context) {
-    return  Expanded(
-          child: Column(
+    return Expanded(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
@@ -100,58 +103,55 @@ class _ContactCardState extends State<ContactCard> {
                 'Floor: ${widget.floor.toString()}',
                 style: kResultTextStyle,
               ),
-              Text('Schedule time: ${widget.timeSwap.hour.toString().padLeft(2, '0')}:${widget.timeSwap.minute.toString().padLeft(2, '0')}',
-              style: kTimeTextStyle,),
-              
-                ],
+              Text(
+                'Schedule time: ${widget.timeSwap.hour.toString().padLeft(2, '0')}:${widget.timeSwap.minute.toString().padLeft(2, '0')}',
+                style: kTimeTextStyle,
               ),
-                 Row(
-                      children: <Widget>[
-                        Expanded(
-                            child: ReusableCard(
-                          onPress: _handleCall,
-                          cardChild: IconContent(
-                            icon: FontAwesomeIcons.phone,
-                            label: 'CALL',
-                          ),
-                        )),
-                        Expanded(
-                            child: ReusableCard(
-                          onPress: _handleMessage,
-                          cardChild: IconContent(
-                            icon: FontAwesomeIcons.sms,
-                            label: 'MESSAGE',
-                          ),
-                        )),
-                      ],
-                    ),
-                  
-                 Row(
-                      children: <Widget>[
-                        Expanded(
-                            child: ReusableCard(
-                          onPress: _handleNavigation,
-                          cardChild: IconContent(
-                            icon: FontAwesomeIcons.directions,
-                            label: 'NAVIGATION',
-                          ),
-                        )),
-                        Expanded(
-                            child: ReusableCard(
-                          onPress: () => _handleFinish(context),
-                          cardChild: IconContent(
-                            icon: FontAwesomeIcons.check,
-                            label: 'FINISH',
-                          ),
-                        )),
-                      ],
-                    ),
-                 
-                
-            
-            FutureBuilder<void>(future: _launched, builder: _launchStatus),
-          ],
-        ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                  child: ReusableCard(
+                onPress: _handleCall,
+                cardChild: IconContent(
+                  icon: FontAwesomeIcons.phone,
+                  label: 'CALL',
+                ),
+              )),
+              Expanded(
+                  child: ReusableCard(
+                onPress: _handleMessage,
+                cardChild: IconContent(
+                  icon: FontAwesomeIcons.sms,
+                  label: 'MESSAGE',
+                ),
+              )),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                  child: ReusableCard(
+                onPress: _handleNavigation,
+                cardChild: IconContent(
+                  icon: FontAwesomeIcons.directions,
+                  label: 'NAVIGATION',
+                ),
+              )),
+              Expanded(
+                  child: ReusableCard(
+                onPress: () => _handleFinish(context),
+                cardChild: IconContent(
+                  icon: FontAwesomeIcons.check,
+                  label: 'FINISH',
+                ),
+              )),
+            ],
+          ),
+          FutureBuilder<void>(future: _launched, builder: _launchStatus),
+        ],
+      ),
     );
   }
 
@@ -165,16 +165,18 @@ class _ContactCardState extends State<ContactCard> {
         actions: <Widget>[
           new FlatButton(
             onPressed: () {
+
+             
+
               Firestore.instance.collection('users').document(id).updateData({
                 'status': 'Relaxing',
               }).then((data) async {
+              
                 await prefs.setString('status', 'Relaxing');
 
                 Navigator.pushNamed(context, Home.id);
                 // Fluttertoast.showToast(msg: "Update success");
               }).catchError((err) => print(err));
-
-
             },
             child: new Text('OK'),
           ),
@@ -195,7 +197,6 @@ class _ContactCardState extends State<ContactCard> {
 
   // Opens messaging screen
   void _handleNavigation() async {
-    
     _launched = _evaluateUrl(urlLocation);
   }
 

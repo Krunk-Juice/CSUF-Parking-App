@@ -4,7 +4,6 @@ import 'package:flutter_parking_app/components/circle_image.dart';
 import 'package:flutter_parking_app/components/constants.dart';
 import 'package:flutter_parking_app/components/reusable_card.dart';
 import 'package:flutter_parking_app/components/round_button.dart';
-import 'package:flutter_parking_app/components/round_icon_button.dart';
 import 'package:flutter_parking_app/views/home/home.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -121,7 +120,7 @@ class _ReleaseItemState extends State<ReleaseItem> {
     id = prefs.getString('id') ?? '';
     nickname = prefs.getString('nickname') ?? '';
     photoUrl = prefs.getString('photoUrl') ?? '';
-    await prefs.setString('releaserId', widget.releaserId);
+     prefs.setString('releaserId', widget.releaserId);
     
     Firestore.instance.collection('users').document(id).updateData({
       'status': 'Requesting',
@@ -137,7 +136,7 @@ class _ReleaseItemState extends State<ReleaseItem> {
       'bookerId': id,
       'bookerName': nickname,
       'bookerPhotoUrl': photoUrl,
-      'turnOn':true,
+      
     });
     Navigator.pushNamed(context, Home.id);
     

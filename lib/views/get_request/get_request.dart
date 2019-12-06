@@ -67,6 +67,7 @@ class _GetRequestState extends State<GetRequest> {
                   final doc = snapshot.data.documents;
                   
                   for (var item in doc) {
+                    
                     final releaserId = item.data['releaserId'];
                     final turnOn = item.data['turnOn'];
 
