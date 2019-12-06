@@ -16,6 +16,8 @@ const kTextFeildDecoration = InputDecoration(
   ),
 );
 
+
+
 const String MIN_DATETIME = '2010-05-12 00:00:00';
 const String MAX_DATETIME = '2021-11-25 23:59:00';
 const String INIT_DATETIME = '2019-08-17 08:30:00';
@@ -26,6 +28,7 @@ const kBottomDatePickerColor = Colors.white;
 // const kDarkCardColor = Color(0xFF1D1E33);
 // const kCardColor = Color(0xFF111328);
 // const kBottomContainerColor = Color(0xFFEB1555);
+const kHeaderColor = Colors.blueGrey;
 
 const kHintTextStyle = TextStyle(fontSize: 30.0,color: Colors.grey);
 const kStatusTextStyle = TextStyle(fontSize: 20.0);

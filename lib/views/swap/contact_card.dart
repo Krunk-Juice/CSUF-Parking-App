@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/components/circle_image.dart';
 import 'package:flutter_parking_app/components/constants.dart';
+import 'package:flutter_parking_app/components/header_image.dart';
 import 'package:flutter_parking_app/components/icon_content.dart';
 import 'package:flutter_parking_app/components/reusable_card.dart';
 import 'package:flutter_parking_app/views/home/home.dart';
@@ -54,13 +55,8 @@ class _ContactCardState extends State<ContactCard> {
     id = prefs.getString('id') ?? '';
     releaserId = prefs.getString('releaserId') ?? '';
 
-    
-
-    Firestore.instance
-        .collection('users')
-        .document(widget.swaperId)
-        .get()
-        .then((DocumentSnapshot snapshot) =>
+    Firestore.instance.collection('users').document(widget.swaperId).get().then(
+        (DocumentSnapshot snapshot) =>
             swaperPhoneNumber = snapshot.data['phone'].toString());
     // Force refresh input
     setState(() {});
@@ -74,31 +70,12 @@ class _ContactCardState extends State<ContactCard> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                widget.swaperName,
-                style: kTitleTextStyle,
-              ),
-              CircleImage(
-                icon: FontAwesomeIcons.userTie,
-                photoUrl: widget.swaperPhotoUrl,
-              ),
-              Text(
-                widget.swapLocation,
-                style: kParkingListItemTextStyle,
-              ),
-              Text(
-                'Floor: ${widget.floor.toString()}',
-                style: kResultTextStyle,
-              ),
-              Text(
-                'Schedule time: ${widget.timeSwap.hour.toString().padLeft(2, '0')}:${widget.timeSwap.minute.toString().padLeft(2, '0')}',
-                style: kTimeTextStyle,
-              ),
-            ],
+          HeaderImage(
+            name: widget.swaperName,
+            photoUrl: widget.swaperPhotoUrl,
+            location: widget.swapLocation,
+            floor: widget.floor.toString(),
+            time: widget.timeSwap,
           ),
           Row(
             children: <Widget>[
@@ -156,13 +133,9 @@ class _ContactCardState extends State<ContactCard> {
         actions: <Widget>[
           new FlatButton(
             onPressed: () {
-
-             
-
               Firestore.instance.collection('users').document(id).updateData({
                 'status': 'Relaxing',
               }).then((data) async {
-              
                 await prefs.setString('status', 'Relaxing');
 
                 Navigator.pushNamed(context, Home.id);
@@ -219,3 +192,4 @@ class _ContactCardState extends State<ContactCard> {
     }
   }
 }
+
