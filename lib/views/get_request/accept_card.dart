@@ -169,9 +169,9 @@ class _AcceptCardState extends State<AcceptCard> {
       'status': 'Swaping',
     });
 
-    Firestore.instance.collection('requests').document(id).updateData({
-      'turnOn': false,
-    });
+    // Firestore.instance.collection('requests').document(id).updateData({
+    //   'turnOn': false,
+    // });
 
     Firestore.instance.collection('users').document(id).updateData({
       'status': 'Swaping',

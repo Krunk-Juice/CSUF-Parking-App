@@ -79,7 +79,6 @@ class _SwapState extends State<Swap> {
                   for (var item in doc) {
                     final releaserIdSwap = item.data['releaserId'];
                     final bookerId = item.data['bookerId'];
-                    // final turnOn = item.data['turnOn'];
 
                     if (id == releaserIdSwap) {
                       return ContactCard(
@@ -92,7 +91,7 @@ class _SwapState extends State<Swap> {
                             item.data['timeSwap']),
                       );
                       
-                    } else  if(releaserId == releaserIdSwap){
+                    } else if(releaserId == releaserIdSwap && id == bookerId ){
                       return ContactCard(
                         swaperId: releaserId,
                         swaperName: item.data['releaserName'],

@@ -235,7 +235,7 @@ class _RegisterState extends State<Register> {
             'bookerId': null,
             'bookerName': null,
             'bookerPhotoUrl': null,
-            'turnOn':false,
+            
             
           });
 
@@ -249,7 +249,7 @@ class _RegisterState extends State<Register> {
             'bookerId': null,
             'bookerName': null,
             'bookerPhotoUrl': null,
-            'turnOn':false,
+            
             'swapLocation':null,
             'timeSwap':null,
             'floor':null,
