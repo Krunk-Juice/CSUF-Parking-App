@@ -54,20 +54,11 @@ class _ContactCardState extends State<ContactCard> {
     id = prefs.getString('id') ?? '';
     releaserId = prefs.getString('releaserId') ?? '';
 
-    // print(widget.timeSwap);
-
-    // print(widget.swapLocation);
-    // Firestore.instance
-    //     .collection('users')
-    //     .document(widget.swaperId)
-    //     .get()
-    //     .then((DocumentSnapshot snapshot) {
-    //   swaperPhoneNumber = snapshot.data['phone'].toString();
-    // });
+    
 
     Firestore.instance
         .collection('users')
-        .document('widget.swaperId')
+        .document(widget.swaperId)
         .get()
         .then((DocumentSnapshot snapshot) =>
             swaperPhoneNumber = snapshot.data['phone'].toString());
