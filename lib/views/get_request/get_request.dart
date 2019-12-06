@@ -69,9 +69,8 @@ class _GetRequestState extends State<GetRequest> {
                   for (var item in doc) {
                     
                     final releaserId = item.data['releaserId'];
-                    final turnOn = item.data['turnOn'];
 
-                    if (releaserId == id && turnOn) {
+                    if (releaserId == id ) {
                     bookerId = item.data['bookerId'];
                     bookerName = item.data['bookerName'];
                     bookerPhotoUrl = item.data['bookerPhotoUrl'];
