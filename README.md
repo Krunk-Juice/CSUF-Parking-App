@@ -1,14 +1,21 @@
-# CSUF Parking 
+# CSUF SWAP
 
 The application is about finding parking spot. Students who are leaving campus will announce and give parking spots to other students who are looking for a parking spot. This allows for fast, easy, and reliable parking spot transfers. The incentive to use this app is students will no longer have to wander around campus in search of a parking spot. If we have a large user base we can reliably and quickly find our users parking spots within at most minutes from the time they send a request to the time of fulfillment.
 
-## Purpose
+## Project Submission
 
-The chaos that occurs in the parking lots every morning of every weekday for the Cal State University of Fullerton (CSUF) community. There are students who have missed a class or even a quiz because of looking for a parking spot. A lot of students are not only stressed about their studies but they are also stressed about the commute which later on may lead to frustration. Furthermore, with the new construction zone at the old Lot E and staff parking, it takes a lot of space. The campus has addressed these issues by providing parking off campus along with its shuttle services, Waze Carpool, Zipcar, and Parking Assistant, but these solutions are not effective in solving the current problem. Given that CSUF continues to sell parking permits despite not having adequate parking spaces available, students are often left searching for extended periods of time. Time is mainly an overlooked aspect of the current solutions that the university is providing. 
+- [All submit files in "doc" directory (doc/*)](doc)
 
-With this in mind, we propose creating a mobile application that aims to alleviate the problems in finding parking spaces with adequate timing. The CSUF Parking app would function as a real-time database where students can announce via the app that they are leaving. Students that are searching for parking can then communicate with the departing student and arrange for them to take their spot. The app would effectively lower the time students waste looking for parking by providing an interactive student community environment. 
+- [All demo video files in "demo" directory (demo/*)](demo)
 
-## Installation
+- [All code files in "lib" directory (lib/*)](lib)
+
+## Releases APK Versions
+
+- [APK Release (64bit)](doc/CSUF-SWAP-64bit-release.apk)
+- [APK Release (32bit)](doc/CSUF-SWAP-32bit-release.apk)
+
+## IDE Setup
 
 - [Get started with Flutter on Windows](https://medium.com/fnplus/setting-up-flutter-for-windows-ca2c5e643fdf)
 
@@ -16,10 +23,39 @@ With this in mind, we propose creating a mobile application that aims to allevia
 
 - [Get started with Flutter on Mac](https://medium.com/@sethladd/installing-flutter-on-a-mac-13a26340f80a)
 
-## Releases APK Version
+## Tips and Tricks
 
-- [APK Release (64bit)](documents/CSUF-SWAP-64bit-release.apk)
-- [APK Release (32bit)](documents/CSUF-SWAP-32bit-release.apk)
+- Use [VS Code](https://code.visualstudio.com/) for light weight code editing
+
+- [Useful extension for VS Code](https://medium.com/flutter-community/must-have-vs-code-extensions-for-working-with-flutter-e31a421b9c68)
+
+- Quick create android emulator:
+
+```
+
+flutter emulator --create
+
+flutter emulator --launch flutter_emulator
+
+```
+
+- Check if enough IDE for flutter:
+
+```
+
+flutter doctor
+
+```
+
+## To run project
+
+Requires: Either emulator(IPhone/Android) or usb debug connected device  
+
+```
+
+flutter run
+
+```
 
 ## Code style
 
@@ -27,7 +63,7 @@ Follow effective dart style
 
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://dart.dev/guides/language/effective-dart/style)
 
-## Demo and ScreenShots
+## ScreenShots
 
 <img src="screenshots/Screenshot_1.jpg" width="300em" /> <img src="screenshots/Screenshot_2.jpg" width="300em"  /> 
 
@@ -60,9 +96,7 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-## Features and Plugins
-
-- [Flutter Material](https://material.io/)
+## Packages and Plugins
 
 - [Flutter Animation Control](https://flutter.dev/docs/development/ui/animations)
 
@@ -78,6 +112,10 @@ class MyApp extends StatelessWidget {
 
 - [Share Preferences](https://pub.dev/packagesshared_preferences)
 
+- [Dynamic Themes](https://pub.dev/packages/dynamic_theme)
+
+- [Animated Text Kit](https://pub.dev/packages/animated_text_kit)
+
 ## Credits
 
 [Alex Ho](https://github.com/hho114): front-end, back-end,research, maintenance, testing.
@@ -85,7 +123,6 @@ class MyApp extends StatelessWidget {
 [Christopher Ta](https://github.com/Krunk-Juice): front-end, plan, document, design.
 
 [Marco Chavez](https://github.com/mchvz93): front-end, back-end, testing, research.
-
 
 ## License
 
@@ -95,8 +132,8 @@ class MyApp extends StatelessWidget {
 
 Hey yo!!! Want my spot?
 
-<img src="gif/parking.gif" width="300em" />
+<img src="fun/parking.gif" width="300em" />
 
 I am late again !!!!!!!
 
-<img src="gif/late.gif" width="300em" />
+<img src="fun/late.gif" width="300em" />
