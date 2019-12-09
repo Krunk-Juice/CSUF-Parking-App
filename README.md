@@ -8,7 +8,6 @@ The chaos that occurs in the parking lots every morning of every weekday for the
 
 With this in mind, we propose creating a mobile application that aims to alleviate the problems in finding parking spaces with adequate timing. The CSUF Parking app would function as a real-time database where students can announce via the app that they are leaving. Students that are searching for parking can then communicate with the departing student and arrange for them to take their spot. The app would effectively lower the time students waste looking for parking by providing an interactive student community environment. 
 
-
 ## Installation
 
 - [Get started with Flutter on Windows](https://medium.com/fnplus/setting-up-flutter-for-windows-ca2c5e643fdf)
@@ -17,6 +16,10 @@ With this in mind, we propose creating a mobile application that aims to allevia
 
 - [Get started with Flutter on Mac](https://medium.com/@sethladd/installing-flutter-on-a-mac-13a26340f80a)
 
+## Releases APK Version
+
+- [APK Release (64bit)](documents/CSUF-SWAP-64bit-release.apk)
+- [APK Release (32bit)](documents/CSUF-SWAP-32bit-release.apk)
 
 ## Code style
 
@@ -74,9 +77,6 @@ class MyApp extends StatelessWidget {
 - [Image Picker](https://pub.dev/packages/image_picker)
 
 - [Share Preferences](https://pub.dev/packagesshared_preferences)
-
-- [Google SignIn](https://pub.dev/packages/google_sign_in)
-
 
 ## Credits
 
