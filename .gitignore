@@ -28,8 +28,8 @@
 .pub-cache/
 .pub/
 /build/
-!app-armeabi-v7a-release.apk
-!app-arm64-v8a-release.apk
+!build/app/outputs/apk/release/app-arm64-v8a-release.apk
+!build/app/outputs/apk/release/app-armeabi-v7a-release.apk
 
 # Android related
 **/android/**/gradle-wrapper.jar
