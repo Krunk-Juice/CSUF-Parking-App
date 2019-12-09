@@ -12,8 +12,8 @@ The application is about finding parking spot. Students who are leaving campus w
 
 ## Releases APK Versions
 
-- [APK Release (64bit)](build/app/outputs/apk/release/app-arm64-v8a-release.apk)
-- [APK Release (32bit)](build/app/outputs/apk/release/app-armeabi-v7a-release.apk)
+- [APK Release (64bit)](doc/CSUF-SWAP-64bit-release.apk)
+- [APK Release (32bit)](doc/CSUF-SWAP-32bit-release.apk)
 
 ## IDE Setup
 
