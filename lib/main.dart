@@ -16,7 +16,6 @@ import 'package:flutter_parking_app/views/welcome_screen/welcome_screen.dart';
 import 'package:flutter_parking_app/views/settings/settings.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 
-// void main() => runApp(MyApp());
 void main () {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
     runApp(new MyApp());
