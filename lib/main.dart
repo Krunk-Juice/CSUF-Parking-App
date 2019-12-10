@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_parking_app/views/csuf_map/csuf_map.dart';
 import 'package:flutter_parking_app/views/drawer/drawer_navigation.dart';
 import 'package:flutter_parking_app/views/free_parking_map/free_parking_map.dart';
@@ -15,7 +16,11 @@ import 'package:flutter_parking_app/views/welcome_screen/welcome_screen.dart';
 import 'package:flutter_parking_app/views/settings/settings.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 
-void main() => runApp(MyApp());
+void main () {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+    runApp(new MyApp());
+  });
+}
 
 // This widget is the root of your application.
 class MyApp extends StatelessWidget {
