@@ -104,7 +104,7 @@ class MyApp extends StatelessWidget {
 
 - [Cloud Firestore](https://pub.dev/packages/cloud_firestore)
 
-- [Google Map Flutter](https://pub.dev/packages/google_maps_flutter)
+- [Google Map](https://pub.dev/packages/google_maps_flutter)
 
 - [Photo View](https://pub.dev/packages/photo_view)
 
@@ -116,13 +116,15 @@ class MyApp extends StatelessWidget {
 
 - [Animated Text Kit](https://pub.dev/packages/animated_text_kit)
 
+- [Webview](https://pub.dev/packages/webview_flutter)
+
 ## Credits
 
-[Alex Ho](https://github.com/hho114): front-end, back-end,research, maintenance, testing.
+[Huy Ho (Alex)](https://github.com/hho114): front-end, back-end, research, maintenance, testing, design.
 
-[Christopher Ta](https://github.com/Krunk-Juice): front-end, plan, document, design.
+[Christopher Ta](https://github.com/Krunk-Juice): front-end, plan, research, document, testing, design.
 
-[Marco Chavez](https://github.com/mchvz93): front-end, back-end, testing, research.
+[Marco Chavez](https://github.com/mchvz93): front-end, testing, research, document.
 
 ## License
 
