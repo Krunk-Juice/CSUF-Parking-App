@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_parking_app/components/constants.dart';
 import 'package:flutter_parking_app/components/header_image.dart';
 import 'package:flutter_parking_app/components/icon_content.dart';
 import 'package:flutter_parking_app/components/reusable_card.dart';
 import 'package:flutter_parking_app/views/home/home.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_parking_app/components/round_button.dart';
 
 // This screen shows up after you have selected a user
 // to release your spot to. Showing the users name and

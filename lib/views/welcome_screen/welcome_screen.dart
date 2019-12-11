@@ -5,11 +5,10 @@ import 'package:flutter_parking_app/components/round_button.dart';
 import 'package:flutter_parking_app/views/home/home.dart';
 import 'package:flutter_parking_app/views/login/login.dart';
 import 'package:flutter_parking_app/views/register/register.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
-  SharedPreferences prefs;
+  
 
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();

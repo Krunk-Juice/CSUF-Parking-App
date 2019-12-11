@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/components/round_button.dart';
 import 'package:flutter_parking_app/components/constants.dart';
 import 'package:flutter_parking_app/views/home/home.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';

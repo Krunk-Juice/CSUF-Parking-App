@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_parking_app/components/constants.dart';
-import 'package:flutter_parking_app/views/home/home.dart';
 import 'package:flutter_parking_app/views/release/input_parking_data.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 
 import 'dart:math' as math;
