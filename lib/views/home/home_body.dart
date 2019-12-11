@@ -28,6 +28,7 @@ class HomeBody extends StatefulWidget {
 
 class _HomeBodyState extends State<HomeBody> {
   String releaserId = '';
+  
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +140,7 @@ class _HomeBodyState extends State<HomeBody> {
     );
   }
 
-  Future _handleCancel(BuildContext context) async {
+  Future _handleCancel(BuildContext context) {
     return showDialog(
       context: context,
       builder: (context) => new AlertDialog(
@@ -149,6 +150,7 @@ class _HomeBodyState extends State<HomeBody> {
 
 
         actions: <Widget>[
+          
 
           FlatButton(
 
@@ -159,7 +161,13 @@ class _HomeBodyState extends State<HomeBody> {
           ),
           SizedBox(width: 10,),
           FlatButton(
-            onPressed: _cancel,
+            onPressed:() {
+
+              Navigator.pop(context);
+
+              _cancel();
+
+            },
             child: new Text('YES'),
           ),
         ],
@@ -169,9 +177,9 @@ class _HomeBodyState extends State<HomeBody> {
 
   void _cancel() async {
 //cancel status
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     if (widget.status == 'Requesting') {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+      
       releaserId = prefs.getString('releaserId') ?? '';
 
       Firestore.instance.collection('users').document(releaserId).updateData({
@@ -183,8 +191,8 @@ class _HomeBodyState extends State<HomeBody> {
       'status': 'Relaxing',
     });
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('status', 'Relaxing');
-    Navigator.pop(context);
+    
+    prefs.setString('status', 'Relaxing');
+    
   }
 }

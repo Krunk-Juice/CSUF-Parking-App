@@ -1,4 +1,4 @@
-import 'package:dynamic_theme/dynamic_theme.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flutter_parking_app/components/bottom_button.dart';
@@ -142,17 +142,16 @@ class _InputParkingDataState extends State<InputParkingData> {
     Firestore.instance
         .collection('users')
         .document(id)
-        .updateData({'status': 'Releasing', 'parkAt': widget.nameParking,'leaveAt':_dateTime.millisecondsSinceEpoch,'floor':floor}).then(
-            (data) async {
+        .updateData({'status': 'Releasing', 'parkAt': widget.nameParking,'leaveAt':_dateTime.millisecondsSinceEpoch,'floor':floor});
               
-      await prefs.setString('status', 'Releasing');
-      await prefs.setString('parkAt', widget.nameParking);
-      await prefs.setInt('floor', floor);
-      await prefs.setString('releaserId', '');//inportant for check swap
-      await prefs.setString('leaveAt', _dateTime.millisecondsSinceEpoch.toString());
+       prefs.setString('status', 'Releasing');
+       prefs.setString('parkAt', widget.nameParking);
+       prefs.setInt('floor', floor);
+       prefs.setString('releaserId', '');//inportant for check swap
+       prefs.setString('leaveAt', _dateTime.millisecondsSinceEpoch.toString());
 
       Navigator.pushNamed(context, Home.id);
-    }).catchError((err) => print(err));
+    
   }
 
   void _showTimePicker() {
