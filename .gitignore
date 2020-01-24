@@ -1,3 +1,6 @@
+#firebase
+GoogleService-Info.plist
+google-services.json
 # Miscellaneous
 *.class
 *.log
